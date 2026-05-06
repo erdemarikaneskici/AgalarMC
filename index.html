@@ -115,7 +115,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .status-dot.off{background:var(--red)}
 .status-dot.checking{animation:blink 1.5s infinite;background:var(--yellow)}
 .status-text{font-size:14px;font-weight:600;flex:1}
-.status-chevron{color:var(--text-muted);transition:transform .25s;font-size:12px}
+.status-chevron{color:var(--text-muted);transition:transform .25s;font-size:12px;opacity:0;pointer-events:none}.status-chevron.visible{opacity:1;pointer-events:auto}
 .status-chevron.open{transform:rotate(180deg)}
 .player-list{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .player-list.open{max-height:360px;overflow-y:auto}
@@ -201,6 +201,14 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .lightbox-nav.next{right:20px}
 .lightbox-counter{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:600;color:var(--text-muted)}
 
+/* ── Page banner ──*/
+.page-banner{width:100%;height:140px;background:center/cover no-repeat;border-radius:var(--radius-lg);margin-bottom:24px;position:relative;overflow:hidden;flex-shrink:0}
+.page-banner::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,17,23,0) 30%,rgba(13,17,23,.85) 100%)}
+/* ── IP+Status row ──*/
+.ip-status-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;align-items:start}
+.ip-status-row .ip-block{max-width:100%}
+.ip-status-row .status-block{margin-bottom:0!important}
+@media(max-width:700px){.ip-status-row{grid-template-columns:1fr}}
 /* ── Responsive ── */
 @media(max-width:900px){.sidebar{width:200px}}
 @media(max-width:700px){
@@ -211,7 +219,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
   .nav-label{display:none}
   .nav-item{padding:8px 10px;font-size:12px;white-space:nowrap}
   .sidebar-footer{display:none}
-  .screen{padding:20px}
+  .screen{padding:20px 20px 90px}
   .card-grid-2,.compare-grid-2,.launcher-grid,.video-grid{grid-template-columns:1fr}
 }
 </style>
@@ -353,14 +361,31 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
     </div>
   </div>
   <div class="divider"></div>
+  <div class="page-banner" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg')"></div>
 
-  <div class="section-title">Sunucu IP</div>
-  <div class="ip-block" style="margin-bottom:24px">
-    <span class="ip-address">create.agalarmc.com</span>
-    <button class="ip-copy-btn" onclick="copyIP(this,'create.agalarmc.com')">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      Kopyala
-    </button>
+  <div class="section-title">Sunucu IP &amp; Durum</div>
+  <div class="ip-status-row">
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:8px">IP Adresi</div>
+      <div class="ip-block">
+        <span class="ip-address">create.agalarmc.com</span>
+        <button class="ip-copy-btn" onclick="copyIP(this,'create.agalarmc.com')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Kopyala
+        </button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:8px">Sunucu Durumu</div>
+      <div class="status-block">
+        <div class="status-head" onclick="toggleStatus('m')">
+          <span class="status-dot checking" id="dm"></span>
+          <span class="status-text" id="tm">Kontrol ediliyor...</span>
+          <span class="status-chevron" id="sm">▼</span>
+        </div>
+        <div class="player-list" id="pm"><div class="player-list-inner" id="pmi"></div></div>
+      </div>
+    </div>
   </div>
 
   <div class="section-title">Mod Paketi</div>
@@ -369,23 +394,17 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/brass_casing.png" alt="Create Modpack">
       <div class="card-title">Create Modpack</div>
       <div class="card-body">Create modu ve tüm bağımlılıkları ile birlikte performans iyileştirici modlar dahil. Sunucuya bağlanmak için bu paketi kullan.</div>
+      <a class="btn btn-orange" href="https://modrinth.com/modpack/agalarmc-create" target="_blank" style="font-size:12px;padding:8px 14px;margin-top:4px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Modrinth'ten İndir
+      </a>
     </div>
   </div>
 
-  <div class="section-title">Sunucu Durumu</div>
-  <div class="status-block" style="margin-bottom:24px">
-    <div class="status-head" onclick="toggleStatus('m')">
-      <span class="status-dot checking" id="dm"></span>
-      <span class="status-text" id="tm">Kontrol ediliyor...</span>
-      <span class="status-chevron" id="sm">▼</span>
-    </div>
-    <div class="player-list" id="pm"><div class="player-list-inner" id="pmi"></div></div>
-  </div>
-
-  <div class="section-title">İşte bu Create.</div>
+  <div class="section-title">Create Mod Tanıtımı</div>
   <div class="video-grid">
     <div>
-      <div class="video-label">🎬 Create Mod Tanıtımı</div>
+      <div class="video-label">🎬 İşte bu Create.</div>
       <div class="video-wrap"><iframe src="https://www.youtube.com/embed/rR8W-f9YhYA" allowfullscreen loading="lazy"></iframe></div>
     </div>
     <div>
@@ -438,11 +457,10 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
         <span class="tag green" id="vanilla-status-tag">● Kontrol ediliyor...</span>
         <!-- Fabric 1.21.1 combined pill -->
         <span class="platform-tag" style="color:#9090b8">
-          <!-- Fabric hook icon — properly scaled -->
-          <svg viewBox="0 0 16 16" fill="none" style="width:15px;height:15px;flex-shrink:0;overflow:visible">
-            <path d="M10.5 8.2L6.5 4.0C6.2 3.7 5.8 3.4 4.9 4.0C3.7 4.8 4.4 5.4 4.6 5.7C5.2 6.3 10.0 11.2 10.7 11.9C10.9 12.1 9.5 10.7 10.4 9.8C10.8 9.4 11.5 9.1 12.0 9.5C12.4 9.9 12.6 10.5 11.8 11.2C10.3 12.4 5.2 16.2 3.6 17.5C2.8 18.1 1.7 17.6 1.2 17.0C0.7 16.4 -1.2 14.3 -2.7 12.6C-3.0 12.2 -2.9 11.4 -2.4 11.0C-0.2 9.3 3.4 7.0 4.7 5.9"
-              transform="scale(0.72) translate(3.5,-3)"
-              stroke="#9090b8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg viewBox="0 0 24 24" fill="none" style="width:15px;height:15px;flex-shrink:0">
+            <path d="M15 4L9 10C8.5 10.5 8 11.3 6.5 12.2C4.5 13.5 5.5 14.5 6 15C6.8 15.9 16 25 17 26C17.3 26.3 14.8 23.7 16.3 22.1C17 21.3 18.2 20.9 19 21.6C19.7 22.4 20 23.5 18.5 24.8C16 26.9 7.5 33 5 35C3.7 36 2 35 1.3 34.2C0.5 33.3 -2.5 29.8 -4.8 27.2C-5.3 26.6 -5.2 25.2 -4.5 24.6C-1 21.8 5.5 17.5 7.5 15.8"
+              transform="scale(0.55) translate(6, -2)"
+              stroke="#9090b8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Fabric 1.21.1
         </span>
@@ -450,14 +468,31 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
     </div>
   </div>
   <div class="divider"></div>
+  <div class="page-banner" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanilla.jpg')"></div>
 
-  <div class="section-title">Sunucu IP</div>
-  <div class="ip-block" style="margin-bottom:24px">
-    <span class="ip-address">oyna.agalarmc.com</span>
-    <button class="ip-copy-btn" onclick="copyIP(this,'oyna.agalarmc.com')">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      Kopyala
-    </button>
+  <div class="section-title">Sunucu IP &amp; Durum</div>
+  <div class="ip-status-row">
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:8px">IP Adresi</div>
+      <div class="ip-block">
+        <span class="ip-address">oyna.agalarmc.com</span>
+        <button class="ip-copy-btn" onclick="copyIP(this,'oyna.agalarmc.com')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Kopyala
+        </button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:8px">Sunucu Durumu</div>
+      <div class="status-block">
+        <div class="status-head" onclick="toggleStatus('v')">
+          <span class="status-dot checking" id="dv"></span>
+          <span class="status-text" id="tv">Kontrol ediliyor...</span>
+          <span class="status-chevron" id="sv">▼</span>
+        </div>
+        <div class="player-list" id="pv"><div class="player-list-inner" id="pvi"></div></div>
+      </div>
+    </div>
   </div>
 
   <div class="section-title">Mod Paketleri</div>
@@ -468,12 +503,20 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       <div class="card-title">💎 Elmas</div>
       <div class="card-body">Distant Horizons, Iris Shaders ve Sodium dahil. Her sisteme adapte edilebilir; zayıf makinede de güçlü makinede de harika çalışır.</div>
       <div style="font-size:11px;color:var(--text-muted);margin-top:4px">✓ Performans modları · ✓ Distant Horizons · ✓ Iris Shader · ✓ Gelişmiş QoL &amp; ses</div>
+      <a class="btn btn-primary" href="https://modrinth.com/modpack/agalarmc-vanilla" target="_blank" style="font-size:12px;padding:8px 14px;margin-top:4px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Modrinth'ten İndir
+      </a>
     </div>
     <div class="card">
       <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir">
       <div class="card-title">⚙ Demir</div>
       <div class="card-body">Çok düşük sistemler için, sadece temel performans ve hata düzeltici modlar. Minimum görsel değişiklik.</div>
       <div style="font-size:11px;color:var(--text-muted);margin-top:4px">✓ Performans modları · ✓ Temel QoL · ✗ Shader yok · ✗ Distant Horizons yok</div>
+      <a class="btn btn-secondary" href="https://modrinth.com/modpack/agalarmc-vanilla-potato" target="_blank" style="font-size:12px;padding:8px 14px;margin-top:4px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Modrinth'ten İndir
+      </a>
     </div>
   </div>
   <div style="margin-bottom:24px">
@@ -481,16 +524,6 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
       Paketleri Karşılaştır
     </button>
-  </div>
-
-  <div class="section-title">Sunucu Durumu</div>
-  <div class="status-block" style="margin-bottom:24px">
-    <div class="status-head" onclick="toggleStatus('v')">
-      <span class="status-dot checking" id="dv"></span>
-      <span class="status-text" id="tv">Kontrol ediliyor...</span>
-      <span class="status-chevron" id="sv">▼</span>
-    </div>
-    <div class="player-list" id="pv"><div class="player-list-inner" id="pvi"></div></div>
   </div>
 
   <div class="section-title">Galeri</div>
@@ -749,11 +782,13 @@ async function check(id, addr, manual=false) {
     if (navDot) navDot.className = 'nav-dot on';
     txt.textContent = `Sunucu Açık — ${cnt}/${mx} oyuncu`;
     if (tagEl) { tagEl.textContent = `● Açık (${cnt}/${mx})`; tagEl.className = 'tag '+(id==='v'?'green':'orange'); }
+    updateChevronVisibility(id, cnt > 0);
   } else {
     dot.className = 'status-dot off';
     if (navDot) navDot.className = 'nav-dot off';
     txt.textContent = 'Sunucu Kapalı';
     if (tagEl) { tagEl.textContent = '● Kapalı'; tagEl.className = 'tag'; }
+    updateChevronVisibility(id, false);
   }
   updateHomeStatus();
 }
@@ -778,6 +813,13 @@ function toggleStatus(id) {
     else for (let i=0;i<d.players.online;i++) innerEl.innerHTML += `<div class="player-item"><img src="https://minotar.net/avatar/Steve/32"><span>Oyuncu ${i+1}</span></div>`;
     listEl.classList.add('open'); chevron.classList.add('open'); playerOpen[id]=true;
   } else { check(id, id==='v'?'oyna.agalarmc.com':'create.agalarmc.com', true); }
+}
+
+function updateChevronVisibility(id, hasPlayers) {
+  const chevron = document.getElementById('s'+id);
+  if (!chevron) return;
+  if (hasPlayers) chevron.classList.add('visible');
+  else { chevron.classList.remove('visible','open'); }
 }
 
 /* ── Prism Download ── */
