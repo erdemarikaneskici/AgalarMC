@@ -300,19 +300,19 @@
         }
 
         .card.recommended {
-            border-color: rgba(27,217,106,0.4);
-            box-shadow: 0 0 0 1px rgba(27,217,106,0.1), 0 4px 20px rgba(27,217,106,0.1);
+            border-color: rgba(27,217,106,0.35);
+            box-shadow: 0 0 0 1px rgba(27,217,106,0.08), 0 4px 20px rgba(27,217,106,0.08);
         }
 
         .card.recommended:hover {
-            border-color: rgba(27,217,106,0.6);
-            box-shadow: 0 0 0 1px rgba(27,217,106,0.2), 0 8px 28px rgba(27,217,106,0.2);
+            border-color: rgba(27,217,106,0.55);
+            box-shadow: 0 0 0 1px rgba(27,217,106,0.15), 0 8px 28px rgba(27,217,106,0.15);
         }
 
         .recommended-badge {
             position: absolute;
-            top: -10px;
-            left: 16px;
+            top: -11px;
+            left: 14px;
             background: var(--green);
             color: #0d1117;
             font-size: 10px;
@@ -321,6 +321,7 @@
             border-radius: 20px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
+            box-shadow: 0 2px 8px rgba(27,217,106,0.4);
         }
 
         .card-icon {
@@ -755,19 +756,139 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            padding: 3px 9px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid var(--border);
+            padding: 3px 10px 3px 7px;
+            background: rgb(38,38,36);
+            border: 1px solid rgba(222,220,209,0.15);
             border-radius: 20px;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text-muted);
         }
 
-        .platform-tag svg {
-            width: 13px;
-            height: 13px;
+        .platform-tag svg.neoforge-icon {
+            width: 16px;
+            height: 16px;
             flex-shrink: 0;
+            overflow: visible;
+        }
+
+        .platform-tag svg.fabric-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            overflow: visible;
+        }
+
+        /* ─── Gallery ─── */
+        .gallery-wrap {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .gallery-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 8px;
+            cursor: grab;
+        }
+
+        .gallery-scroll:active { cursor: grabbing; }
+
+        .gallery-scroll::-webkit-scrollbar { height: 4px; }
+        .gallery-scroll::-webkit-scrollbar-track { background: transparent; }
+        .gallery-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+        .gallery-img {
+            flex-shrink: 0;
+            height: 180px;
+            width: auto;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            border-color: var(--border-hover);
+        }
+
+        /* Fullscreen lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .lightbox.open { display: flex; }
+
+        .lightbox-img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background 0.15s;
+        }
+
+        .lightbox-close:hover { background: rgba(255,255,255,0.18); }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 22px;
+            transition: background 0.15s;
+        }
+
+        .lightbox-nav:hover { background: rgba(255,255,255,0.16); }
+        .lightbox-nav.prev { left: 20px; }
+        .lightbox-nav.next { right: 20px; }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
         }
 
         /* ─── Responsive ─── */
@@ -904,15 +1025,38 @@
                 <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
                 <div class="page-header-info">
                     <div class="page-title">Create</div>
-                    <div class="page-desc">Sanayileşme ve makinelerle dolu bu sunucuda otomasyonun sınırlarını zorla!</div>
+                    <div class="page-desc">Çeşitli inşa, dekorasyon ve estetik otomasyon araçları sunan bir mod. Mekanik bileşenler birlikte çalışsın, oyun UI'lar içinde değil dünyada oynansın.</div>
                     <div class="page-tags">
                         <span class="tag orange" id="create-status-tag">● Kontrol ediliyor...</span>
                         <span class="tag">create.agalarmc.com</span>
                         <span class="tag">Minecraft 1.21.1</span>
-                        <!-- NeoForge tag -->
-                        <span class="platform-tag">
-                            <!-- NeoForge icon approximation -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#e37b2d"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+                        <!-- NeoForge tag with real icon -->
+                        <span class="platform-tag" style="color:#e07020">
+                            <svg class="neoforge-icon" viewBox="0 0 24 24" fill="none">
+                                <g stroke="#e07020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="19.2" x2="12" y2="21.2"/>
+                                    <path d="M8.4 1.3c.5 1.5.7 3 .1 4.6-.2.5-.9 1.5-1.6 1.5"/>
+                                    <path d="M15.6 1.3c-.5 1.5-.7 3-.1 4.6.2.6.9 1.5 1.6 1.5"/>
+                                    <line x1="3.6" y1="15.8" x2="1.9" y2="15.8"/>
+                                    <line x1="3.2" y1="12.1" x2="1.5" y2="12.1"/>
+                                    <line x1="20.4" y1="15.8" x2="22.1" y2="15.8"/>
+                                    <line x1="20.8" y1="12.1" x2="22.6" y2="12.1"/>
+                                    <line x1="8.1" y1="12.7" x2="8.1" y2="14.3"/>
+                                    <line x1="15.9" y1="12.7" x2="15.9" y2="14.3"/>
+                                    <path d="M10.8 18 L12 19.2"/>
+                                    <line x1="10.8" y1="18" x2="12" y2="18"/>
+                                    <path d="M13.2 18 L12 19.2"/>
+                                    <line x1="13.2" y1="18" x2="12" y2="18"/>
+                                    <path d="M4 9.7c-.5 1.2-.8 2.4-.8 3.7 0 3.1 2.9 6.3 5.3 8.2.9.7 2.2 1.1 3.4 1.1"/>
+                                    <path d="M20 9.7c.5 1.2.8 2.4.8 3.7 0 3.1-2.9 6.3-5.3 8.2-.9.7-2.2 1.1-3.4 1.1"/>
+                                    <path d="M12 4.9c-1.1 0-2.1.2-3.2.7"/>
+                                    <path d="M12 4.9c1.1 0 2.1.2 3.2.7"/>
+                                    <path d="M4 9.7c-.2-1.8-.3-3.7.5-5.5s2.2-2.6 3.9-3"/>
+                                    <path d="M20 9.7c.2-1.9.3-3.7-.5-5.5s-2.2-2.6-3.9-3"/>
+                                    <path d="M12 21.2l-2.4.4"/>
+                                    <path d="M12 21.2l2.4.4"/>
+                                </g>
+                            </svg>
                             NeoForge
                         </span>
                     </div>
@@ -931,22 +1075,16 @@
             </div>
 
             <div class="section-title">Mod Paketi</div>
-            <div class="card-grid card-grid-2" style="margin-bottom:24px;max-width:480px">
-                <div class="card recommended">
-                    <span class="recommended-badge">⭐ Tavsiye Edilen</span>
-                    <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas">
-                    <div class="card-title">💎 Elmas</div>
-                    <div class="card-body">Distant Horizons, Iris Shaders ve Sodium dahil. Her sisteme adapte edilebilir; zayıf makinede de güçlü makinede de harika çalışır.</div>
-                </div>
+            <div style="margin-bottom:24px;max-width:340px">
                 <div class="card">
                     <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/brass_casing.png" alt="Brass">
-                    <div class="card-title">⚙ Demir</div>
-                    <div class="card-body">Çok düşük sistemler için, sadece temel performans ve hata düzeltici modlar. Create modu ve bağımlılıkları dahil.</div>
+                    <div class="card-title">Create Modpack</div>
+                    <div class="card-body">Create modu ve tüm bağımlılıkları ile birlikte performans iyileştirici modlar dahil. Sunucuya bağlanmak için bu paketi kullan.</div>
                 </div>
             </div>
 
             <div class="section-title">Sunucu Durumu</div>
-            <div class="status-block">
+            <div class="status-block" style="margin-bottom:24px">
                 <div class="status-head" onclick="toggleStatus('m')">
                     <span class="status-dot checking" id="dm"></span>
                     <span class="status-text" id="tm">Kontrol ediliyor...</span>
@@ -957,11 +1095,29 @@
                 </div>
             </div>
 
-            <div style="margin-top:20px">
-                <div class="info-box yellow-border">
-                    <div class="info-box-title yellow">⚙️ Create Mod Hakkında</div>
+            <div class="section-title">Galeri</div>
+            <div class="gallery-wrap">
+                <div class="gallery-scroll" id="gallery-scroll">
+                    <img class="gallery-img" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_1.png" alt="Gallery 1" onclick="openLightbox(0)" onerror="this.src='https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg'">
+                    <img class="gallery-img" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_2.png" alt="Gallery 2" onclick="openLightbox(1)" onerror="this.src='https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg'">
+                    <img class="gallery-img" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_3.png" alt="Gallery 3" onclick="openLightbox(2)" onerror="this.src='https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg'">
+                    <img class="gallery-img" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_4.png" alt="Gallery 4" onclick="openLightbox(3)" onerror="this.src='https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg'">
+                    <img class="gallery-img" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_5.png" alt="Gallery 5" onclick="openLightbox(4)" onerror="this.src='https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg'">
+                    <img class="gallery-img" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_6.png" alt="Gallery 6" onclick="openLightbox(5)" onerror="this.src='https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg'">
+                </div>
+            </div>
+
+            <div class="card-grid card-grid-2" style="margin-bottom:0;gap:16px">
+                <div class="info-box orange-border">
+                    <div class="info-box-title orange">⚙️ Create Mod Hakkında</div>
                     <div class="info-box-body">
-                        Create modu; krank mili, dişli kutusu ve mekanik aksamlarla kendi fabrikalarını kurmanı sağlar. Otomasyon, taşımacılık ve üretim hatları oluşturarak zenginleş. Sunucuya katılmak için Nasıl Katılırım? bölümüne göz at.
+                        Create, inşa, dekorasyon ve estetik otomasyon için çok çeşitli araçlar ve bloklar sunan bir mod. Teknoloji elementleri, oyuncuya mümkün olduğunca çok tasarım özgürlüğü bırakacak şekilde tasarlanmış. Create ile oyun bir sürü UI içinde değil; pek çok farklı düzenlemede birlikte çalışan animasyonlu bileşenlerden oluşan mekanizmalar kurarak oynanıyor. Oyun içi görsel dokümantasyon sistemi <strong>Ponder</strong>, eklenen tüm mekanik ve aygıtlarda sana rehberlik ediyor.
+                    </div>
+                </div>
+                <div class="info-box" style="border-color:rgba(68,147,248,0.3);background:rgba(68,147,248,0.04)">
+                    <div class="info-box-title" style="color:var(--blue)">✈️ Create: Aeronautics</div>
+                    <div class="info-box-body">
+                        Create: Aeronautics, Create'in sistemlerini genişleterek oyunculara <strong>Sable</strong> kullanarak her türlü araç ve fizik mekanizması inşa etme imkânı tanıyor. Uçaklar, insansız hava araçları ve sıcak hava balonlarından arabalara, kamyonlara ve çılgın icatlara kadar aklına gelen her şeyi yapabilirsin.
                     </div>
                 </div>
             </div>
@@ -978,9 +1134,13 @@
                         <span class="tag green" id="vanilla-status-tag">● Kontrol ediliyor...</span>
                         <span class="tag">oyna.agalarmc.com</span>
                         <span class="tag">Minecraft 1.21.1</span>
-                        <!-- Fabric tag -->
-                        <span class="platform-tag">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#c4a35a"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 3v18"/></svg>
+                        <!-- Fabric tag with real icon -->
+                        <span class="platform-tag" style="color:#9090b8">
+                            <svg class="fabric-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M14 12.5 L8.1 6.3 C7.7 5.9 7.2 5.5 5.9 6.4 C4.2 7.5 5.2 8.3 5.5 8.6 C6.2 9.4 13.4 16.8 14.5 18 C14.7 18.2 12.7 16 13.9 14.6 C14.4 14 15.4 13.6 16.1 14.2 C16.7 14.9 17 15.8 15.8 16.8 C13.7 18.5 7.1 23.6 4.9 25.4 C3.8 26.3 2.3 25.5 1.7 24.8 C1 24 -1.6 21 -3.6 18.7 C-4 18.2 -3.9 17 -3.3 16.5 C-0.3 14 4.6 10.5 6.4 8.9"
+                                    transform="scale(0.52) translate(6, -5)"
+                                    stroke="#9090b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                             Fabric
                         </span>
                     </div>
@@ -1000,14 +1160,6 @@
 
             <div class="section-title">Mod Paketleri</div>
             <div class="card-grid card-grid-2" style="margin-bottom:8px">
-                <div class="card">
-                    <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir">
-                    <div class="card-title">⚙ Demir</div>
-                    <div class="card-body">Çok düşük sistemler için, sadece temel performans ve hata düzeltici modlar. Minimum görsel değişiklik.</div>
-                    <div style="font-size:11px;color:var(--text-muted);margin-top:4px">
-                        ✓ Performans modları · ✓ Temel QoL · ✗ Shader yok · ✗ Distant Horizons yok
-                    </div>
-                </div>
                 <div class="card recommended">
                     <span class="recommended-badge">⭐ Tavsiye Edilen</span>
                     <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas">
@@ -1015,6 +1167,14 @@
                     <div class="card-body">Distant Horizons, Iris Shaders ve Sodium dahil. Her sisteme adapte edilebilir; zayıf makinede de güçlü makinede de harika çalışır.</div>
                     <div style="font-size:11px;color:var(--text-muted);margin-top:4px">
                         ✓ Performans modları · ✓ Distant Horizons · ✓ Iris Shader · ✓ Gelişmiş QoL & ses
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir">
+                    <div class="card-title">⚙ Demir</div>
+                    <div class="card-body">Çok düşük sistemler için, sadece temel performans ve hata düzeltici modlar. Minimum görsel değişiklik.</div>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:4px">
+                        ✓ Performans modları · ✓ Temel QoL · ✗ Shader yok · ✗ Distant Horizons yok
                     </div>
                 </div>
             </div>
@@ -1226,6 +1386,15 @@
     </main>
 </div>
 
+<!-- ═══ LIGHTBOX ═══ -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav prev" onclick="lightboxNav(-1)">‹</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <button class="lightbox-nav next" onclick="lightboxNav(1)">›</button>
+    <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
 <script>
     /* ─── Navigation ─── */
     const navHistory = [];
@@ -1416,7 +1585,68 @@
         downloadPrism(document.getElementById('prism-btn-home-text'));
     });
 
-    /* ─── Init ─── */
+    /* ─── Gallery ─── */
+    const galleryImages = [
+        'https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_1.png',
+        'https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_2.png',
+        'https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_3.png',
+        'https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_4.png',
+        'https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_5.png',
+        'https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/Create_gallery_6.png',
+    ];
+    let currentLightboxIndex = 0;
+
+    function openLightbox(idx) {
+        currentLightboxIndex = idx;
+        updateLightbox();
+        document.getElementById('lightbox').classList.add('open');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+    }
+
+    function closeLightboxOnBg(e) {
+        if (e.target === document.getElementById('lightbox')) closeLightbox();
+    }
+
+    function lightboxNav(dir) {
+        currentLightboxIndex = (currentLightboxIndex + dir + galleryImages.length) % galleryImages.length;
+        updateLightbox();
+    }
+
+    function updateLightbox() {
+        const img = document.getElementById('lightbox-img');
+        const counter = document.getElementById('lightbox-counter');
+        img.src = galleryImages[currentLightboxIndex];
+        counter.textContent = `${currentLightboxIndex + 1} / ${galleryImages.length}`;
+    }
+
+    document.addEventListener('keydown', e => {
+        const lb = document.getElementById('lightbox');
+        if (lb.classList.contains('open')) {
+            if (e.key === 'ArrowRight') lightboxNav(1);
+            else if (e.key === 'ArrowLeft') lightboxNav(-1);
+            else if (e.key === 'Escape') closeLightbox();
+        }
+    });
+
+    // Drag to scroll gallery
+    const galleryEl = document.getElementById('gallery-scroll');
+    if (galleryEl) {
+        let isDown = false, startX = 0, scrollLeft = 0;
+        galleryEl.addEventListener('mousedown', e => {
+            isDown = true; startX = e.pageX - galleryEl.offsetLeft; scrollLeft = galleryEl.scrollLeft;
+        });
+        galleryEl.addEventListener('mouseleave', () => isDown = false);
+        galleryEl.addEventListener('mouseup', () => isDown = false);
+        galleryEl.addEventListener('mousemove', e => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - galleryEl.offsetLeft;
+            galleryEl.scrollLeft = scrollLeft - (x - startX);
+        });
+    }
     check('v', 'oyna.agalarmc.com');
     check('m', 'create.agalarmc.com');
     setInterval(() => {
