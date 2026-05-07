@@ -1,1428 +1,926 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>AgalarMC</title>
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0d1117;
-            --bg-card: #161b22;
-            --bg-card-hover: #1c2230;
-            --bg-input: #1c2230;
-            --border: rgba(255,255,255,0.07);
-            --border-hover: rgba(255,255,255,0.14);
-            --text: #e6edf3;
-            --text-muted: #8b949e;
-            --text-dim: #4a5568;
-            --green: #1bd96a;
-            --green-dim: rgba(27,217,106,0.12);
-            --green-glow: rgba(27,217,106,0.25);
-            --orange: #ff8c00;
-            --orange-dim: rgba(255,140,0,0.12);
-            --orange-glow: rgba(255,140,0,0.25);
-            --blue: #4493f8;
-            --yellow: #e3b341;
-            --red: #f85149;
-            --radius: 12px;
-            --radius-sm: 8px;
-            --radius-lg: 16px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html, body {
-            height: 100%;
-            background: var(--bg-dark);
-            font-family: 'Nunito', sans-serif;
-            color: var(--text);
-            overflow: hidden;
-        }
-
-        .shell {
-            display: flex;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-        }
-
-        /* ─── Sidebar ─── */
-        .sidebar {
-            width: 240px;
-            flex-shrink: 0;
-            background: var(--bg-card);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 10;
-        }
-
-        .sidebar-logo {
-            padding: 20px 16px 16px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar-logo img {
-            height: 32px;
-            width: auto;
-            image-rendering: pixelated;
-        }
-
-        .sidebar-logo-text {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -0.3px;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 12px 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            overflow-y: auto;
-        }
-
-        .sidebar-nav::-webkit-scrollbar { display: none; }
-
-        .nav-label {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--text-dim);
-            padding: 12px 10px 6px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 12px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: background 0.15s, color 0.15s;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-muted);
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-            text-decoration: none;
-        }
-
-        .nav-item:hover {
-            background: rgba(255,255,255,0.05);
-            color: var(--text);
-        }
-
-        .nav-item.active {
-            background: var(--green-dim);
-            color: var(--green);
-        }
-
-        .nav-item svg {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-            opacity: 0.8;
-        }
-
-        .nav-item .nav-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            margin-left: auto;
-            flex-shrink: 0;
-        }
-
-        .nav-item .nav-dot.on { background: var(--green); box-shadow: 0 0 6px var(--green); }
-        .nav-item .nav-dot.off { background: var(--red); }
-        .nav-item .nav-dot.checking { background: var(--yellow); animation: blink 1.5s infinite; }
-
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-        .sidebar-footer {
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
-            font-size: 10px;
-            color: var(--text-dim);
-            line-height: 1.6;
-        }
-
-        /* ─── Main Area ─── */
-        .main {
-            flex: 1;
-            overflow: hidden;
-            position: relative;
-            background: var(--bg-dark);
-        }
-
-        .screen {
-            position: absolute;
-            inset: 0;
-            display: none;
-            opacity: 0;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 32px 36px;
-            z-index: 1;
-            transition: opacity 0.25s;
-        }
-
-        .screen::-webkit-scrollbar { width: 6px; }
-        .screen::-webkit-scrollbar-track { background: transparent; }
-        .screen::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-
-        .screen.active {
-            display: block;
-            opacity: 1;
-        }
-
-        /* ─── Page Header ─── */
-        .page-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            margin-bottom: 28px;
-        }
-
-        .page-header-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: var(--radius);
-            object-fit: cover;
-            flex-shrink: 0;
-            image-rendering: pixelated;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-
-        .page-header-info { flex: 1; }
-
-        .page-title {
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-            line-height: 1.2;
-        }
-
-        .page-desc {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 580px;
-        }
-
-        .page-tags {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 10px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .tag.green { background: var(--green-dim); border-color: rgba(27,217,106,0.3); color: var(--green); }
-        .tag.orange { background: var(--orange-dim); border-color: rgba(255,140,0,0.3); color: var(--orange); }
-        .tag.blue { background: rgba(68,147,248,0.12); border-color: rgba(68,147,248,0.3); color: var(--blue); }
-
-        .tag img {
-            width: 14px;
-            height: 14px;
-            image-rendering: pixelated;
-        }
-
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 24px 0;
-        }
-
-        .section-title {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--text-dim);
-            margin-bottom: 12px;
-        }
-
-        /* ─── Cards ─── */
-        .card-grid {
-            display: grid;
-            gap: 12px;
-        }
-
-        .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            cursor: pointer;
-            transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
-            text-decoration: none;
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            position: relative;
-            overflow: visible;
-        }
-
-        .card:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-card-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-        }
-
-        .card.recommended {
-            border-color: rgba(27,217,106,0.4);
-            box-shadow: 0 0 0 1px rgba(27,217,106,0.1), 0 4px 20px rgba(27,217,106,0.1);
-        }
-
-        .card.recommended:hover {
-            border-color: rgba(27,217,106,0.6);
-            box-shadow: 0 0 0 1px rgba(27,217,106,0.2), 0 8px 28px rgba(27,217,106,0.2);
-        }
-
-        .recommended-badge {
-            position: absolute;
-            top: -10px;
-            left: 16px;
-            background: var(--green);
-            color: #0d1117;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 3px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-sm);
-            image-rendering: pixelated;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 800;
-        }
-
-        .card-body {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* ─── Buttons ─── */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border-radius: var(--radius-sm);
-            font: 600 14px 'Nunito', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: var(--green);
-            color: #0d1117;
-        }
-
-        .btn-primary:hover {
-            background: #22e876;
-            box-shadow: 0 4px 16px var(--green-glow);
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.07);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: var(--border-hover);
-        }
-
-        .btn-orange {
-            background: var(--orange);
-            color: #fff;
-        }
-
-        .btn-orange:hover {
-            background: #ffa020;
-            box-shadow: 0 4px 16px var(--orange-glow);
-            transform: translateY(-1px);
-        }
-
-        .btn-discord {
-            background: #5865f2;
-            color: #fff;
-        }
-
-        .btn-discord:hover {
-            background: #6875f5;
-            box-shadow: 0 4px 16px rgba(88,101,242,0.4);
-            transform: translateY(-1px);
-        }
-
-        .btn img {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-            image-rendering: pixelated;
-        }
-
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        /* ─── IP Copy Block ─── */
-        .ip-block {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-            max-width: 400px;
-        }
-
-        .ip-address {
-            flex: 1;
-            padding: 10px 14px;
-            font: 500 14px 'JetBrains Mono', monospace;
-            color: var(--text);
-            background: none;
-            border: none;
-            outline: none;
-            cursor: text;
-        }
-
-        .ip-copy-btn {
-            padding: 10px 14px;
-            background: rgba(255,255,255,0.05);
-            border: none;
-            border-left: 1px solid var(--border);
-            color: var(--text-muted);
-            cursor: pointer;
-            font: 600 13px 'Nunito';
-            transition: background 0.15s, color 0.15s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .ip-copy-btn:hover {
-            background: rgba(255,255,255,0.1);
-            color: var(--text);
-        }
-
-        .ip-copy-btn.copied { color: var(--green); }
-
-        /* ─── Status Block ─── */
-        .status-block {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        .status-head {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 20px;
-            cursor: pointer;
-        }
-
-        .status-head:hover { background: rgba(255,255,255,0.03); }
-
-        .status-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: var(--yellow);
-            flex-shrink: 0;
-        }
-
-        .status-dot.on { background: var(--green); box-shadow: 0 0 8px var(--green); }
-        .status-dot.off { background: var(--red); }
-        .status-dot.checking { animation: blink 1.5s infinite; background: var(--yellow); }
-
-        .status-text {
-            font-size: 14px;
-            font-weight: 600;
-            flex: 1;
-        }
-
-        .status-chevron {
-            color: var(--text-muted);
-            transition: transform 0.25s;
-            font-size: 12px;
-        }
-
-        .status-chevron.open { transform: rotate(180deg); }
-
-        .player-list {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s ease;
-        }
-
-        .player-list.open { max-height: 360px; overflow-y: auto; }
-        .player-list::-webkit-scrollbar { width: 4px; }
-        .player-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-
-        .player-list-inner { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 6px; }
-
-        .player-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 10px;
-            background: rgba(255,255,255,0.04);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-        }
-
-        .player-item img {
-            width: 28px;
-            height: 28px;
-            border-radius: 4px;
-            image-rendering: pixelated;
-        }
-
-        .player-item span { font-size: 13px; font-weight: 600; }
-
-        /* ─── Info Box ─── */
-        .info-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-        }
-
-        .info-box.green-border { border-color: rgba(27,217,106,0.3); background: rgba(27,217,106,0.04); }
-        .info-box.orange-border { border-color: rgba(255,140,0,0.3); background: rgba(255,140,0,0.04); }
-        .info-box.yellow-border { border-color: rgba(227,179,65,0.3); background: rgba(227,179,65,0.04); }
-
-        .info-box-title {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .info-box-title.green { color: var(--green); }
-        .info-box-title.orange { color: var(--orange); }
-        .info-box-title.yellow { color: var(--yellow); }
-
-        .info-box-body {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
-        .info-box-body ul { padding-left: 18px; }
-        .info-box-body li { margin: 5px 0; }
-        .info-box-body strong { color: var(--text); font-weight: 700; }
-        .info-box-body code {
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(255,255,255,0.08);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        /* ─── Guide Steps ─── */
-        .step-list { display: flex; flex-direction: column; gap: 12px; }
-
-        .step {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-        }
-
-        .step-num {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--green-dim);
-            border: 1px solid rgba(27,217,106,0.3);
-            color: var(--green);
-            font-size: 12px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-
-        .step-body {
-            flex: 1;
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
-        .step-body strong { color: var(--text); font-weight: 700; }
-        .step-body code {
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(255,255,255,0.08);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        /* ─── Video ─── */
-        .video-wrap {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .video-wrap iframe {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* ─── Compare grid ─── */
-        .compare-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1.4fr;
-            gap: 16px;
-        }
-
-        /* ─── Server cards (home) ─── */
-        .server-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            cursor: pointer;
-            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-            text-decoration: none;
-            color: var(--text);
-            display: block;
-        }
-
-        .server-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-        }
-
-        .server-card.vanilla:hover { border-color: rgba(27,217,106,0.5); box-shadow: 0 12px 32px rgba(27,217,106,0.15); }
-        .server-card.create:hover { border-color: rgba(255,140,0,0.5); box-shadow: 0 12px 32px rgba(255,140,0,0.15); }
-
-        .server-card-banner {
-            height: 120px;
-            background: center/cover no-repeat;
-            position: relative;
-        }
-
-        .server-card-banner::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent 40%, var(--bg-card) 100%);
-        }
-
-        .server-card-body {
-            padding: 0 20px 20px;
-            margin-top: -20px;
-            position: relative;
-        }
-
-        .server-card-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--radius);
-            border: 3px solid var(--bg-card);
-            image-rendering: pixelated;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-
-        .server-card-title {
-            font-size: 19px;
-            font-weight: 900;
-            margin-bottom: 5px;
-        }
-
-        .server-card-desc {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 14px;
-        }
-
-        /* ─── Launcher grid ─── */
-        .launcher-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .launcher-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .launcher-card:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-card-hover);
-        }
-
-        .launcher-card img {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-sm);
-            image-rendering: pixelated;
-            flex-shrink: 0;
-        }
-
-        .launcher-card-info { flex: 1; }
-        .launcher-card-name { font-size: 14px; font-weight: 700; }
-        .launcher-card-sub { font-size: 12px; color: var(--text-muted); }
-
-        /* ─── Home server status summary ─── */
-        .home-status-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        /* Modrinth-style platform tags */
-        .platform-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 3px 9px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-        }
-
-        .platform-tag svg {
-            width: 13px;
-            height: 13px;
-            flex-shrink: 0;
-        }
-
-        /* ─── Responsive ─── */
-        @media(max-width: 900px) {
-            .sidebar { width: 200px; }
-        }
-
-        @media(max-width: 700px) {
-            .shell { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
-            .sidebar-nav { flex-direction: row; padding: 8px; overflow-x: auto; overflow-y: hidden; gap: 4px; }
-            .sidebar-nav::-webkit-scrollbar { display: none; }
-            .nav-label { display: none; }
-            .nav-item { padding: 8px 10px; font-size: 12px; white-space: nowrap; }
-            .sidebar-footer { display: none; }
-            .screen { padding: 20px; }
-            .card-grid-2, .card-grid-3, .compare-grid-2, .launcher-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AgalarMC</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark:#0d1117; --bg-card:#161b22; --bg-card-hover:#1c2230;
+  --border:rgba(255,255,255,0.07); --border-hover:rgba(255,255,255,0.14);
+  --text:#e6edf3; --text-muted:#8b949e; --text-dim:#4a5568;
+  --green:#1bd96a; --green-dim:rgba(27,217,106,0.12); --green-glow:rgba(27,217,106,0.25);
+  --orange:#ff8c00; --orange-dim:rgba(255,140,0,0.12); --orange-glow:rgba(255,140,0,0.25);
+  --blue:#4493f8; --yellow:#e3b341; --red:#f85149;
+  --radius:12px; --radius-sm:8px; --radius-lg:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;color:var(--text);overflow:hidden}
+.shell{display:flex;height:100vh;width:100vw;overflow:hidden}
+
+/* ── Sidebar ── */
+.sidebar{width:240px;flex-shrink:0;background:var(--bg-card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;z-index:10}
+.sidebar-logo{padding:20px 16px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.sidebar-logo img{height:32px;width:auto;image-rendering:pixelated}
+.sidebar-logo-text{font-size:16px;font-weight:800;letter-spacing:-0.3px}
+.sidebar-nav{flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.sidebar-nav::-webkit-scrollbar{display:none}
+.nav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);padding:12px 10px 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:background .15s,color .15s;font-size:14px;font-weight:600;color:var(--text-muted);border:none;background:none;width:100%;text-align:left;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.nav-item.active{background:var(--green-dim);color:var(--green)}
+.nav-item svg{width:18px;height:18px;flex-shrink:0;opacity:.8}
+.nav-item .nav-dot{width:7px;height:7px;border-radius:50%;margin-left:auto;flex-shrink:0}
+.nav-item .nav-dot.on{background:var(--green);box-shadow:0 0 6px var(--green)}
+.nav-item .nav-dot.off{background:var(--red)}
+.nav-item .nav-dot.checking{background:var(--yellow);animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.sidebar-footer{padding:12px 16px;border-top:1px solid var(--border);font-size:10px;color:var(--text-dim);line-height:1.6}
+
+/* ── Main ── */
+.main{flex:1;overflow:hidden;position:relative;background:var(--bg-dark)}
+.screen{position:absolute;inset:0;display:none;opacity:0;overflow-y:auto;overflow-x:hidden;padding:32px 36px;z-index:1;transition:opacity .25s}
+.screen::-webkit-scrollbar{width:6px}
+.screen::-webkit-scrollbar-track{background:transparent}
+.screen::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+.screen.active{display:block;opacity:1}
+
+/* ── Page header ── */
+.page-header{display:flex;align-items:flex-start;gap:20px;margin-bottom:28px}
+.page-header-icon{width:64px;height:64px;border-radius:var(--radius);object-fit:cover;flex-shrink:0;image-rendering:pixelated;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.page-header-info{flex:1}
+.page-title{font-size:26px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px;line-height:1.2}
+.page-desc{font-size:14px;color:var(--text-muted);line-height:1.6;max-width:580px}
+.page-tags{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+
+/* ── Tags ── */
+.tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;color:var(--text-muted)}
+.tag.green{background:var(--green-dim);border-color:rgba(27,217,106,.3);color:var(--green)}
+.tag.orange{background:var(--orange-dim);border-color:rgba(255,140,0,.3);color:var(--orange)}
+
+/* ── Platform pill ── */
+.platform-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 8px;background:rgb(38,38,36);border:1px solid rgba(222,220,209,.15);border-radius:20px;font-size:11px;font-weight:600}
+.platform-tag svg{width:15px;height:15px;flex-shrink:0;overflow:visible}
+
+/* ── Divider / Section ── */
+.divider{height:1px;background:var(--border);margin:24px 0}
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:12px}
+
+/* ── Cards ── */
+.card-grid{display:grid;gap:12px}
+.card-grid-2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:border-color .2s,background .2s,transform .2s,box-shadow .2s;text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:10px;position:relative;overflow:visible}
+.card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.card.recommended{border-color:rgba(27,217,106,.35);box-shadow:0 0 0 1px rgba(27,217,106,.08),0 4px 20px rgba(27,217,106,.08)}
+.card.recommended:hover{border-color:rgba(27,217,106,.55);box-shadow:0 0 0 1px rgba(27,217,106,.15),0 8px 28px rgba(27,217,106,.15)}
+.recommended-badge{position:absolute;top:-11px;left:14px;background:var(--green);color:#0d1117;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;box-shadow:0 2px 8px rgba(27,217,106,.4)}
+.card-icon{width:48px;height:48px;border-radius:var(--radius-sm);image-rendering:pixelated;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.card-title{font-size:16px;font-weight:800}
+.card-body{font-size:13px;color:var(--text-muted);line-height:1.6}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--radius-sm);font:600 14px 'Nunito',sans-serif;cursor:pointer;transition:all .2s;border:none;text-decoration:none}
+.btn-primary{background:var(--green);color:#0d1117}
+.btn-primary:hover{background:#22e876;box-shadow:0 4px 16px var(--green-glow);transform:translateY(-1px)}
+.btn-secondary{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:rgba(255,255,255,.1);border-color:var(--border-hover)}
+.btn-orange{background:var(--orange);color:#fff}
+.btn-orange:hover{background:#ffa020;box-shadow:0 4px 16px var(--orange-glow);transform:translateY(-1px)}
+.btn-discord{background:#5865f2;color:#fff}
+.btn-discord:hover{background:#6875f5;box-shadow:0 4px 16px rgba(88,101,242,.4);transform:translateY(-1px)}
+/* Wiki: fandom orange */
+.btn-wiki{background:#c25608;color:#fff}
+.btn-wiki:hover{background:#d9620a;box-shadow:0 4px 16px rgba(194,86,8,.4);transform:translateY(-1px)}
+/* Reddit */
+.btn-reddit{background:#ff4500;color:#fff}
+.btn-reddit:hover{background:#ff5a1f;box-shadow:0 4px 16px rgba(255,69,0,.4);transform:translateY(-1px)}
+.btn img{width:20px;height:20px;border-radius:4px;image-rendering:pixelated}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ── IP Block ── */
+.ip-block{display:flex;align-items:stretch;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;max-width:400px;min-height:44px}
+.ip-address{flex:1;padding:10px 14px;font:500 14px 'JetBrains Mono',monospace;color:var(--text);background:none;border:none;outline:none;display:flex;align-items:center}
+.ip-copy-btn{padding:0 14px;background:rgba(255,255,255,.05);border:none;border-left:1px solid var(--border);color:var(--text-muted);cursor:pointer;font:600 13px 'Nunito';transition:background .15s,color .15s;display:flex;align-items:center;justify-content:center;gap:6px;flex-shrink:0}
+.ip-copy-btn:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.ip-copy-btn.copied{color:var(--green)}
+
+/* ── Status Block ── */
+.status-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.status-head{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer}
+.status-head:hover{background:rgba(255,255,255,.03)}
+.status-dot{width:9px;height:9px;border-radius:50%;background:var(--yellow);flex-shrink:0}
+.status-dot.on{background:var(--green);box-shadow:0 0 8px var(--green)}
+.status-dot.off{background:var(--red)}
+.status-dot.checking{animation:blink 1.5s infinite;background:var(--yellow)}
+.status-text{font-size:14px;font-weight:600;flex:1}
+.status-chevron{color:var(--text-muted);transition:transform .25s;font-size:12px;opacity:0;pointer-events:none}.status-chevron.visible{opacity:1;pointer-events:auto}
+.status-chevron.open{transform:rotate(180deg)}
+.player-list{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.player-list.open{max-height:360px;overflow-y:auto}
+.player-list::-webkit-scrollbar{width:4px}
+.player-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.player-list-inner{padding:0 16px 16px;display:flex;flex-direction:column;gap:6px}
+.player-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.player-item img{width:28px;height:28px;border-radius:4px;image-rendering:pixelated}
+.player-item span{font-size:13px;font-weight:600}
+
+/* ── Info Box ── */
+.info-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.info-box.orange-border{border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.04)}
+.info-box.blue-border{border-color:rgba(68,147,248,.3);background:rgba(68,147,248,.04)}
+.info-box.yellow-border{border-color:rgba(227,179,65,.3);background:rgba(227,179,65,.04)}
+.info-box-title{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.info-box-title.orange{color:var(--orange)}
+.info-box-title.blue{color:var(--blue)}
+.info-box-title.yellow{color:var(--yellow)}
+.info-box-body{font-size:13px;color:var(--text-muted);line-height:1.7}
+.info-box-body ul{padding-left:18px}
+.info-box-body ol{padding-left:18px}
+.info-box-body li{margin:5px 0}
+.info-box-body strong{color:var(--text);font-weight:700}
+.info-box-body code{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:12px}
+
+/* ── Steps ── */
+.step-list{display:flex;flex-direction:column;gap:12px}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--green-dim);border:1px solid rgba(27,217,106,.3);color:var(--green);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-body{flex:1;font-size:13px;color:var(--text-muted);line-height:1.7}
+.step-body strong{color:var(--text);font-weight:700}
+.step-body code{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:12px}
+
+/* ── Video ── */
+.video-wrap{position:relative;width:100%;padding-bottom:56.25%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.video-label{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px}
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+
+/* ── Compare ── */
+.compare-grid-2{display:grid;grid-template-columns:1fr 1.4fr;gap:16px}
+
+/* ── Server cards ── */
+.server-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s;text-decoration:none;color:var(--text);display:block}
+.server-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.4)}
+.server-card.vanilla:hover{border-color:rgba(27,217,106,.5);box-shadow:0 12px 32px rgba(27,217,106,.15)}
+.server-card.create:hover{border-color:rgba(255,140,0,.5);box-shadow:0 12px 32px rgba(255,140,0,.15)}
+.server-card-banner{height:120px;background:center/cover no-repeat;position:relative}
+.server-card-banner::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,var(--bg-card) 100%)}
+.server-card-body{padding:0 20px 20px;margin-top:-20px;position:relative}
+.server-card-icon{width:56px;height:56px;border-radius:var(--radius);border:3px solid var(--bg-card);image-rendering:pixelated;margin-bottom:10px;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+.server-card-title{font-size:19px;font-weight:900;margin-bottom:5px}
+.server-card-desc{font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:14px}
+
+/* ── Launcher ── */
+.launcher-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.launcher-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:12px}
+.launcher-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover)}
+.launcher-card img{width:40px;height:40px;border-radius:var(--radius-sm);image-rendering:pixelated;flex-shrink:0}
+.launcher-card-info{flex:1}
+.launcher-card-name{font-size:14px;font-weight:700}
+.launcher-card-sub{font-size:12px;color:var(--text-muted)}
+
+/* ── Gallery ── */
+.gallery-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;cursor:grab;user-select:none;margin-bottom:24px;scroll-behavior:auto}
+.gallery-scroll.dragging{cursor:grabbing}
+.gallery-scroll::-webkit-scrollbar{height:4px}
+.gallery-scroll::-webkit-scrollbar-track{background:transparent}
+.gallery-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
+.gallery-img{flex-shrink:0;height:180px;width:auto;border-radius:var(--radius-sm);object-fit:cover;cursor:pointer;transition:transform .2s,box-shadow .2s;border:1px solid var(--border);pointer-events:auto}
+.gallery-img:hover{transform:scale(1.02);box-shadow:0 8px 24px rgba(0,0,0,.4);border-color:var(--border-hover)}
+
+/* ── Lightbox ── */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.lightbox.open{display:flex}
+.lightbox-img{max-width:90vw;max-height:85vh;border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.8);object-fit:contain}
+.lightbox-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.1);border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;transition:background .15s}
+.lightbox-close:hover{background:rgba(255,255,255,.18)}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;transition:background .15s}
+.lightbox-nav:hover{background:rgba(255,255,255,.16)}
+.lightbox-nav.prev{left:20px}
+.lightbox-nav.next{right:20px}
+.lightbox-counter{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:600;color:var(--text-muted)}
+
+/* ── Page banner ──*/
+.page-header-banner{position:relative;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px}
+.page-header-banner-bg{position:absolute;inset:0;background:center/cover no-repeat;filter:brightness(.35);z-index:0}
+.page-header-banner-content{position:relative;z-index:1;padding:24px}
+/* ── IP+Status row ──*/
+.ip-status-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;align-items:stretch}
+.ip-status-row .ip-block{max-width:100%;height:100%}.ip-status-row>div{display:flex;flex-direction:column}.ip-status-row>div .status-block{flex:1}
+.ip-status-row .status-block{margin-bottom:0!important}
+@media(max-width:700px){.ip-status-row{grid-template-columns:1fr}}
+/* ── Create modpack card ── */
+.create-modpack-card{display:flex;flex-direction:row;align-items:center;gap:20px}
+.create-modpack-inner{display:flex;align-items:center;gap:16px;flex:1;min-width:0}
+.create-modpack-text{flex:1;min-width:0}
+.create-modpack-card .btn-orange{flex-shrink:0;white-space:nowrap}
+@media(max-width:700px){
+  .create-modpack-card{flex-direction:column;align-items:stretch}
+  .create-modpack-card .btn-orange{width:100%;justify-content:center}
+}
+/* ── Responsive ── */
+@media(max-width:900px){.sidebar{width:200px}}
+@media(max-width:700px){
+  .shell{flex-direction:column}
+  .sidebar{width:100%;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .sidebar-nav{flex-direction:row;padding:8px;overflow-x:auto;overflow-y:hidden;gap:4px}
+  .sidebar-nav::-webkit-scrollbar{display:none}
+  .nav-label{display:none}
+  .nav-item{padding:8px 10px;font-size:12px;white-space:nowrap}
+  .sidebar-footer{display:none}
+  .screen{padding:20px 20px 90px}
+  .card-grid-2,.compare-grid-2,.launcher-grid,.video-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 <div class="shell">
-    <!-- ─── SIDEBAR ─── -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png" alt="AgalarMC">
-            <span class="sidebar-logo-text">AgalarMC</span>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png" alt="AgalarMC">
+    <span class="sidebar-logo-text">AgalarMC</span>
+  </div>
+  <nav class="sidebar-nav">
+    <span class="nav-label">Ana Sayfa</span>
+    <button class="nav-item active" onclick="nav('home')" id="nav-home">
+      <!-- House -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Ana Sayfa
+    </button>
+    <span class="nav-label">Sunucular</span>
+    <button class="nav-item" onclick="nav('create')" id="nav-create">
+      <!-- Adjustable wrench/spanner -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      Create
+      <span class="nav-dot checking" id="nav-dot-m"></span>
+    </button>
+    <button class="nav-item" onclick="nav('vanilla')" id="nav-vanilla">
+      <!-- Leaf (nature / vanilla) -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 009 9 9 9 0 11-9-9z"/></svg>
+      Vanilla+
+      <span class="nav-dot checking" id="nav-dot-v"></span>
+    </button>
+    <span class="nav-label">Bilgi</span>
+    <button class="nav-item" onclick="nav('help')" id="nav-help">
+      <!-- Open book -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      Nasıl Katılırım?
+    </button>
+    <a class="nav-item" href="https://discord.gg/wkUvFRTHr9" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
+      Discord
+    </a>
+  </nav>
+  <div class="sidebar-footer">Bu site; Mojang, Microsoft, Modrinth, CurseForge veya GitHub ile bağlantılı değildir. Tüm marka ve içerikler ilgili sahiplerine aittir. Dış indirme bağlantıları üçüncü parti sitelere yönlendirir; bu sitelerin güvenliği ve içeriği ile Minecraft EULA'sına uyma sorumluluğu kullanıcıya aittir. Minecraft, Mojang Studios'un tescilli markasıdır.</div>
+</aside>
+
+<main class="main">
+
+<!-- ══ HOME ══ -->
+<div class="screen active" id="home">
+  <div class="page-header">
+    <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png" alt="AgalarMC">
+    <div class="page-header-info">
+      <div class="page-title">AgalarMC</div>
+      <div class="page-desc">Arkadaşlarınla oynamak için en iyi Minecraft deneyimi. İki farklı sunucu, sana uygun bir mod paketi.</div>
+      <div class="page-tags">
+        <span class="tag green" id="home-status-tag">● Kontrol ediliyor...</span>
+        <span class="tag">NeoForge &amp; Fabric</span>
+        <span class="tag">Minecraft Java</span>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="section-title">Sunucular</div>
+  <div class="card-grid card-grid-2" style="margin-bottom:24px">
+    <div class="server-card create" onclick="nav('create')">
+      <div class="server-card-banner" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg')"></div>
+      <div class="server-card-body">
+        <img class="server-card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
+        <div class="server-card-title">Create</div>
+        <div class="server-card-desc">Sanayileşme ve makinelerle dolu bu sunucuda otomasyonun sınırlarını zorla!</div>
+        <div class="btn-row"><span class="btn btn-orange" style="font-size:13px;padding:8px 14px">Sunucuya Git →</span></div>
+      </div>
+    </div>
+    <div class="server-card vanilla" onclick="nav('vanilla')">
+      <div class="server-card-banner" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanilla.jpg')"></div>
+      <div class="server-card-body">
+        <img class="server-card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
+        <div class="server-card-title">Vanilla+</div>
+        <div class="server-card-desc">Görsel ve performans açısından geliştirilmiş, vanilla hissiyatını koruyan sunucu.</div>
+        <div class="btn-row"><span class="btn btn-primary" style="font-size:13px;padding:8px 14px">Sunucuya Git →</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">Hızlı Erişim</div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="nav('help')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      Nasıl Katılırım?
+    </button>
+    <a class="btn btn-secondary" href="https://modrinth.com/app" target="_blank">
+      <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/modrinth.png" style="width:16px;height:16px;border-radius:3px">
+      Modrinth İndir
+    </a>
+    <button class="btn btn-secondary" id="prism-btn-home">
+      <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/prism.png" style="width:16px;height:16px;border-radius:3px">
+      <span id="prism-btn-home-text">Prism İndir</span>
+    </button>
+    <a class="btn btn-discord" href="https://discord.gg/wkUvFRTHr9" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
+      Discord Sunucusu
+    </a>
+  </div>
+</div>
+
+<!-- ══ CREATE ══ -->
+<div class="screen" id="create">
+  <div class="page-header-banner">
+    <div class="page-header-banner-bg" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg')"></div>
+    <div class="page-header-banner-content">
+  <div class="page-header">
+    <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
+    <div class="page-header-info">
+      <div class="page-title">Create</div>
+      <div class="page-desc">Çeşitli inşa, dekorasyon ve estetik otomasyon araçları sunan bir mod. Mekanik bileşenler birlikte çalışsın, oyun UI'lar içinde değil dünyada oynansın.</div>
+      <div class="page-tags">
+        <span class="tag orange" id="create-status-tag">● Kontrol ediliyor...</span>
+        <!-- NeoForge 1.21.1 combined pill -->
+        <span class="platform-tag" style="color:#e07020">
+          <svg viewBox="0 0 24 24" fill="none" style="width:15px;height:15px;overflow:visible;flex-shrink:0">
+            <g stroke="#e07020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="19.2" x2="12" y2="21.2"/>
+              <path d="M8.4 1.3c.5 1.5.7 3 .1 4.6-.2.5-.9 1.5-1.6 1.5"/>
+              <path d="M15.6 1.3c-.5 1.5-.7 3-.1 4.6.2.6.9 1.5 1.6 1.5"/>
+              <line x1="3.6" y1="15.8" x2="1.9" y2="15.8"/><line x1="3.2" y1="12.1" x2="1.5" y2="12.1"/>
+              <line x1="20.4" y1="15.8" x2="22.1" y2="15.8"/><line x1="20.8" y1="12.1" x2="22.6" y2="12.1"/>
+              <line x1="8.1" y1="12.7" x2="8.1" y2="14.3"/><line x1="15.9" y1="12.7" x2="15.9" y2="14.3"/>
+              <path d="M10.8 18L12 19.2"/><line x1="10.8" y1="18" x2="12" y2="18"/>
+              <path d="M13.2 18L12 19.2"/><line x1="13.2" y1="18" x2="12" y2="18"/>
+              <path d="M4 9.7c-.5 1.2-.8 2.4-.8 3.7 0 3.1 2.9 6.3 5.3 8.2.9.7 2.2 1.1 3.4 1.1"/>
+              <path d="M20 9.7c.5 1.2.8 2.4.8 3.7 0 3.1-2.9 6.3-5.3 8.2-.9.7-2.2 1.1-3.4 1.1"/>
+              <path d="M12 4.9c-1.1 0-2.1.2-3.2.7"/><path d="M12 4.9c1.1 0 2.1.2 3.2.7"/>
+              <path d="M4 9.7c-.2-1.8-.3-3.7.5-5.5s2.2-2.6 3.9-3"/>
+              <path d="M20 9.7c.2-1.9.3-3.7-.5-5.5s-2.2-2.6-3.9-3"/>
+              <path d="M12 21.2l-2.4.4"/><path d="M12 21.2l2.4.4"/>
+            </g>
+          </svg>
+          NeoForge 1.21.1
+        </span>
+      </div>
+    </div>
+  </div>
+    </div><!-- end banner-content -->
+  </div><!-- end page-header-banner -->
+  <div class="divider"></div>
+
+  <div class="section-title">Sunucu IP &amp; Durum</div>
+  <div class="ip-status-row">
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:8px">IP Adresi</div>
+      <div class="ip-block">
+        <span class="ip-address">create.agalarmc.com</span>
+        <button class="ip-copy-btn" onclick="copyIP(this,'create.agalarmc.com')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Kopyala
+        </button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:8px">Sunucu Durumu</div>
+      <div class="status-block">
+        <div class="status-head" onclick="toggleStatus('m')">
+          <span class="status-dot checking" id="dm"></span>
+          <span class="status-text" id="tm">Kontrol ediliyor...</span>
+          <span class="status-chevron" id="sm">▼</span>
         </div>
-        <nav class="sidebar-nav">
-            <span class="nav-label">Ana Sayfa</span>
-            <button class="nav-item active" onclick="nav('home')" id="nav-home">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                Ana Sayfa
-            </button>
+        <div class="player-list" id="pm"><div class="player-list-inner" id="pmi"></div></div>
+      </div>
+    </div>
+  </div>
 
-            <span class="nav-label">Sunucular</span>
-            <button class="nav-item" onclick="nav('create')" id="nav-create">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
-                Create
-                <span class="nav-dot checking" id="nav-dot-m"></span>
-            </button>
-            <button class="nav-item" onclick="nav('vanilla')" id="nav-vanilla">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/><path d="M2 12h20"/></svg>
-                Vanilla+
-                <span class="nav-dot checking" id="nav-dot-v"></span>
-            </button>
-
-            <span class="nav-label">Bilgi</span>
-            <button class="nav-item" onclick="nav('help')" id="nav-help">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                Nasıl Katılırım?
-            </button>
-            <a class="nav-item" href="https://discord.gg/wkUvFRTHr9" target="_blank">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
-                Discord
-            </a>
-        </nav>
-        <div class="sidebar-footer">
-            Bu site; Mojang, Microsoft, Modrinth, CurseForge veya GitHub ile bağlantılı değildir. Tüm marka ve içerikler ilgili sahiplerine aittir. Minecraft, Mojang Studios'un tescilli markasıdır.
+  <div class="section-title">Mod Paketi</div>
+  <div style="margin-bottom:24px">
+    <div class="card create-modpack-card" style="cursor:default;padding:20px">
+      <div class="create-modpack-inner">
+        <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/brass_casing.png" alt="Create Modpack">
+        <div class="create-modpack-text">
+          <div class="card-title">Create Modpack</div>
+          <div class="card-body" style="margin-top:6px">Create modu ve tüm bağımlılıkları ile birlikte performans iyileştirici modlar dahil. Sunucuya bağlanmak için bu paketi kullan.</div>
         </div>
-    </aside>
+      </div>
+      <a class="btn btn-orange" href="https://modrinth.com/modpack/agalarmc-create" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Modrinth'ten İndir
+      </a>
+    </div>
+  </div>
 
-    <!-- ─── MAIN CONTENT ─── -->
-    <main class="main" id="main-area">
+  <div class="section-title">Create Mod Tanıtımı</div>
+  <div class="video-grid">
+    <div>
+      <div class="video-label">🎬 İşte bu Create.</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/rR8W-f9YhYA" allowfullscreen loading="lazy"></iframe></div>
+    </div>
+    <div>
+      <div class="video-label">✈️ Bu da Aeronautics!</div>
+      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/SO8tpWfZjGk" allowfullscreen loading="lazy"></iframe></div>
+    </div>
+  </div>
 
-        <!-- ═══ HOME ═══ -->
-        <div class="screen active" id="home">
-            <div class="page-header">
-                <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png" alt="AgalarMC">
-                <div class="page-header-info">
-                    <div class="page-title">AgalarMC</div>
-                    <div class="page-desc">Arkadaşlarınla oynamak için en iyi Minecraft deneyimi. İki farklı sunucu, sana uygun bir mod paketi.</div>
-                    <div class="page-tags">
-                        <span class="tag green" id="home-status-tag">● Kontrol ediliyor...</span>
-                        <span class="tag">Minecraft 1.21.1</span>
-                    </div>
-                </div>
-            </div>
+  <div class="section-title">Galeri</div>
+  <div class="gallery-scroll" id="gallery-create"></div>
 
-            <div class="divider"></div>
+  <div class="card-grid card-grid-2" style="margin-bottom:16px">
+    <div class="info-box orange-border">
+      <div class="info-box-title orange">⚙️ Create Mod Hakkında</div>
+      <div class="info-box-body">Create, inşa, dekorasyon ve estetik otomasyon için çok çeşitli araçlar ve bloklar sunan bir mod. Teknoloji elementleri, oyuncuya mümkün olduğunca çok tasarım özgürlüğü bırakacak şekilde tasarlanmış. Create ile oyun bir sürü UI içinde değil; pek çok farklı düzenlemede birlikte çalışan animasyonlu bileşenlerden oluşan mekanizmalar kurarak oynanıyor. Oyun içi görsel dokümantasyon sistemi <strong>Ponder</strong>, eklenen tüm mekanik ve aygıtlarda sana rehberlik ediyor.</div>
+    </div>
+    <div class="info-box blue-border">
+      <div class="info-box-title blue">✈️ Create: Aeronautics</div>
+      <div class="info-box-body">Create: Aeronautics, Create'in sistemlerini genişleterek oyunculara <strong>Sable</strong> kullanarak her türlü araç ve fizik mekanizması inşa etme imkânı tanıyor. Uçaklar, insansız hava araçları ve sıcak hava balonlarından arabalara, kamyonlara ve çılgın icatlara kadar aklına gelen her şeyi yapabilirsin.</div>
+    </div>
+  </div>
 
-            <div class="section-title">Sunucular</div>
-            <div class="card-grid card-grid-2" style="margin-bottom:24px">
-                <!-- Create first -->
-                <div class="server-card create" onclick="nav('create')">
-                    <div class="server-card-banner" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg')"></div>
-                    <div class="server-card-body">
-                        <img class="server-card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
-                        <div class="server-card-title">Create</div>
-                        <div class="server-card-desc">Sanayileşme ve makinelerle dolu bu sunucuda otomasyonun sınırlarını zorla!</div>
-                        <div class="btn-row">
-                            <span class="btn btn-orange" style="font-size:13px;padding:8px 14px">Sunucuya Git →</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Vanilla second -->
-                <div class="server-card vanilla" onclick="nav('vanilla')">
-                    <div class="server-card-banner" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanilla.jpg')"></div>
-                    <div class="server-card-body">
-                        <img class="server-card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
-                        <div class="server-card-title">Vanilla+</div>
-                        <div class="server-card-desc">Görsel ve performans açısından geliştirilmiş, vanilla hissiyatını koruyan sunucu.</div>
-                        <div class="btn-row">
-                            <span class="btn btn-primary" style="font-size:13px;padding:8px 14px">Sunucuya Git →</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="section-title">Topluluk &amp; Kaynak</div>
+  <div class="btn-row" style="margin-bottom:8px">
+    <a class="btn btn-wiki" href="https://create.fandom.com/wiki/Create_Mod_Wiki" target="_blank">
+      <!-- Fandom W icon approximation -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+      Create Wiki
+    </a>
+    <a class="btn btn-reddit" href="https://www.reddit.com/r/CreateMod/" target="_blank">
+      <!-- Reddit alien -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+      r/CreateMod
+    </a>
+    <a class="btn btn-discord" href="https://discord.gg/wkUvFRTHr9" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
+      Discord
+    </a>
+  </div>
+</div>
 
-            <div class="section-title">Hızlı Erişim</div>
-            <div class="btn-row">
-                <button class="btn btn-secondary" onclick="nav('help')">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    Nasıl Katılırım?
-                </button>
-                <a class="btn btn-secondary" href="https://modrinth.com/app" target="_blank">
-                    <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/modrinth.png" style="width:16px;height:16px;border-radius:3px;">
-                    Modrinth İndir
-                </a>
-                <button class="btn btn-secondary" id="prism-btn-home">
-                    <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/prism.png" style="width:16px;height:16px;border-radius:3px;">
-                    <span id="prism-btn-home-text">Prism İndir</span>
-                </button>
-                <a class="btn btn-discord" href="https://discord.gg/wkUvFRTHr9" target="_blank">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
-                    Discord Sunucusu
-                </a>
-            </div>
+<!-- ══ VANILLA+ ══ -->
+<div class="screen" id="vanilla">
+  <div class="page-header-banner">
+    <div class="page-header-banner-bg" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanilla.jpg')"></div>
+    <div class="page-header-banner-content">
+  <div class="page-header">
+    <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
+    <div class="page-header-info">
+      <div class="page-title">Vanilla+</div>
+      <div class="page-desc">Görsel ve performans açısından geliştirilmiş, vanilla hissiyatını koruyan sunucumuz.</div>
+      <div class="page-tags">
+        <span class="tag green" id="vanilla-status-tag">● Kontrol ediliyor...</span>
+        <!-- Fabric 1.21.1 combined pill -->
+        <span class="platform-tag" style="color:#9090b8">
+          <svg viewBox="0 0 18 18" fill="none" width="15" height="15" style="flex-shrink:0;display:block">
+            <path d="M13 2 C13 2 13 2 11 4 L7 8 C6 9 5 10 3.5 11 C2 12 2.5 13 3 13.5 C3.8 14.3 4.2 14.8 5 15.5 C6 16.5 13.5 9 14 8.5 C14.8 7.5 15 7 14.5 6.3 C14 5.7 13.5 5.5 14 4.5 C14.5 3.5 14 2.5 13 2 Z"
+              stroke="#9090b8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          Fabric 1.21.1
+        </span>
+      </div>
+    </div>
+  </div>
+    </div><!-- end banner-content -->
+  </div><!-- end page-header-banner -->
+  <div class="divider"></div>
+
+  <div class="section-title">Sunucu IP &amp; Durum</div>
+  <div class="ip-status-row">
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:8px">IP Adresi</div>
+      <div class="ip-block">
+        <span class="ip-address">oyna.agalarmc.com</span>
+        <button class="ip-copy-btn" onclick="copyIP(this,'oyna.agalarmc.com')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Kopyala
+        </button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:8px">Sunucu Durumu</div>
+      <div class="status-block">
+        <div class="status-head" onclick="toggleStatus('v')">
+          <span class="status-dot checking" id="dv"></span>
+          <span class="status-text" id="tv">Kontrol ediliyor...</span>
+          <span class="status-chevron" id="sv">▼</span>
         </div>
+        <div class="player-list" id="pv"><div class="player-list-inner" id="pvi"></div></div>
+      </div>
+    </div>
+  </div>
 
-        <!-- ═══ CREATE ═══ -->
-        <div class="screen" id="create">
-            <div class="page-header">
-                <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
-                <div class="page-header-info">
-                    <div class="page-title">Create</div>
-                    <div class="page-desc">Sanayileşme ve makinelerle dolu bu sunucuda otomasyonun sınırlarını zorla!</div>
-                    <div class="page-tags">
-                        <span class="tag orange" id="create-status-tag">● Kontrol ediliyor...</span>
-                        <span class="tag">create.agalarmc.com</span>
-                        <span class="tag">Minecraft 1.21.1</span>
-                        <!-- NeoForge tag -->
-                        <span class="platform-tag">
-                            <!-- NeoForge icon approximation -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#e37b2d"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
-                            NeoForge
-                        </span>
-                    </div>
-                </div>
-            </div>
+  <div class="section-title">Mod Paketleri</div>
+  <div class="card-grid card-grid-2" style="margin-bottom:8px">
+    <div class="card recommended">
+      <span class="recommended-badge">Tavsiye Edilen</span>
+      <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas">
+      <div class="card-title">💎 Elmas</div>
+      <div class="card-body">Distant Horizons, Iris Shaders ve Sodium dahil. Her sisteme adapte edilebilir; zayıf makinede de güçlü makinede de harika çalışır.</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px">✓ Performans modları · ✓ Distant Horizons · ✓ Iris Shader · ✓ Gelişmiş QoL &amp; ses</div>
+      <a class="btn btn-primary" href="https://modrinth.com/modpack/agalarmc-vanilla" target="_blank" style="font-size:12px;padding:8px 14px;margin-top:4px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Modrinth'ten İndir
+      </a>
+    </div>
+    <div class="card">
+      <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir">
+      <div class="card-title">⚙ Demir</div>
+      <div class="card-body">Çok düşük sistemler için, sadece temel performans ve hata düzeltici modlar. Minimum görsel değişiklik.</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px">✓ Performans modları · ✓ Temel QoL · ✗ Shader yok · ✗ Distant Horizons yok</div>
+      <a class="btn btn-secondary" href="https://modrinth.com/modpack/agalarmc-vanilla-potato" target="_blank" style="font-size:12px;padding:8px 14px;margin-top:4px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Modrinth'ten İndir
+      </a>
+    </div>
+  </div>
+  <div class="section-title" style="margin-top:16px">Galeri</div>
+  <div class="gallery-scroll" id="gallery-vanilla"></div>
+</div>
 
-            <div class="divider"></div>
+<!-- ══ HELP ══ -->
+<div class="screen" id="help">
+  <div class="page-header">
+    <div class="page-header-info">
+      <div class="page-title">Yardım Merkezi</div>
+      <div class="page-desc">Sunucuya katılmak için gereken her şey burada.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="card-grid" style="gap:12px;margin-bottom:24px">
+    <div class="card" onclick="nav('howto')" style="flex-direction:row;align-items:center;gap:16px">
+      <div style="width:44px;height:44px;border-radius:10px;background:var(--green-dim);border:1px solid rgba(27,217,106,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1bd96a" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div style="flex:1">
+        <div class="card-title" style="font-size:15px">Nasıl Katılırım?</div>
+        <div class="card-body" style="font-size:12px;margin-top:2px">Launcher kurulumu ve sunucuya bağlanma rehberi</div>
+      </div>
+      <span style="color:var(--text-muted);font-size:18px">›</span>
+    </div>
 
-            <div class="section-title">Sunucu IP</div>
-            <div class="ip-block" style="margin-bottom:24px">
-                <span class="ip-address">create.agalarmc.com</span>
-                <button class="ip-copy-btn" onclick="copyIP(this,'create.agalarmc.com')">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                    Kopyala
-                </button>
-            </div>
+    <a class="card" href="https://discord.gg/wkUvFRTHr9" target="_blank" style="flex-direction:row;align-items:center;gap:16px">
+      <div style="width:44px;height:44px;border-radius:10px;background:rgba(88,101,242,.15);border:1px solid rgba(88,101,242,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#5865f2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
+      </div>
+      <div style="flex:1">
+        <div class="card-title" style="font-size:15px">Discord Sunucusu</div>
+        <div class="card-body" style="font-size:12px;margin-top:2px">Sorunların için destek al, duyuruları takip et</div>
+      </div>
+      <span style="color:var(--text-muted);font-size:18px">›</span>
+    </a>
+    <!-- Modrinth card -->
+    <a class="card" href="https://modrinth.com/app" target="_blank" style="flex-direction:row;align-items:center;gap:16px">
+      <div style="width:44px;height:44px;border-radius:10px;background:rgba(27,217,106,.1);border:1px solid rgba(27,217,106,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/modrinth.png" style="width:28px;height:28px;image-rendering:pixelated">
+      </div>
+      <div style="flex:1">
+        <div class="card-title" style="font-size:15px">Modrinth App İndir</div>
+        <div class="card-body" style="font-size:12px;margin-top:2px">Lisanslı Minecraft hesabı gerektirir</div>
+      </div>
+      <span style="color:var(--text-muted);font-size:18px">›</span>
+    </a>
+    <!-- Prism card -->
+    <div class="card" id="prism-btn" style="flex-direction:row;align-items:center;gap:16px">
+      <div style="width:44px;height:44px;border-radius:10px;background:rgba(68,147,248,.1);border:1px solid rgba(68,147,248,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/prism.png" style="width:28px;height:28px;image-rendering:pixelated">
+      </div>
+      <div style="flex:1">
+        <div class="launcher-card-name" id="prism-name" style="font-size:15px;font-weight:800">Prism Launcher İndir</div>
+        <div class="card-body" style="font-size:12px;margin-top:2px">Cracked destekli, ücretsiz</div>
+      </div>
+      <span style="color:var(--text-muted);font-size:18px">›</span>
+    </div>
+  </div>
+</div>
 
-            <div class="section-title">Mod Paketi</div>
-            <div class="card-grid card-grid-2" style="margin-bottom:24px;max-width:480px">
-                <div class="card recommended">
-                    <span class="recommended-badge">⭐ Tavsiye Edilen</span>
-                    <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas">
-                    <div class="card-title">💎 Elmas</div>
-                    <div class="card-body">Distant Horizons, Iris Shaders ve Sodium dahil. Her sisteme adapte edilebilir; zayıf makinede de güçlü makinede de harika çalışır.</div>
-                </div>
-                <div class="card">
-                    <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/brass_casing.png" alt="Brass">
-                    <div class="card-title">⚙ Demir</div>
-                    <div class="card-body">Çok düşük sistemler için, sadece temel performans ve hata düzeltici modlar. Create modu ve bağımlılıkları dahil.</div>
-                </div>
-            </div>
+<!-- ══ HOW TO ══ -->
+<div class="screen" id="howto">
+  <div class="page-header">
+    <div class="page-header-info">
+      <div class="page-title">Modpack Nasıl Kurulur?</div>
+      <div class="page-desc">Aşağıdaki adımları takip ederek birkaç dakikada sunucuya katılabilirsin.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
 
-            <div class="section-title">Sunucu Durumu</div>
-            <div class="status-block">
-                <div class="status-head" onclick="toggleStatus('m')">
-                    <span class="status-dot checking" id="dm"></span>
-                    <span class="status-text" id="tm">Kontrol ediliyor...</span>
-                    <span class="status-chevron" id="sm">▼</span>
-                </div>
-                <div class="player-list" id="pm">
-                    <div class="player-list-inner" id="pmi"></div>
-                </div>
-            </div>
+  <div class="video-wrap" style="margin-bottom:24px">
+    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+  </div>
 
-            <div style="margin-top:20px">
-                <div class="info-box yellow-border">
-                    <div class="info-box-title yellow">⚙️ Create Mod Hakkında</div>
-                    <div class="info-box-body">
-                        Create modu; krank mili, dişli kutusu ve mekanik aksamlarla kendi fabrikalarını kurmanı sağlar. Otomasyon, taşımacılık ve üretim hatları oluşturarak zenginleş. Sunucuya katılmak için Nasıl Katılırım? bölümüne göz at.
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="section-title" style="margin-bottom:16px">Adım Adım Rehber</div>
+  <div class="step-list" style="margin-bottom:24px">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><strong>Launcher Seç ve İndir:</strong> Minecraft hesabın varsa <strong>Modrinth App</strong>, yoksa <strong>Prism Launcher</strong>'ı indir ve kur. Yardım Merkezi'nden her iki launcherin indirme butonlarına ulaşabilirsin.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><strong>Hesap Bağla:</strong><br>
+        • <strong>Modrinth App:</strong> Açıldıktan sonra sağ üstteki profil ikonuna tıkla → "Select account" seçeneğiyle Microsoft/Minecraft hesabına giriş yap.<br>
+        • <strong>Prism Launcher:</strong> Sağ üstten <strong>Hesaplar → Hesapları yönet → Çevrimdışı ekle</strong> yolunu izle ve kullanıcı adını gir.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><strong>Modpaketi İndir:</strong> Sunucu sayfasından sana uygun paketi indir. Vanilla+ için <strong>Elmas paket</strong> çoğu sistem için önerilir; Create için tek bir modpack var.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body"><strong>Modpaketi İçe Aktar:</strong><br>
+        • <strong>Modrinth App:</strong> Sol menüdeki <strong>+</strong> butonuna tıkla → üst kısımdan <strong>"From file"</strong> seç → indirdiğin .zip dosyasını seç.<br>
+        • <strong>Prism Launcher:</strong> Sol üstten <strong>"Profil ekle"</strong> → sol menüden <strong>"Zip'ten içeri aktar"</strong> → indirdiğin .zip dosyasını seç.<br>
+        Yüklenmesini bekle; biraz zaman alabilir.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body"><strong>RAM Ayarla:</strong><br>
+        • <strong>Modrinth App:</strong> Modpaketin "Play" butonunun yanındaki ⚙ (ayarlar) ikonuna tıkla → <strong>"Java and memory"</strong> → <strong>"Custom memory allocation"</strong>'ı aç → en az <strong>4096 MB</strong>, ideal olarak <strong>8192 MB</strong> gir.<br>
+        • <strong>Prism Launcher:</strong> Modpakete sağ tıkla → <strong>"Düzenle" → "Ayarlar" → "Java" → "Hafıza"</strong> bölümüne gir → en düşük ve en yüksek için aynı değeri gir: <strong>4096–8192 MB</strong>.
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body"><strong>Oyunu Başlat:</strong> Modpakete çift tıkla ya da <strong>Play</strong> butonuna bas. İlk açılış 1–5 dakika sürebilir; ekran açılmıyorsa panikleме, arka planda yükleniyor olabilir.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body"><strong>Sunucuya Bağlan:</strong> Minecraft açıldıktan sonra <strong>Multiplayer → Sunucu Ekle</strong>'ye tıkla ve sunucu IP'sini gir:<br>
+        • Vanilla+ için: <code>oyna.agalarmc.com</code><br>
+        • Create için: <code>create.agalarmc.com</code>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-body"><strong>Kayıt Ol (cracked hesap):</strong> Sunucuya ilk girişte <code>/register &lt;şifre&gt; &lt;şifre&gt;</code> komutuyla kayıt ol, sonraki girişlerde <code>/login &lt;şifre&gt;</code> ile giriş yap. Orijinal (lisanslı) hesap sahipleri bu adımı atlayabilir.</div>
+    </div>
+  </div>
 
-        <!-- ═══ VANILLA+ ═══ -->
-        <div class="screen" id="vanilla">
-            <div class="page-header">
-                <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
-                <div class="page-header-info">
-                    <div class="page-title">Vanilla+</div>
-                    <div class="page-desc">Görsel ve performans açısından geliştirilmiş, vanilla hissiyatını koruyan sunucumuz.</div>
-                    <div class="page-tags">
-                        <span class="tag green" id="vanilla-status-tag">● Kontrol ediliyor...</span>
-                        <span class="tag">oyna.agalarmc.com</span>
-                        <span class="tag">Minecraft 1.21.1</span>
-                        <!-- Fabric tag -->
-                        <span class="platform-tag">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#c4a35a"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 3v18"/></svg>
-                            Fabric
-                        </span>
-                    </div>
-                </div>
-            </div>
+  <div class="info-box yellow-border" style="margin-bottom:12px">
+    <div class="info-box-title yellow">⚠️ Önemli Notlar</div>
+    <div class="info-box-body">
+      <ul>
+        <li><strong>Java 21</strong> yüklü olmalı — launcher genellikle otomatik indirir, yoksa manuel kur.</li>
+        <li>Oyun açılmıyor gibi görünse de <strong>sadece bekle</strong>; arka planda yükleniyor olabilir.</li>
+        <li>Sorun yaşarsan oyunu ve launcheri tamamen kapatıp <strong>yeniden aç</strong>; çoğu sorunu bu çözer.</li>
+        <li>Hâlâ sorun varsa <strong>Discord sunucusundan</strong> yardım al.</li>
+      </ul>
+    </div>
+  </div>
 
-            <div class="divider"></div>
+  <div style="margin-top:16px">
+    <button class="btn btn-secondary" onclick="goBack()">← Geri Dön</button>
+  </div>
+</div>
 
-            <div class="section-title">Sunucu IP</div>
-            <div class="ip-block" style="margin-bottom:24px">
-                <span class="ip-address">oyna.agalarmc.com</span>
-                <button class="ip-copy-btn" onclick="copyIP(this,'oyna.agalarmc.com')">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                    Kopyala
-                </button>
-            </div>
+<!-- ══ COMPARE VANILLA ══ -->
+<div class="screen" id="compare_vanilla">
+  <div class="page-header">
+    <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
+    <div class="page-header-info">
+      <div class="page-title">Vanilla+ — Paket Karşılaştırması</div>
+      <div class="page-desc">Sistemine ve ihtiyaçlarına göre en uygun mod paketini seç.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="compare-grid-2">
+    <div class="card">
+      <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir">
+      <div class="card-title">⚙ Demir</div>
+      <div class="card-body" style="font-size:12px;line-height:1.7">Tost makinesi veya kablo bağlı bir patatesten oynuyorsanız bu paketi seçin. ~100 performans ve hata düzeltici mod, birkaç küçük mekanik eklentisi. Görsel değişiklik yok, öncelik tamamen FPS.</div>
+      <div class="divider" style="margin:12px 0"></div>
+      <div style="font-size:11px;color:var(--text-muted)">✓ Performans modları<br>✓ Temel QoL<br>✗ Shader desteği yok<br>✗ Distant Horizons yok</div>
+    </div>
+    <div class="card recommended">
+      <span class="recommended-badge">Tavsiye Edilen</span>
+      <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas">
+      <div class="card-title">💎 Elmas</div>
+      <div class="card-body" style="font-size:12px;line-height:1.7">Demir paketin tüm modlarına ek olarak <strong>Distant Horizons</strong> (uzak chunk görüntüleme), <strong>Iris Shaders</strong>, <strong>Sodium</strong> ve daha fazla QoL, ses ve görsel mod. Ayarları düşürünce zayıf sistemde de çalışır, yükseltince güçlü sistemde muhteşem görünür.</div>
+      <div class="divider" style="margin:12px 0"></div>
+      <div style="font-size:11px;color:var(--text-muted)">✓ Tüm performans modları<br>✓ Distant Horizons<br>✓ Iris Shader desteği<br>✓ Gelişmiş QoL &amp; ses modları</div>
+    </div>
+  </div>
+  <div style="margin-top:20px">
+    <button class="btn btn-secondary" onclick="goBack()">← Geri Dön</button>
+  </div>
+</div>
 
-            <div class="section-title">Mod Paketleri</div>
-            <div class="card-grid card-grid-2" style="margin-bottom:8px">
-                <div class="card">
-                    <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir">
-                    <div class="card-title">⚙ Demir</div>
-                    <div class="card-body">Çok düşük sistemler için, sadece temel performans ve hata düzeltici modlar. Minimum görsel değişiklik.</div>
-                    <div style="font-size:11px;color:var(--text-muted);margin-top:4px">
-                        ✓ Performans modları · ✓ Temel QoL · ✗ Shader yok · ✗ Distant Horizons yok
-                    </div>
-                </div>
-                <div class="card recommended">
-                    <span class="recommended-badge">⭐ Tavsiye Edilen</span>
-                    <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas">
-                    <div class="card-title">💎 Elmas</div>
-                    <div class="card-body">Distant Horizons, Iris Shaders ve Sodium dahil. Her sisteme adapte edilebilir; zayıf makinede de güçlü makinede de harika çalışır.</div>
-                    <div style="font-size:11px;color:var(--text-muted);margin-top:4px">
-                        ✓ Performans modları · ✓ Distant Horizons · ✓ Iris Shader · ✓ Gelişmiş QoL & ses
-                    </div>
-                </div>
-            </div>
-            <div style="margin-bottom:24px">
-                <button class="btn btn-secondary" onclick="nav('compare_vanilla')" style="font-size:13px">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-                    Paketleri Karşılaştır
-                </button>
-            </div>
+</main>
+</div>
 
-            <div class="section-title">Sunucu Durumu</div>
-            <div class="status-block">
-                <div class="status-head" onclick="toggleStatus('v')">
-                    <span class="status-dot checking" id="dv"></span>
-                    <span class="status-text" id="tv">Kontrol ediliyor...</span>
-                    <span class="status-chevron" id="sv">▼</span>
-                </div>
-                <div class="player-list" id="pv">
-                    <div class="player-list-inner" id="pvi"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ═══ HELP ═══ -->
-        <div class="screen" id="help">
-            <div class="page-header">
-                <div class="page-header-info">
-                    <div class="page-title">Yardım Merkezi</div>
-                    <div class="page-desc">Sunucuya katılmak için gereken her şey burada.</div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="card-grid" style="gap:12px;margin-bottom:24px">
-                <div class="card" onclick="nav('howto')" style="flex-direction:row;align-items:center;gap:16px">
-                    <div style="width:44px;height:44px;border-radius:10px;background:var(--green-dim);border:1px solid rgba(27,217,106,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1bd96a" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    </div>
-                    <div style="flex:1">
-                        <div class="card-title" style="font-size:15px">Nasıl Katılırım?</div>
-                        <div class="card-body" style="font-size:12px;margin-top:2px">Launcher kurulumu ve sunucuya bağlanma rehberi</div>
-                    </div>
-                    <span style="color:var(--text-muted);font-size:18px">›</span>
-                </div>
-
-                <div class="card" onclick="nav('compare_vanilla')" style="flex-direction:row;align-items:center;gap:16px">
-                    <div style="width:44px;height:44px;border-radius:10px;background:var(--green-dim);border:1px solid rgba(27,217,106,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" style="width:28px;height:28px;image-rendering:pixelated;">
-                    </div>
-                    <div style="flex:1">
-                        <div class="card-title" style="font-size:15px">Vanilla+ Paket Karşılaştırması</div>
-                        <div class="card-body" style="font-size:12px;margin-top:2px">Demir ve Elmas paketlerini karşılaştır</div>
-                    </div>
-                    <span style="color:var(--text-muted);font-size:18px">›</span>
-                </div>
-
-                <a class="card" href="https://discord.gg/wkUvFRTHr9" target="_blank" style="flex-direction:row;align-items:center;gap:16px">
-                    <div style="width:44px;height:44px;border-radius:10px;background:rgba(88,101,242,0.15);border:1px solid rgba(88,101,242,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#5865f2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
-                    </div>
-                    <div style="flex:1">
-                        <div class="card-title" style="font-size:15px">Discord Sunucusu</div>
-                        <div class="card-body" style="font-size:12px;margin-top:2px">Sorunların için destek al, duyuruları takip et</div>
-                    </div>
-                    <span style="color:var(--text-muted);font-size:18px">›</span>
-                </a>
-            </div>
-
-            <div class="section-title">Launcher İndir</div>
-            <div class="launcher-grid">
-                <a class="launcher-card" href="https://modrinth.com/app" target="_blank">
-                    <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/modrinth.png" alt="Modrinth">
-                    <div class="launcher-card-info">
-                        <div class="launcher-card-name">Modrinth App</div>
-                        <div class="launcher-card-sub">Lisanslı hesap gerektirir</div>
-                    </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted)"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-                <div class="launcher-card" id="prism-btn">
-                    <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/prism.png" alt="Prism">
-                    <div class="launcher-card-info">
-                        <div class="launcher-card-name" id="prism-name">Prism Launcher</div>
-                        <div class="launcher-card-sub">Cracked destekli</div>
-                    </div>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted)"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- ═══ HOW TO ═══ -->
-        <div class="screen" id="howto">
-            <div class="page-header">
-                <div class="page-header-info">
-                    <div class="page-title">Modpack Nasıl Kurulur?</div>
-                    <div class="page-desc">Aşağıdaki adımları takip ederek birkaç dakikada sunucuya katılabilirsin.</div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="video-wrap" style="margin-bottom:24px">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-            </div>
-
-            <div class="section-title" style="margin-bottom:16px">Adım Adım Rehber</div>
-            <div class="step-list" style="margin-bottom:24px">
-                <div class="step">
-                    <div class="step-num">1</div>
-                    <div class="step-body"><strong>Launcher Seç ve İndir:</strong> Minecraft hesabın varsa <strong>Modrinth App</strong>, yoksa <strong>Prism Launcher</strong>'ı indir ve kur. (Yardım Merkezi'nden linkler mevcut.)</div>
-                </div>
-                <div class="step">
-                    <div class="step-num">2</div>
-                    <div class="step-body"><strong>Hesap Bağla:</strong> Modrinth'te "Select account" ile Minecraft hesabına bağlan. Prism'de "Hesapları yönet → Çevrimdışı ekle" ile kullanıcı adını gir.</div>
-                </div>
-                <div class="step">
-                    <div class="step-num">3</div>
-                    <div class="step-body"><strong>Modpaketi İndir:</strong> Sunucu sayfasından sana uygun paketi indir. <strong>Elmas paket</strong> çoğu sistem için önerilir.</div>
-                </div>
-                <div class="step">
-                    <div class="step-num">4</div>
-                    <div class="step-body"><strong>İçe Aktar:</strong> Modrinth'te sol menüden <strong>+</strong> → "From file"; Prism'de "Profil ekle → Zip'ten içeri aktar" ile indirdiğin dosyayı seç. Yüklenmesini bekle.</div>
-                </div>
-                <div class="step">
-                    <div class="step-num">5</div>
-                    <div class="step-body"><strong>RAM Ayarla:</strong> Modpakete en az <strong>4GB (4096MB)</strong>, ideal olarak <strong>8GB (8192MB)</strong> RAM ver. Her iki launcherde da ayarlar menüsünden değiştirebilirsin.</div>
-                </div>
-                <div class="step">
-                    <div class="step-num">6</div>
-                    <div class="step-body"><strong>Başlat:</strong> Play butonuna tıkla. İlk açılış zaman alabilir — sabırlı ol, arka planda yüklenebilir.</div>
-                </div>
-                <div class="step">
-                    <div class="step-num">7</div>
-                    <div class="step-body"><strong>Sunucuya Bağlan:</strong> Multiplayer → Sunucu Ekle.<br>Vanilla+: <code>oyna.agalarmc.com</code> | Create: <code>create.agalarmc.com</code></div>
-                </div>
-                <div class="step">
-                    <div class="step-num">8</div>
-                    <div class="step-body"><strong>Kayıt Ol (cracked hesap):</strong> Sunucuya girince <code>/register şifre şifre</code> ile kayıt ol, <code>/login şifre</code> ile giriş yap. Orijinal hesap sahipleri direkt katılabilir.</div>
-                </div>
-            </div>
-
-            <div class="info-box yellow-border" style="margin-bottom:12px">
-                <div class="info-box-title yellow">⚠️ Önemli Notlar</div>
-                <div class="info-box-body">
-                    <ul>
-                        <li><strong>Java 21</strong> yüklü olmalı — launcher genellikle otomatik indirir.</li>
-                        <li>Oyun açılmıyor gibi görünse de <strong>sadece bekle</strong>, arka planda yükleniyor olabilir.</li>
-                        <li>Sorun yaşarsan oyunu ve launcheri kapatıp <strong>yeniden aç</strong>.</li>
-                        <li>Hâlâ sorun varsa <strong>Discord sunucusundan</strong> yardım al.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div style="margin-top:16px">
-                <button class="btn btn-secondary" onclick="goBack()">← Geri Dön</button>
-            </div>
-        </div>
-
-        <!-- ═══ COMPARE VANILLA ═══ -->
-        <div class="screen" id="compare_vanilla">
-            <div class="page-header">
-                <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
-                <div class="page-header-info">
-                    <div class="page-title">Vanilla+ — Paket Karşılaştırması</div>
-                    <div class="page-desc">Sistemine ve ihtiyaçlarına göre en uygun mod paketini seç.</div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="compare-grid-2">
-                <div class="card">
-                    <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir">
-                    <div class="card-title">⚙ Demir</div>
-                    <div class="card-body" style="font-size:12px;line-height:1.7">
-                        Tost makinesi veya kablo bağlı bir patatesten oynuyorsanız bu paketi seçin. ~100 performans ve hata düzeltici mod, birkaç küçük mekanik eklentisi. Görsel değişiklik yok, öncelik tamamen FPS.
-                    </div>
-                    <div class="divider" style="margin:12px 0"></div>
-                    <div style="font-size:11px;color:var(--text-muted)">
-                        ✓ Performans modları<br>
-                        ✓ Temel QoL<br>
-                        ✗ Shader desteği yok<br>
-                        ✗ Distant Horizons yok
-                    </div>
-                </div>
-
-                <div class="card recommended">
-                    <span class="recommended-badge">⭐ Tavsiye Edilen</span>
-                    <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas">
-                    <div class="card-title">💎 Elmas</div>
-                    <div class="card-body" style="font-size:12px;line-height:1.7">
-                        Demir paketin tüm modlarına ek olarak <strong>Distant Horizons</strong> (uzak chunk görüntüleme), <strong>Iris Shaders</strong>, <strong>Sodium</strong> ve daha fazla QoL, ses ve görsel mod. Ayarları düşürünce zayıf sistemde de çalışır, yükseltince güçlü sistemde muhteşem görünür. En esnek paket.
-                    </div>
-                    <div class="divider" style="margin:12px 0"></div>
-                    <div style="font-size:11px;color:var(--text-muted)">
-                        ✓ Tüm performans modları<br>
-                        ✓ Distant Horizons<br>
-                        ✓ Iris Shader desteği<br>
-                        ✓ Gelişmiş QoL & ses modları
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top:20px">
-                <button class="btn btn-secondary" onclick="goBack()">← Geri Dön</button>
-            </div>
-        </div>
-
-    </main>
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-nav prev" onclick="lightboxNav(-1)">‹</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <button class="lightbox-nav next" onclick="lightboxNav(1)">›</button>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
 </div>
 
 <script>
-    /* ─── Navigation ─── */
-    const navHistory = [];
+/* ── Navigation ── */
+const navHistory = [];
+function nav(id) {
+  const cur = document.querySelector('.screen.active');
+  if (cur && cur.id !== id) navHistory.push(cur.id);
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const map = {home:'nav-home',create:'nav-create',vanilla:'nav-vanilla',help:'nav-help',howto:'nav-help',compare_vanilla:'nav-vanilla'};
+  const el = document.getElementById(map[id]);
+  if (el) el.classList.add('active');
+}
+function goBack() { if (navHistory.length) nav(navHistory.pop()); }
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'ArrowRight') lightboxNav(1);
+    else if (e.key === 'ArrowLeft') lightboxNav(-1);
+    else if (e.key === 'Escape') closeLightbox();
+  } else if (e.key === 'Escape') goBack();
+});
 
-    function nav(id) {
-        const current = document.querySelector('.screen.active');
-        if (current && current.id !== id) navHistory.push(current.id);
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        const navMap = {
-            home: 'nav-home',
-            create: 'nav-create',
-            vanilla: 'nav-vanilla',
-            help: 'nav-help',
-            howto: 'nav-help',
-            compare_vanilla: 'nav-vanilla'
-        };
-        const el = document.getElementById(navMap[id]);
-        if (el) el.classList.add('active');
-    }
+/* ── Copy IP ── */
+function copyIP(btn, ip) {
+  navigator.clipboard.writeText(ip).then(() => {
+    const orig = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Kopyalandı!';
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = orig; }, 1800);
+  }).catch(() => {
+    const t = document.createElement('input'); t.value = ip;
+    document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t);
+  });
+}
 
-    function goBack() {
-        if (navHistory.length > 0) nav(navHistory.pop());
-    }
+/* ── Server Status ── */
+let sd = {v:null,m:null}, playerOpen = {v:false,m:false}, checkSeq = {v:0,m:0};
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') goBack(); });
+async function check(id, addr, manual=false) {
+  const seq = ++checkSeq[id];
+  const dot = document.getElementById('d'+id);
+  const txt = document.getElementById('t'+id);
+  const navDot = document.getElementById('nav-dot-'+(id==='v'?'v':'m'));
+  dot.className = 'status-dot checking';
+  if (navDot) navDot.className = 'nav-dot checking';
+  if (manual) txt.textContent = 'Kontrol ediliyor...';
+  const t0 = Date.now();
+  let d = null, ok = false;
+  try { const r = await fetch(`https://api.mcsrvstat.us/2/${addr}`); d = await r.json(); ok = true; }
+  catch(e) { ok = false; }
+  const waited = Date.now() - t0;
+  if (waited < 3000) await new Promise(res => setTimeout(res, 3000 - waited));
+  if (seq !== checkSeq[id]) return;
+  sd[id] = d;
+  const tagEl = document.getElementById(id==='v'?'vanilla-status-tag':'create-status-tag');
+  if (!ok || !d) {
+    dot.className = 'status-dot checking';
+    if (navDot) navDot.className = 'nav-dot checking';
+    txt.textContent = 'Sunucu Başlatılıyor...';
+    if (tagEl) { tagEl.textContent = '● Kontrol ediliyor...'; tagEl.className = 'tag'; }
+  } else if (d.online) {
+    const cnt = d.players?.online||0, mx = d.players?.max||0;
+    dot.className = 'status-dot on';
+    if (navDot) navDot.className = 'nav-dot on';
+    txt.textContent = `Sunucu Açık — ${cnt}/${mx} oyuncu`;
+    if (tagEl) { tagEl.textContent = `● Açık (${cnt}/${mx})`; tagEl.className = 'tag '+(id==='v'?'green':'orange'); }
+    updateChevronVisibility(id, cnt > 0);
+  } else {
+    dot.className = 'status-dot off';
+    if (navDot) navDot.className = 'nav-dot off';
+    txt.textContent = 'Sunucu Kapalı';
+    if (tagEl) { tagEl.textContent = '● Kapalı'; tagEl.className = 'tag'; }
+    updateChevronVisibility(id, false);
+  }
+  updateHomeStatus();
+}
 
-    /* ─── IP Copy ─── */
-    function copyIP(btn, ip) {
-        navigator.clipboard.writeText(ip).then(() => {
-            const orig = btn.innerHTML;
-            btn.classList.add('copied');
-            btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Kopyalandı!`;
-            setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = orig; }, 1800);
-        }).catch(() => {
-            const t = document.createElement('input');
-            t.value = ip;
-            document.body.appendChild(t);
-            t.select();
-            document.execCommand('copy');
-            document.body.removeChild(t);
-        });
-    }
+function updateHomeStatus() {
+  const tag = document.getElementById('home-status-tag');
+  if (!tag) return;
+  const vOn = sd.v && sd.v.online, mOn = sd.m && sd.m.online;
+  const cnt = (vOn?1:0)+(mOn?1:0);
+  if (sd.v===null && sd.m===null) { tag.textContent='● Kontrol ediliyor...'; tag.className='tag'; }
+  else { tag.textContent=`● ${cnt}/2 Sunucu Açık`; tag.className=cnt>0?'tag green':'tag'; }
+}
 
-    /* ─── Server Status ─── */
-    let sd = { v: null, m: null };
-    let playerOpen = { v: false, m: false };
-    // Track pending checks so we can suppress old results
-    let checkSeq = { v: 0, m: 0 };
+function toggleStatus(id) {
+  const d = sd[id], listEl = document.getElementById('p'+id);
+  const innerEl = document.getElementById('p'+id+'i'), chevron = document.getElementById('s'+id);
+  if (playerOpen[id]) { listEl.classList.remove('open'); chevron.classList.remove('open'); playerOpen[id]=false; return; }
+  if (d && d.online && (d.players?.online||0) > 0) {
+    innerEl.innerHTML = '';
+    const list = d.players?.list||[];
+    if (list.length) list.forEach(p => { innerEl.innerHTML += `<div class="player-item"><img src="https://minotar.net/avatar/${p}/32"><span>${p}</span></div>`; });
+    else for (let i=0;i<d.players.online;i++) innerEl.innerHTML += `<div class="player-item"><img src="https://minotar.net/avatar/Steve/32"><span>Oyuncu ${i+1}</span></div>`;
+    listEl.classList.add('open'); chevron.classList.add('open'); playerOpen[id]=true;
+  } else { check(id, id==='v'?'oyna.agalarmc.com':'create.agalarmc.com', true); }
+}
 
-    async function check(id, addr, manual = false) {
-        const seq = ++checkSeq[id];
+function updateChevronVisibility(id, hasPlayers) {
+  const chevron = document.getElementById('s'+id);
+  if (!chevron) return;
+  if (hasPlayers) chevron.classList.add('visible');
+  else { chevron.classList.remove('visible','open'); }
+}
 
-        const dot = document.getElementById('d' + id);
-        const txt = document.getElementById('t' + id);
-        const navDot = document.getElementById('nav-dot-' + (id === 'v' ? 'v' : 'm'));
+/* ── Prism Download ── */
+async function downloadPrism(nameEl) {
+  const orig = nameEl.textContent;
+  nameEl.textContent = 'İndiriliyor...';
+  try {
+    const r = await fetch('https://api.github.com/repos/Diegiwg/PrismLauncher-Cracked/releases/latest');
+    const data = await r.json();
+    // Match: PrismLauncher-Windows-MinGW-w64-Setup-*.exe
+    const asset = (data.assets||[]).find(a => /^PrismLauncher-Windows-MinGW-w64-Setup-.*\.exe$/i.test(a.name));
+    if (asset) window.location = asset.browser_download_url;
+    else window.open('https://github.com/Diegiwg/PrismLauncher-Cracked/releases/latest');
+  } catch { window.open('https://github.com/Diegiwg/PrismLauncher-Cracked/releases/latest'); }
+  finally { nameEl.textContent = orig; }
+}
+document.getElementById('prism-btn').addEventListener('click', () => downloadPrism(document.getElementById('prism-name')));
+document.getElementById('prism-btn-home').addEventListener('click', () => downloadPrism(document.getElementById('prism-btn-home-text')));
 
-        // Always show checking state for at least 3 seconds
-        dot.className = 'status-dot checking';
-        if (navDot) navDot.className = 'nav-dot checking';
-        if (manual) txt.textContent = 'Kontrol ediliyor...';
+/* ── Gallery ── */
+const BASE = 'https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/';
+const GALLERY_COUNT = 16;
+let activeLightboxImages = [], lightboxIdx = 0;
 
-        const startTime = Date.now();
+function buildGallery(containerId, prefix) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const imgs = [];
+  for (let i=1;i<=GALLERY_COUNT;i++) imgs.push(`${BASE}${prefix}_${i}.png`);
 
-        let d = null;
-        let fetchOk = false;
-        try {
-            const r = await fetch(`https://api.mcsrvstat.us/2/${addr}`);
-            d = await r.json();
-            fetchOk = true;
-        } catch (e) {
-            fetchOk = false;
-        }
-
-        // Enforce minimum 3 second checking display
-        const elapsed = Date.now() - startTime;
-        const minWait = 3000;
-        if (elapsed < minWait) {
-            await new Promise(res => setTimeout(res, minWait - elapsed));
-        }
-
-        // If a newer check has started, discard this result
-        if (seq !== checkSeq[id]) return;
-
-        sd[id] = d;
-
-        const tagEl = document.getElementById(id === 'v' ? 'vanilla-status-tag' : 'create-status-tag');
-
-        if (!fetchOk || !d) {
-            dot.className = 'status-dot checking';
-            if (navDot) navDot.className = 'nav-dot checking';
-            txt.textContent = 'Sunucu Başlatılıyor...';
-            if (tagEl) { tagEl.textContent = '● Kontrol ediliyor...'; tagEl.className = 'tag'; }
-        } else if (d.online) {
-            const count = d.players?.online || 0;
-            const max = d.players?.max || 0;
-            dot.className = 'status-dot on';
-            if (navDot) navDot.className = 'nav-dot on';
-            txt.textContent = `Sunucu Açık — ${count}/${max} oyuncu`;
-            if (tagEl) {
-                tagEl.textContent = `● Açık (${count}/${max})`;
-                tagEl.className = `tag ${id === 'v' ? 'green' : 'orange'}`;
-            }
-        } else {
-            dot.className = 'status-dot off';
-            if (navDot) navDot.className = 'nav-dot off';
-            txt.textContent = 'Sunucu Kapalı';
-            if (tagEl) { tagEl.textContent = '● Kapalı'; tagEl.className = 'tag'; }
-        }
-
-        updateHomeStatus();
-    }
-
-    function updateHomeStatus() {
-        const tag = document.getElementById('home-status-tag');
-        if (!tag) return;
-        const vData = sd['v'];
-        const mData = sd['m'];
-        const vOn = vData && vData.online;
-        const mOn = mData && mData.online;
-        const count = (vOn ? 1 : 0) + (mOn ? 1 : 0);
-        if (vData === null && mData === null) {
-            tag.textContent = '● Kontrol ediliyor...';
-            tag.className = 'tag';
-        } else {
-            tag.textContent = `● ${count}/2 Sunucu Açık`;
-            tag.className = count > 0 ? 'tag green' : 'tag';
-        }
-    }
-
-    function toggleStatus(id) {
-        const d = sd[id];
-        const listEl = document.getElementById('p' + id);
-        const innerEl = document.getElementById('p' + id + 'i');
-        const chevron = document.getElementById('s' + id);
-
-        if (playerOpen[id]) {
-            listEl.classList.remove('open');
-            chevron.classList.remove('open');
-            playerOpen[id] = false;
-            return;
-        }
-
-        if (d && d.online && (d.players?.online || 0) > 0) {
-            innerEl.innerHTML = '';
-            const list = d.players?.list || [];
-            if (list.length > 0) {
-                list.forEach(p => {
-                    innerEl.innerHTML += `<div class="player-item"><img src="https://minotar.net/avatar/${p}/32"><span>${p}</span></div>`;
-                });
-            } else {
-                for (let i = 0; i < d.players.online; i++) {
-                    innerEl.innerHTML += `<div class="player-item"><img src="https://minotar.net/avatar/Steve/32"><span>Oyuncu ${i+1}</span></div>`;
-                }
-            }
-            listEl.classList.add('open');
-            chevron.classList.add('open');
-            playerOpen[id] = true;
-        } else {
-            const addr = id === 'v' ? 'oyna.agalarmc.com' : 'create.agalarmc.com';
-            check(id, addr, true);
-        }
-    }
-
-    /* ─── Prism Launcher download ─── */
-    async function downloadPrism(nameEl) {
-        const orig = nameEl.textContent;
-        nameEl.textContent = 'İndiriliyor...';
-        try {
-            const r = await fetch('https://api.github.com/repos/Diegiwg/PrismLauncher-Cracked/releases/latest');
-            const d = await r.json();
-            const asset = (d.assets || []).find(a => /mingw-w64-setup\.exe/i.test(a.name));
-            if (asset) window.location = asset.browser_download_url;
-            else window.open('https://github.com/Diegiwg/PrismLauncher-Cracked/releases/latest');
-        } catch {
-            window.open('https://github.com/Diegiwg/PrismLauncher-Cracked/releases/latest');
-        } finally {
-            nameEl.textContent = orig;
-        }
-    }
-
-    document.getElementById('prism-btn').addEventListener('click', () => {
-        downloadPrism(document.getElementById('prism-name'));
+  imgs.forEach((src, idx) => {
+    const img = document.createElement('img');
+    img.className = 'gallery-img';
+    img.src = src;
+    img.alt = `${prefix} ${idx+1}`;
+    img.onerror = function(){ this.style.display='none'; };
+    img.addEventListener('click', () => {
+      if (el.dataset.dragging === '1') return;
+      activeLightboxImages = imgs.filter((_,i2) => {
+        const im = el.querySelectorAll('.gallery-img')[i2];
+        return im && im.style.display !== 'none';
+      });
+      // find actual idx in visible images
+      const visibleImgs = Array.from(el.querySelectorAll('.gallery-img')).filter(im => im.style.display !== 'none');
+      const visIdx = visibleImgs.indexOf(img);
+      activeLightboxImages = visibleImgs.map(im => im.src);
+      openLightbox(visIdx >= 0 ? visIdx : 0);
     });
+    el.appendChild(img);
+  });
 
-    document.getElementById('prism-btn-home').addEventListener('click', () => {
-        downloadPrism(document.getElementById('prism-btn-home-text'));
-    });
+  /* drag-to-scroll */
+  let isDown=false, startX=0, scrollLeft=0;
+  el.addEventListener('mousedown', e => {
+    isDown=true; startX=e.pageX-el.offsetLeft; scrollLeft=el.scrollLeft;
+    el.classList.add('dragging'); el.dataset.dragging='0';
+  });
+  el.addEventListener('mouseleave', () => { isDown=false; el.classList.remove('dragging'); });
+  el.addEventListener('mouseup', () => {
+    isDown=false; el.classList.remove('dragging');
+    setTimeout(() => { el.dataset.dragging='0'; }, 50);
+  });
+  el.addEventListener('mousemove', e => {
+    if (!isDown) return; e.preventDefault();
+    const walk = e.pageX - el.offsetLeft - startX;
+    if (Math.abs(walk) > 5) el.dataset.dragging = '1';
+    el.scrollLeft = scrollLeft - walk;
+  });
 
-    /* ─── Init ─── */
-    check('v', 'oyna.agalarmc.com');
-    check('m', 'create.agalarmc.com');
-    setInterval(() => {
-        check('v', 'oyna.agalarmc.com');
-        check('m', 'create.agalarmc.com');
-    }, 30000);
+  /* scroll wheel → horizontal scroll */
+  el.addEventListener('wheel', e => {
+    e.preventDefault();
+    el.scrollLeft += e.deltaY !== 0 ? e.deltaY : e.deltaX;
+  }, {passive:false});
+}
+
+buildGallery('gallery-create','Create_gallery');
+buildGallery('gallery-vanilla','Vanilla_gallery');
+
+/* ── Lightbox ── */
+function openLightbox(idx) { lightboxIdx=idx; updateLightbox(); document.getElementById('lightbox').classList.add('open'); }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+function closeLightboxOnBg(e) { if (e.target===document.getElementById('lightbox')) closeLightbox(); }
+function lightboxNav(dir) { lightboxIdx=(lightboxIdx+dir+activeLightboxImages.length)%activeLightboxImages.length; updateLightbox(); }
+function updateLightbox() {
+  document.getElementById('lightbox-img').src = activeLightboxImages[lightboxIdx];
+  document.getElementById('lightbox-counter').textContent = `${lightboxIdx+1} / ${activeLightboxImages.length}`;
+}
+
+/* ── Init ── */
+check('v','oyna.agalarmc.com');
+check('m','create.agalarmc.com');
+setInterval(() => { check('v','oyna.agalarmc.com'); check('m','create.agalarmc.com'); }, 30000);
 </script>
 </body>
 </html>
