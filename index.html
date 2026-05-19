@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,29 +7,47 @@
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ── Theme Variables ── */
 :root {
-  --bg-dark:#0d1117; --bg-card:#161b22; --bg-card-hover:#1c2230;
-  --border:rgba(255,255,255,0.07); --border-hover:rgba(255,255,255,0.14);
-  --text:#e6edf3; --text-muted:#8b949e; --text-dim:#4a5568;
+  /* OLED Dark (default) */
+  --bg-dark:#000000; --bg-card:#0a0a0a; --bg-card-hover:#111111;
+  --bg-sidebar:#050505;
+  --border:rgba(255,255,255,0.07); --border-hover:rgba(255,255,255,0.15);
+  --text:#e6edf3; --text-muted:#8b949e; --text-dim:#3d4450;
   --green:#1bd96a; --green-dim:rgba(27,217,106,0.12); --green-glow:rgba(27,217,106,0.25);
   --orange:#ff8c00; --orange-dim:rgba(255,140,0,0.12); --orange-glow:rgba(255,140,0,0.25);
   --blue:#4493f8; --yellow:#e3b341; --red:#f85149;
   --radius:12px; --radius-sm:8px; --radius-lg:16px;
+  --shadow-card:0 4px 24px rgba(0,0,0,0.8);
+  --toggle-bg:#1a1a1a; --toggle-icon-color:#8b949e;
 }
+
+[data-theme="light"] {
+  --bg-dark:#f4f4f0; --bg-card:#ffffff; --bg-card-hover:#f8f8f5;
+  --bg-sidebar:#ffffff;
+  --border:rgba(0,0,0,0.09); --border-hover:rgba(0,0,0,0.18);
+  --text:#1a1a1a; --text-muted:#5a6270; --text-dim:#9aa0ab;
+  --green:#17b85a; --green-dim:rgba(23,184,90,0.10); --green-glow:rgba(23,184,90,0.22);
+  --orange:#e07800; --orange-dim:rgba(224,120,0,0.10); --orange-glow:rgba(224,120,0,0.22);
+  --blue:#2573d6; --yellow:#c49a1c; --red:#d93c35;
+  --shadow-card:0 2px 16px rgba(0,0,0,0.10);
+  --toggle-bg:#e8e8e4; --toggle-icon-color:#5a6270;
+}
+
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;color:var(--text);overflow:hidden}
+html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;color:var(--text);overflow:hidden;transition:background .25s,color .25s}
 .shell{display:flex;height:100vh;width:100vw;overflow:hidden}
 
 /* ── Sidebar ── */
-.sidebar{width:240px;flex-shrink:0;background:var(--bg-card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;z-index:10}
-.sidebar-logo{padding:20px 16px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.sidebar{width:240px;flex-shrink:0;background:var(--bg-sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;z-index:10;transition:background .25s,border-color .25s}
+.sidebar-logo{padding:20px 16px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;transition:border-color .25s}
 .sidebar-logo img{height:32px;width:auto;image-rendering:pixelated}
 .sidebar-logo-text{font-size:16px;font-weight:800;letter-spacing:-0.3px}
 .sidebar-nav{flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
 .sidebar-nav::-webkit-scrollbar{display:none}
-.nav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);padding:12px 10px 6px}
+.nav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);padding:12px 10px 6px;transition:color .25s}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:background .15s,color .15s;font-size:14px;font-weight:600;color:var(--text-muted);border:none;background:none;width:100%;text-align:left;text-decoration:none}
-.nav-item:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.nav-item:hover{background:rgba(128,128,128,.08);color:var(--text)}
 .nav-item.active{background:var(--green-dim);color:var(--green)}
 .nav-item svg{width:18px;height:18px;flex-shrink:0;opacity:.8}
 .nav-item .nav-dot{width:7px;height:7px;border-radius:50%;margin-left:auto;flex-shrink:0}
@@ -37,14 +55,25 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .nav-item .nav-dot.off{background:var(--red)}
 .nav-item .nav-dot.checking{background:var(--yellow);animation:blink 1.5s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.sidebar-footer{padding:12px 16px;border-top:1px solid var(--border);font-size:10px;color:var(--text-dim);line-height:1.6}
+
+/* ── Theme Toggle ── */
+.theme-toggle-wrap{padding:12px 16px;border-top:1px solid var(--border);transition:border-color .25s}
+.theme-toggle{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-sm);cursor:pointer;border:1px solid var(--border);background:var(--toggle-bg);width:100%;transition:background .2s,border-color .2s,color .2s;color:var(--text-muted);font-size:13px;font-weight:600}
+.theme-toggle:hover{border-color:var(--border-hover);color:var(--text)}
+.theme-toggle svg{width:16px;height:16px;flex-shrink:0;color:var(--toggle-icon-color);transition:color .2s}
+.toggle-track{width:32px;height:18px;border-radius:9px;background:rgba(128,128,128,.2);border:1px solid var(--border);position:relative;margin-left:auto;flex-shrink:0;transition:background .25s}
+[data-theme="light"] .toggle-track{background:var(--green);border-color:transparent}
+.toggle-thumb{width:12px;height:12px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:transform .25s,background .25s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+[data-theme="light"] .toggle-thumb{transform:translateX(14px)}
+
+.sidebar-footer{padding:10px 16px 14px;font-size:10px;color:var(--text-dim);line-height:1.6;transition:color .25s}
 
 /* ── Main ── */
-.main{flex:1;overflow:hidden;position:relative;background:var(--bg-dark)}
+.main{flex:1;overflow:hidden;position:relative;background:var(--bg-dark);transition:background .25s}
 .screen{position:absolute;inset:0;display:none;opacity:0;overflow-y:auto;overflow-x:hidden;padding:32px 36px;z-index:1;transition:opacity .25s}
 .screen::-webkit-scrollbar{width:6px}
 .screen::-webkit-scrollbar-track{background:transparent}
-.screen::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+.screen::-webkit-scrollbar-thumb{background:rgba(128,128,128,.15);border-radius:3px}
 .screen.active{display:block;opacity:1}
 
 /* ── Page header ── */
@@ -56,81 +85,82 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .page-tags{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
 
 /* ── Tags ── */
-.tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;color:var(--text-muted)}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(128,128,128,.07);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;color:var(--text-muted);transition:background .2s,border-color .2s}
 .tag.green{background:var(--green-dim);border-color:rgba(27,217,106,.3);color:var(--green)}
 .tag.orange{background:var(--orange-dim);border-color:rgba(255,140,0,.3);color:var(--orange)}
 
 /* ── Platform pill ── */
-.platform-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 8px;background:rgb(38,38,36);border:1px solid rgba(222,220,209,.15);border-radius:20px;font-size:11px;font-weight:600}
-.platform-tag svg{width:15px;height:15px;flex-shrink:0;overflow:visible}
+.platform-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 8px;background:rgba(128,128,128,.07);border:1px solid var(--border);border-radius:20px;font-size:11px;font-weight:600;transition:background .2s}
 
 /* ── Divider / Section ── */
-.divider{height:1px;background:var(--border);margin:24px 0}
-.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:12px}
+.divider{height:1px;background:var(--border);margin:24px 0;transition:background .25s}
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:12px;transition:color .25s}
 
 /* ── Cards ── */
 .card-grid{display:grid;gap:12px}
 .card-grid-2{grid-template-columns:repeat(2,1fr)}
 .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:border-color .2s,background .2s,transform .2s,box-shadow .2s;text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:10px;position:relative;overflow:visible}
-.card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:var(--shadow-card)}
 .card.recommended{border-color:rgba(27,217,106,.35);box-shadow:0 0 0 1px rgba(27,217,106,.08),0 4px 20px rgba(27,217,106,.08)}
 .card.recommended:hover{border-color:rgba(27,217,106,.55);box-shadow:0 0 0 1px rgba(27,217,106,.15),0 8px 28px rgba(27,217,106,.15)}
-.recommended-badge{position:absolute;top:-11px;left:14px;background:var(--green);color:#0d1117;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;box-shadow:0 2px 8px rgba(27,217,106,.4)}
+.recommended-badge{position:absolute;top:-11px;left:14px;background:var(--green);color:#000;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.8px;box-shadow:0 2px 8px rgba(27,217,106,.4)}
 .card-icon{width:48px;height:48px;border-radius:var(--radius-sm);image-rendering:pixelated;box-shadow:0 4px 12px rgba(0,0,0,.4)}
 .card-title{font-size:16px;font-weight:800}
 .card-body{font-size:13px;color:var(--text-muted);line-height:1.6}
 
 /* ── Buttons ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--radius-sm);font:600 14px 'Nunito',sans-serif;cursor:pointer;transition:all .2s;border:none;text-decoration:none}
-.btn-primary{background:var(--green);color:#0d1117}
-.btn-primary:hover{background:#22e876;box-shadow:0 4px 16px var(--green-glow);transform:translateY(-1px)}
-.btn-secondary{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--border)}
-.btn-secondary:hover{background:rgba(255,255,255,.1);border-color:var(--border-hover)}
+.btn-primary{background:var(--green);color:#000}
+.btn-primary:hover{filter:brightness(1.1);box-shadow:0 4px 16px var(--green-glow);transform:translateY(-1px)}
+.btn-secondary{background:rgba(128,128,128,.08);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:rgba(128,128,128,.14);border-color:var(--border-hover)}
 .btn-orange{background:var(--orange);color:#fff}
-.btn-orange:hover{background:#ffa020;box-shadow:0 4px 16px var(--orange-glow);transform:translateY(-1px)}
+.btn-orange:hover{filter:brightness(1.1);box-shadow:0 4px 16px var(--orange-glow);transform:translateY(-1px)}
 .btn-discord{background:#5865f2;color:#fff}
 .btn-discord:hover{background:#6875f5;box-shadow:0 4px 16px rgba(88,101,242,.4);transform:translateY(-1px)}
-/* Wiki: fandom orange */
 .btn-wiki{background:#c25608;color:#fff}
 .btn-wiki:hover{background:#d9620a;box-shadow:0 4px 16px rgba(194,86,8,.4);transform:translateY(-1px)}
-/* Reddit */
 .btn-reddit{background:#ff4500;color:#fff}
 .btn-reddit:hover{background:#ff5a1f;box-shadow:0 4px 16px rgba(255,69,0,.4);transform:translateY(-1px)}
 .btn img{width:20px;height:20px;border-radius:4px;image-rendering:pixelated}
 .btn-row{display:flex;gap:10px;flex-wrap:wrap}
 
 /* ── IP Block ── */
-.ip-block{display:flex;align-items:stretch;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;max-width:400px;min-height:44px}
+.ip-block{display:flex;align-items:stretch;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;max-width:400px;min-height:44px;transition:background .25s,border-color .25s}
 .ip-address{flex:1;padding:10px 14px;font:500 14px 'JetBrains Mono',monospace;color:var(--text);background:none;border:none;outline:none;display:flex;align-items:center}
-.ip-copy-btn{padding:0 14px;background:rgba(255,255,255,.05);border:none;border-left:1px solid var(--border);color:var(--text-muted);cursor:pointer;font:600 13px 'Nunito';transition:background .15s,color .15s;display:flex;align-items:center;justify-content:center;gap:6px;flex-shrink:0}
-.ip-copy-btn:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.ip-copy-btn{padding:0 14px;background:rgba(128,128,128,.05);border:none;border-left:1px solid var(--border);color:var(--text-muted);cursor:pointer;font:600 13px 'Nunito';transition:background .15s,color .15s;display:flex;align-items:center;justify-content:center;gap:6px;flex-shrink:0}
+.ip-copy-btn:hover{background:rgba(128,128,128,.12);color:var(--text)}
 .ip-copy-btn.copied{color:var(--green)}
 
 /* ── Status Block ── */
-.status-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.status-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:background .25s,border-color .25s}
 .status-head{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer}
-.status-head:hover{background:rgba(255,255,255,.03)}
+.status-head:hover{background:rgba(128,128,128,.04)}
 .status-dot{width:9px;height:9px;border-radius:50%;background:var(--yellow);flex-shrink:0}
 .status-dot.on{background:var(--green);box-shadow:0 0 8px var(--green)}
 .status-dot.off{background:var(--red)}
 .status-dot.checking{animation:blink 1.5s infinite;background:var(--yellow)}
 .status-text{font-size:14px;font-weight:600;flex:1}
-.status-chevron{color:var(--text-muted);transition:transform .25s;font-size:12px;opacity:0;pointer-events:none}.status-chevron.visible{opacity:1;pointer-events:auto}
+.status-chevron{color:var(--text-muted);transition:transform .25s;font-size:12px;opacity:0;pointer-events:none}
+.status-chevron.visible{opacity:1;pointer-events:auto}
 .status-chevron.open{transform:rotate(180deg)}
 .player-list{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .player-list.open{max-height:360px;overflow-y:auto}
 .player-list::-webkit-scrollbar{width:4px}
-.player-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.player-list::-webkit-scrollbar-thumb{background:rgba(128,128,128,.15);border-radius:2px}
 .player-list-inner{padding:0 16px 16px;display:flex;flex-direction:column;gap:6px}
-.player-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.player-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:rgba(128,128,128,.04);border-radius:var(--radius-sm);border:1px solid var(--border)}
 .player-item img{width:28px;height:28px;border-radius:4px;image-rendering:pixelated}
 .player-item span{font-size:13px;font-weight:600}
 
 /* ── Info Box ── */
-.info-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.info-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:background .25s,border-color .25s}
 .info-box.orange-border{border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.04)}
 .info-box.blue-border{border-color:rgba(68,147,248,.3);background:rgba(68,147,248,.04)}
 .info-box.yellow-border{border-color:rgba(227,179,65,.3);background:rgba(227,179,65,.04)}
+[data-theme="light"] .info-box.orange-border{background:rgba(255,140,0,.05)}
+[data-theme="light"] .info-box.blue-border{background:rgba(37,115,214,.05)}
+[data-theme="light"] .info-box.yellow-border{background:rgba(196,154,28,.05)}
 .info-box-title{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .info-box-title.orange{color:var(--orange)}
 .info-box-title.blue{color:var(--blue)}
@@ -140,7 +170,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .info-box-body ol{padding-left:18px}
 .info-box-body li{margin:5px 0}
 .info-box-body strong{color:var(--text);font-weight:700}
-.info-box-body code{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:12px}
+.info-box-body code{font-family:'JetBrains Mono',monospace;background:rgba(128,128,128,.1);padding:2px 6px;border-radius:4px;font-size:12px}
 
 /* ── Steps ── */
 .step-list{display:flex;flex-direction:column;gap:12px}
@@ -148,10 +178,10 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .step-num{width:28px;height:28px;border-radius:50%;background:var(--green-dim);border:1px solid rgba(27,217,106,.3);color:var(--green);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .step-body{flex:1;font-size:13px;color:var(--text-muted);line-height:1.7}
 .step-body strong{color:var(--text);font-weight:700}
-.step-body code{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:12px}
+.step-body code{font-family:'JetBrains Mono',monospace;background:rgba(128,128,128,.1);padding:2px 6px;border-radius:4px;font-size:12px}
 
 /* ── Video ── */
-.video-wrap{position:relative;width:100%;padding-bottom:56.25%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.video-wrap{position:relative;width:100%;padding-bottom:56.25%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);transition:border-color .25s}
 .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
 .video-label{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px}
 .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
@@ -160,7 +190,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .compare-grid-2{display:grid;grid-template-columns:1fr 1.4fr;gap:16px}
 
 /* ── Server cards ── */
-.server-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s;text-decoration:none;color:var(--text);display:block}
+.server-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s,background .25s;text-decoration:none;color:var(--text);display:block}
 .server-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.4)}
 .server-card.vanilla:hover{border-color:rgba(27,217,106,.5);box-shadow:0 12px 32px rgba(27,217,106,.15)}
 .server-card.create:hover{border-color:rgba(255,140,0,.5);box-shadow:0 12px 32px rgba(255,140,0,.15)}
@@ -185,31 +215,36 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .gallery-scroll.dragging{cursor:grabbing}
 .gallery-scroll::-webkit-scrollbar{height:4px}
 .gallery-scroll::-webkit-scrollbar-track{background:transparent}
-.gallery-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
+.gallery-scroll::-webkit-scrollbar-thumb{background:rgba(128,128,128,.15);border-radius:2px}
 .gallery-img{flex-shrink:0;height:180px;width:auto;border-radius:var(--radius-sm);object-fit:cover;cursor:pointer;transition:transform .2s,box-shadow .2s;border:1px solid var(--border);pointer-events:auto}
 .gallery-img:hover{transform:scale(1.02);box-shadow:0 8px 24px rgba(0,0,0,.4);border-color:var(--border-hover)}
 
 /* ── Lightbox ── */
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
 .lightbox.open{display:flex}
 .lightbox-img{max-width:90vw;max-height:85vh;border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.8);object-fit:contain}
-.lightbox-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.1);border:1px solid var(--border);color:var(--text);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;transition:background .15s}
+.lightbox-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;transition:background .15s}
 .lightbox-close:hover{background:rgba(255,255,255,.18)}
-.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;transition:background .15s}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;transition:background .15s}
 .lightbox-nav:hover{background:rgba(255,255,255,.16)}
 .lightbox-nav.prev{left:20px}
 .lightbox-nav.next{right:20px}
-.lightbox-counter{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:600;color:var(--text-muted)}
+.lightbox-counter{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:600;color:rgba(255,255,255,.5)}
 
-/* ── Page banner ──*/
+/* ── Page banner ── */
 .page-header-banner{position:relative;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px}
 .page-header-banner-bg{position:absolute;inset:0;background:center/cover no-repeat;filter:brightness(.35);z-index:0}
+[data-theme="light"] .page-header-banner-bg{filter:brightness(.5)}
 .page-header-banner-content{position:relative;z-index:1;padding:24px}
-/* ── IP+Status row ──*/
+
+/* ── IP+Status row ── */
 .ip-status-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;align-items:stretch}
-.ip-status-row .ip-block{max-width:100%;height:100%}.ip-status-row>div{display:flex;flex-direction:column}.ip-status-row>div .status-block{flex:1}
+.ip-status-row .ip-block{max-width:100%;height:100%}
+.ip-status-row>div{display:flex;flex-direction:column}
+.ip-status-row>div .status-block{flex:1}
 .ip-status-row .status-block{margin-bottom:0!important}
 @media(max-width:700px){.ip-status-row{grid-template-columns:1fr}}
+
 /* ── Create modpack card ── */
 .create-modpack-card{display:flex;flex-direction:row;align-items:center;gap:20px}
 .create-modpack-inner{display:flex;align-items:center;gap:16px;flex:1;min-width:0}
@@ -219,6 +254,11 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
   .create-modpack-card{flex-direction:column;align-items:stretch}
   .create-modpack-card .btn-orange{width:100%;justify-content:center}
 }
+
+/* ── Fabric logo SVG (from uploaded image) ── */
+/* Rounded rect body + small circle top-right, color #DBB689 */
+.fabric-logo-svg{width:15px;height:15px;flex-shrink:0;display:block}
+
 /* ── Responsive ── */
 @media(max-width:900px){.sidebar{width:200px}}
 @media(max-width:700px){
@@ -228,7 +268,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
   .sidebar-nav::-webkit-scrollbar{display:none}
   .nav-label{display:none}
   .nav-item{padding:8px 10px;font-size:12px;white-space:nowrap}
-  .sidebar-footer{display:none}
+  .sidebar-footer,.theme-toggle-wrap{display:none}
   .screen{padding:20px 20px 90px}
   .card-grid-2,.compare-grid-2,.launcher-grid,.video-grid{grid-template-columns:1fr}
 }
@@ -243,29 +283,28 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
     <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png" alt="AgalarMC">
     <span class="sidebar-logo-text">AgalarMC</span>
   </div>
+
   <nav class="sidebar-nav">
     <span class="nav-label">Ana Sayfa</span>
     <button class="nav-item active" onclick="nav('home')" id="nav-home">
-      <!-- House -->
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Ana Sayfa
     </button>
+
     <span class="nav-label">Sunucular</span>
     <button class="nav-item" onclick="nav('create')" id="nav-create">
-      <!-- Adjustable wrench/spanner -->
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
       Create
       <span class="nav-dot checking" id="nav-dot-m"></span>
     </button>
     <button class="nav-item" onclick="nav('vanilla')" id="nav-vanilla">
-      <!-- Leaf (nature / vanilla) -->
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 009 9 9 9 0 11-9-9z"/></svg>
       Vanilla+
       <span class="nav-dot checking" id="nav-dot-v"></span>
     </button>
+
     <span class="nav-label">Bilgi</span>
     <button class="nav-item" onclick="nav('help')" id="nav-help">
-      <!-- Open book -->
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
       Nasıl Katılırım?
     </button>
@@ -274,7 +313,18 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       Discord
     </a>
   </nav>
-  <div class="sidebar-footer">Bu site; Mojang, Microsoft, Modrinth, CurseForge veya GitHub ile bağlantılı değildir. Tüm marka ve içerikler ilgili sahiplerine aittir. Dış indirme bağlantıları üçüncü parti sitelere yönlendirir; bu sitelerin güvenliği ve içeriği ile Minecraft EULA'sına uyma sorumluluğu kullanıcıya aittir. Minecraft, Mojang Studios'un tescilli markasıdır.</div>
+
+  <!-- Theme toggle -->
+  <div class="theme-toggle-wrap">
+    <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()">
+      <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <span id="theme-label">Aydınlık Mod</span>
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    </button>
+  </div>
+
+  <div class="sidebar-footer">Bu site; Mojang, Microsoft, Modrinth, CurseForge veya GitHub ile bağlantılı değildir. Tüm marka ve içerikler ilgili sahiplerine aittir.</div>
 </aside>
 
 <main class="main">
@@ -293,6 +343,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       </div>
     </div>
   </div>
+
   <div class="divider"></div>
   <div class="section-title">Sunucular</div>
   <div class="card-grid card-grid-2" style="margin-bottom:24px">
@@ -315,6 +366,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       </div>
     </div>
   </div>
+
   <div class="section-title">Hızlı Erişim</div>
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="nav('help')">
@@ -341,42 +393,41 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
   <div class="page-header-banner">
     <div class="page-header-banner-bg" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/create.jpg')"></div>
     <div class="page-header-banner-content">
-  <div class="page-header">
-    <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
-    <div class="page-header-info">
-      <div class="page-title">Create</div>
-      <div class="page-desc">Çeşitli inşa, dekorasyon ve estetik otomasyon araçları sunan bir mod. Mekanik bileşenler birlikte çalışsın, oyun UI'lar içinde değil dünyada oynansın.</div>
-      <div class="page-tags">
-        <span class="tag orange" id="create-status-tag">● Kontrol ediliyor...</span>
-        <!-- NeoForge 1.21.1 combined pill -->
-        <span class="platform-tag" style="color:#e07020">
-          <svg viewBox="0 0 24 24" fill="none" style="width:15px;height:15px;overflow:visible;flex-shrink:0">
-            <g stroke="#e07020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="19.2" x2="12" y2="21.2"/>
-              <path d="M8.4 1.3c.5 1.5.7 3 .1 4.6-.2.5-.9 1.5-1.6 1.5"/>
-              <path d="M15.6 1.3c-.5 1.5-.7 3-.1 4.6.2.6.9 1.5 1.6 1.5"/>
-              <line x1="3.6" y1="15.8" x2="1.9" y2="15.8"/><line x1="3.2" y1="12.1" x2="1.5" y2="12.1"/>
-              <line x1="20.4" y1="15.8" x2="22.1" y2="15.8"/><line x1="20.8" y1="12.1" x2="22.6" y2="12.1"/>
-              <line x1="8.1" y1="12.7" x2="8.1" y2="14.3"/><line x1="15.9" y1="12.7" x2="15.9" y2="14.3"/>
-              <path d="M10.8 18L12 19.2"/><line x1="10.8" y1="18" x2="12" y2="18"/>
-              <path d="M13.2 18L12 19.2"/><line x1="13.2" y1="18" x2="12" y2="18"/>
-              <path d="M4 9.7c-.5 1.2-.8 2.4-.8 3.7 0 3.1 2.9 6.3 5.3 8.2.9.7 2.2 1.1 3.4 1.1"/>
-              <path d="M20 9.7c.5 1.2.8 2.4.8 3.7 0 3.1-2.9 6.3-5.3 8.2-.9.7-2.2 1.1-3.4 1.1"/>
-              <path d="M12 4.9c-1.1 0-2.1.2-3.2.7"/><path d="M12 4.9c1.1 0 2.1.2 3.2.7"/>
-              <path d="M4 9.7c-.2-1.8-.3-3.7.5-5.5s2.2-2.6 3.9-3"/>
-              <path d="M20 9.7c.2-1.9.3-3.7-.5-5.5s-2.2-2.6-3.9-3"/>
-              <path d="M12 21.2l-2.4.4"/><path d="M12 21.2l2.4.4"/>
-            </g>
-          </svg>
-          NeoForge 1.21.1
-        </span>
+      <div class="page-header">
+        <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
+        <div class="page-header-info">
+          <div class="page-title">Create</div>
+          <div class="page-desc">Çeşitli inşa, dekorasyon ve estetik otomasyon araçları sunan bir mod. Mekanik bileşenler birlikte çalışsın, oyun UI'lar içinde değil dünyada oynansın.</div>
+          <div class="page-tags">
+            <span class="tag orange" id="create-status-tag">● Kontrol ediliyor...</span>
+            <span class="platform-tag" style="color:#e07020">
+              <svg viewBox="0 0 24 24" fill="none" style="width:15px;height:15px;overflow:visible;flex-shrink:0">
+                <g stroke="#e07020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="19.2" x2="12" y2="21.2"/>
+                  <path d="M8.4 1.3c.5 1.5.7 3 .1 4.6-.2.5-.9 1.5-1.6 1.5"/>
+                  <path d="M15.6 1.3c-.5 1.5-.7 3-.1 4.6.2.6.9 1.5 1.6 1.5"/>
+                  <line x1="3.6" y1="15.8" x2="1.9" y2="15.8"/><line x1="3.2" y1="12.1" x2="1.5" y2="12.1"/>
+                  <line x1="20.4" y1="15.8" x2="22.1" y2="15.8"/><line x1="20.8" y1="12.1" x2="22.6" y2="12.1"/>
+                  <line x1="8.1" y1="12.7" x2="8.1" y2="14.3"/><line x1="15.9" y1="12.7" x2="15.9" y2="14.3"/>
+                  <path d="M10.8 18L12 19.2"/><line x1="10.8" y1="18" x2="12" y2="18"/>
+                  <path d="M13.2 18L12 19.2"/><line x1="13.2" y1="18" x2="12" y2="18"/>
+                  <path d="M4 9.7c-.5 1.2-.8 2.4-.8 3.7 0 3.1 2.9 6.3 5.3 8.2.9.7 2.2 1.1 3.4 1.1"/>
+                  <path d="M20 9.7c.5 1.2.8 2.4.8 3.7 0 3.1-2.9 6.3-5.3 8.2-.9.7-2.2 1.1-3.4 1.1"/>
+                  <path d="M12 4.9c-1.1 0-2.1.2-3.2.7"/><path d="M12 4.9c1.1 0 2.1.2 3.2.7"/>
+                  <path d="M4 9.7c-.2-1.8-.3-3.7.5-5.5s2.2-2.6 3.9-3"/>
+                  <path d="M20 9.7c.2-1.9.3-3.7-.5-5.5s-2.2-2.6-3.9-3"/>
+                  <path d="M12 21.2l-2.4.4"/><path d="M12 21.2l2.4.4"/>
+                </g>
+              </svg>
+              NeoForge 1.21.1
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-    </div><!-- end banner-content -->
-  </div><!-- end page-header-banner -->
-  <div class="divider"></div>
 
+  <div class="divider"></div>
   <div class="section-title">Sunucu IP &amp; Durum</div>
   <div class="ip-status-row">
     <div>
@@ -448,12 +499,10 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
   <div class="section-title">Topluluk &amp; Kaynak</div>
   <div class="btn-row" style="margin-bottom:8px">
     <a class="btn btn-wiki" href="https://create.fandom.com/wiki/Create_Mod_Wiki" target="_blank">
-      <!-- Fandom W icon approximation -->
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
       Create Wiki
     </a>
     <a class="btn btn-reddit" href="https://www.reddit.com/r/CreateMod/" target="_blank">
-      <!-- Reddit alien -->
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
       r/CreateMod
     </a>
@@ -469,28 +518,34 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
   <div class="page-header-banner">
     <div class="page-header-banner-bg" style="background-image:url('https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanilla.jpg')"></div>
     <div class="page-header-banner-content">
-  <div class="page-header">
-    <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
-    <div class="page-header-info">
-      <div class="page-title">Vanilla+</div>
-      <div class="page-desc">Görsel ve performans açısından geliştirilmiş, vanilla hissiyatını koruyan sunucumuz.</div>
-      <div class="page-tags">
-        <span class="tag green" id="vanilla-status-tag">● Kontrol ediliyor...</span>
-        <!-- Fabric 1.21.1 combined pill -->
-        <span class="platform-tag" style="color:#9090b8">
-          <svg viewBox="0 0 18 18" fill="none" width="15" height="15" style="flex-shrink:0;display:block">
-            <path d="M13 2 C13 2 13 2 11 4 L7 8 C6 9 5 10 3.5 11 C2 12 2.5 13 3 13.5 C3.8 14.3 4.2 14.8 5 15.5 C6 16.5 13.5 9 14 8.5 C14.8 7.5 15 7 14.5 6.3 C14 5.7 13.5 5.5 14 4.5 C14.5 3.5 14 2.5 13 2 Z"
-              stroke="#9090b8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          Fabric 1.21.1
-        </span>
+      <div class="page-header">
+        <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
+        <div class="page-header-info">
+          <div class="page-title">Vanilla+</div>
+          <div class="page-desc">Görsel ve performans açısından geliştirilmiş, vanilla hissiyatını koruyan sunucumuz.</div>
+          <div class="page-tags">
+            <span class="tag green" id="vanilla-status-tag">● Kontrol ediliyor...</span>
+            <!-- Fabric pill — logo from uploaded reference image -->
+            <span class="platform-tag" style="color:#DBB689">
+              <!-- Fabric logo: rounded rect body (like a fabric swatch/card) + small circle top-right, matching the uploaded image -->
+              <svg class="fabric-logo-svg" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Main body: rounded rectangle tilted slightly, like the fabric icon -->
+                <rect x="2.5" y="3.5" width="10" height="13" rx="2" ry="2"
+                  stroke="#DBB689" stroke-width="1.5" fill="none"
+                  transform="rotate(-8 8 10)"/>
+                <!-- Small circle top-right, like the dot on the fabric logo -->
+                <circle cx="13.5" cy="4.5" r="2"
+                  stroke="#DBB689" stroke-width="1.5" fill="none"/>
+              </svg>
+              Fabric 1.21.1
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-    </div><!-- end banner-content -->
-  </div><!-- end page-header-banner -->
-  <div class="divider"></div>
 
+  <div class="divider"></div>
   <div class="section-title">Sunucu IP &amp; Durum</div>
   <div class="ip-status-row">
     <div>
@@ -540,6 +595,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       </a>
     </div>
   </div>
+
   <div class="section-title" style="margin-top:16px">Galeri</div>
   <div class="gallery-scroll" id="gallery-vanilla"></div>
 </div>
@@ -575,7 +631,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       </div>
       <span style="color:var(--text-muted);font-size:18px">›</span>
     </a>
-    <!-- Modrinth card -->
+
     <a class="card" href="https://modrinth.com/app" target="_blank" style="flex-direction:row;align-items:center;gap:16px">
       <div style="width:44px;height:44px;border-radius:10px;background:rgba(27,217,106,.1);border:1px solid rgba(27,217,106,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/modrinth.png" style="width:28px;height:28px;image-rendering:pixelated">
@@ -586,7 +642,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       </div>
       <span style="color:var(--text-muted);font-size:18px">›</span>
     </a>
-    <!-- Prism card -->
+
     <div class="card" id="prism-btn" style="flex-direction:row;align-items:center;gap:16px">
       <div style="width:44px;height:44px;border-radius:10px;background:rgba(68,147,248,.1);border:1px solid rgba(68,147,248,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/prism.png" style="width:28px;height:28px;image-rendering:pixelated">
@@ -609,72 +665,31 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
     </div>
   </div>
   <div class="divider"></div>
-
   <div class="video-wrap" style="margin-bottom:24px">
     <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
   </div>
-
   <div class="section-title" style="margin-bottom:16px">Adım Adım Rehber</div>
   <div class="step-list" style="margin-bottom:24px">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body"><strong>Launcher Seç ve İndir:</strong> Minecraft hesabın varsa <strong>Modrinth App</strong>, yoksa <strong>Prism Launcher</strong>'ı indir ve kur. Yardım Merkezi'nden her iki launcherin indirme butonlarına ulaşabilirsin.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body"><strong>Hesap Bağla:</strong><br>
-        • <strong>Modrinth App:</strong> Açıldıktan sonra sağ üstteki profil ikonuna tıkla → "Select account" seçeneğiyle Microsoft/Minecraft hesabına giriş yap.<br>
-        • <strong>Prism Launcher:</strong> Sağ üstten <strong>Hesaplar → Hesapları yönet → Çevrimdışı ekle</strong> yolunu izle ve kullanıcı adını gir.
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body"><strong>Modpaketi İndir:</strong> Sunucu sayfasından sana uygun paketi indir. Vanilla+ için <strong>Elmas paket</strong> çoğu sistem için önerilir; Create için tek bir modpack var.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body"><strong>Modpaketi İçe Aktar:</strong><br>
-        • <strong>Modrinth App:</strong> Sol menüdeki <strong>+</strong> butonuna tıkla → üst kısımdan <strong>"From file"</strong> seç → indirdiğin .zip dosyasını seç.<br>
-        • <strong>Prism Launcher:</strong> Sol üstten <strong>"Profil ekle"</strong> → sol menüden <strong>"Zip'ten içeri aktar"</strong> → indirdiğin .zip dosyasını seç.<br>
-        Yüklenmesini bekle; biraz zaman alabilir.
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-body"><strong>RAM Ayarla:</strong><br>
-        • <strong>Modrinth App:</strong> Modpaketin "Play" butonunun yanındaki ⚙ (ayarlar) ikonuna tıkla → <strong>"Java and memory"</strong> → <strong>"Custom memory allocation"</strong>'ı aç → en az <strong>4096 MB</strong>, ideal olarak <strong>8192 MB</strong> gir.<br>
-        • <strong>Prism Launcher:</strong> Modpakete sağ tıkla → <strong>"Düzenle" → "Ayarlar" → "Java" → "Hafıza"</strong> bölümüne gir → en düşük ve en yüksek için aynı değeri gir: <strong>4096–8192 MB</strong>.
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">6</div>
-      <div class="step-body"><strong>Oyunu Başlat:</strong> Modpakete çift tıkla ya da <strong>Play</strong> butonuna bas. İlk açılış 1–5 dakika sürebilir; ekran açılmıyorsa panikleме, arka planda yükleniyor olabilir.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">7</div>
-      <div class="step-body"><strong>Sunucuya Bağlan:</strong> Minecraft açıldıktan sonra <strong>Multiplayer → Sunucu Ekle</strong>'ye tıkla ve sunucu IP'sini gir:<br>
-        • Vanilla+ için: <code>oyna.agalarmc.com</code><br>
-        • Create için: <code>create.agalarmc.com</code>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">8</div>
-      <div class="step-body"><strong>Kayıt Ol (cracked hesap):</strong> Sunucuya ilk girişte <code>/register &lt;şifre&gt; &lt;şifre&gt;</code> komutuyla kayıt ol, sonraki girişlerde <code>/login &lt;şifre&gt;</code> ile giriş yap. Orijinal (lisanslı) hesap sahipleri bu adımı atlayabilir.</div>
-    </div>
+    <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Launcher Seç ve İndir:</strong> Minecraft hesabın varsa <strong>Modrinth App</strong>, yoksa <strong>Prism Launcher</strong>'ı indir ve kur.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Hesap Bağla:</strong><br>• <strong>Modrinth App:</strong> Sağ üstteki profil ikonuna tıkla → "Select account" ile Microsoft/Minecraft hesabına giriş yap.<br>• <strong>Prism Launcher:</strong> Sağ üstten <strong>Hesaplar → Hesapları yönet → Çevrimdışı ekle</strong> yolunu izle.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Modpaketi İndir:</strong> Sunucu sayfasından sana uygun paketi indir. Vanilla+ için <strong>Elmas paket</strong> çoğu sistem için önerilir.</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Modpaketi İçe Aktar:</strong><br>• <strong>Modrinth App:</strong> Sol menüdeki <strong>+</strong> → <strong>"From file"</strong> → .zip dosyasını seç.<br>• <strong>Prism Launcher:</strong> <strong>"Profil ekle"</strong> → <strong>"Zip'ten içeri aktar"</strong> → .zip dosyasını seç.</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><strong>RAM Ayarla:</strong> En az <strong>4096 MB</strong>, ideal olarak <strong>8192 MB</strong> ver. Her iki launcher'da ayarlar → Java → Hafıza bölümünden ayarlayabilirsin.</div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><strong>Oyunu Başlat:</strong> Modpakete çift tıkla ya da <strong>Play</strong> butonuna bas. İlk açılış 1–5 dakika sürebilir.</div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body"><strong>Sunucuya Bağlan:</strong> Minecraft açıldıktan sonra <strong>Multiplayer → Sunucu Ekle</strong>:<br>• Vanilla+ için: <code>oyna.agalarmc.com</code><br>• Create için: <code>create.agalarmc.com</code></div></div>
+    <div class="step"><div class="step-num">8</div><div class="step-body"><strong>Kayıt Ol (cracked hesap):</strong> İlk girişte <code>/register &lt;şifre&gt; &lt;şifre&gt;</code>, sonraki girişlerde <code>/login &lt;şifre&gt;</code>. Orijinal hesap sahipleri bu adımı atlayabilir.</div></div>
   </div>
-
   <div class="info-box yellow-border" style="margin-bottom:12px">
     <div class="info-box-title yellow">⚠️ Önemli Notlar</div>
     <div class="info-box-body">
       <ul>
-        <li><strong>Java 21</strong> yüklü olmalı — launcher genellikle otomatik indirir, yoksa manuel kur.</li>
+        <li><strong>Java 21</strong> yüklü olmalı — launcher genellikle otomatik indirir.</li>
         <li>Oyun açılmıyor gibi görünse de <strong>sadece bekle</strong>; arka planda yükleniyor olabilir.</li>
-        <li>Sorun yaşarsan oyunu ve launcheri tamamen kapatıp <strong>yeniden aç</strong>; çoğu sorunu bu çözer.</li>
+        <li>Sorun yaşarsan oyunu ve launcheri tamamen kapatıp <strong>yeniden aç</strong>.</li>
         <li>Hâlâ sorun varsa <strong>Discord sunucusundan</strong> yardım al.</li>
       </ul>
     </div>
   </div>
-
   <div style="margin-top:16px">
     <button class="btn btn-secondary" onclick="goBack()">← Geri Dön</button>
   </div>
@@ -694,7 +709,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
     <div class="card">
       <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir">
       <div class="card-title">⚙ Demir</div>
-      <div class="card-body" style="font-size:12px;line-height:1.7">Tost makinesi veya kablo bağlı bir patatesten oynuyorsanız bu paketi seçin. ~100 performans ve hata düzeltici mod, birkaç küçük mekanik eklentisi. Görsel değişiklik yok, öncelik tamamen FPS.</div>
+      <div class="card-body" style="font-size:12px;line-height:1.7">Tost makinesi veya kablo bağlı bir patatesten oynuyorsanız bu paketi seçin. ~100 performans ve hata düzeltici mod. Görsel değişiklik yok.</div>
       <div class="divider" style="margin:12px 0"></div>
       <div style="font-size:11px;color:var(--text-muted)">✓ Performans modları<br>✓ Temel QoL<br>✗ Shader desteği yok<br>✗ Distant Horizons yok</div>
     </div>
@@ -702,7 +717,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       <span class="recommended-badge">Tavsiye Edilen</span>
       <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas">
       <div class="card-title">💎 Elmas</div>
-      <div class="card-body" style="font-size:12px;line-height:1.7">Demir paketin tüm modlarına ek olarak <strong>Distant Horizons</strong> (uzak chunk görüntüleme), <strong>Iris Shaders</strong>, <strong>Sodium</strong> ve daha fazla QoL, ses ve görsel mod. Ayarları düşürünce zayıf sistemde de çalışır, yükseltince güçlü sistemde muhteşem görünür.</div>
+      <div class="card-body" style="font-size:12px;line-height:1.7">Demir paketin tüm modlarına ek olarak <strong>Distant Horizons</strong>, <strong>Iris Shaders</strong>, <strong>Sodium</strong> ve daha fazla QoL, ses ve görsel mod. Ayarları düşürünce zayıf sistemde de çalışır.</div>
       <div class="divider" style="margin:12px 0"></div>
       <div style="font-size:11px;color:var(--text-muted)">✓ Tüm performans modları<br>✓ Distant Horizons<br>✓ Iris Shader desteği<br>✓ Gelişmiş QoL &amp; ses modları</div>
     </div>
@@ -725,6 +740,36 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 </div>
 
 <script>
+/* ── Theme ── */
+function toggleTheme() {
+  const html = document.documentElement;
+  const isLight = html.getAttribute('data-theme') === 'light';
+  const next = isLight ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('agalarmc-theme', next);
+  updateThemeUI(next);
+}
+function updateThemeUI(theme) {
+  const label = document.getElementById('theme-label');
+  const sun = document.getElementById('theme-icon-sun');
+  const moon = document.getElementById('theme-icon-moon');
+  if (theme === 'light') {
+    label.textContent = 'Karanlık Mod';
+    sun.style.display = 'block';
+    moon.style.display = 'none';
+  } else {
+    label.textContent = 'Aydınlık Mod';
+    sun.style.display = 'none';
+    moon.style.display = 'block';
+  }
+}
+// Load saved preference
+(function() {
+  const saved = localStorage.getItem('agalarmc-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  updateThemeUI(saved);
+})();
+
 /* ── Navigation ── */
 const navHistory = [];
 function nav(id) {
@@ -761,7 +806,6 @@ function copyIP(btn, ip) {
 
 /* ── Server Status ── */
 let sd = {v:null,m:null}, playerOpen = {v:false,m:false}, checkSeq = {v:0,m:0};
-
 async function check(id, addr, manual=false) {
   const seq = ++checkSeq[id];
   const dot = document.getElementById('d'+id);
@@ -837,7 +881,6 @@ async function downloadPrism(nameEl) {
   try {
     const r = await fetch('https://api.github.com/repos/Diegiwg/PrismLauncher-Cracked/releases/latest');
     const data = await r.json();
-    // Match: PrismLauncher-Windows-MinGW-w64-Setup-*.exe
     const asset = (data.assets||[]).find(a => /^PrismLauncher-Windows-MinGW-w64-Setup-.*\.exe$/i.test(a.name));
     if (asset) window.location = asset.browser_download_url;
     else window.open('https://github.com/Diegiwg/PrismLauncher-Cracked/releases/latest');
@@ -857,7 +900,6 @@ function buildGallery(containerId, prefix) {
   if (!el) return;
   const imgs = [];
   for (let i=1;i<=GALLERY_COUNT;i++) imgs.push(`${BASE}${prefix}_${i}.png`);
-
   imgs.forEach((src, idx) => {
     const img = document.createElement('img');
     img.className = 'gallery-img';
@@ -866,11 +908,6 @@ function buildGallery(containerId, prefix) {
     img.onerror = function(){ this.style.display='none'; };
     img.addEventListener('click', () => {
       if (el.dataset.dragging === '1') return;
-      activeLightboxImages = imgs.filter((_,i2) => {
-        const im = el.querySelectorAll('.gallery-img')[i2];
-        return im && im.style.display !== 'none';
-      });
-      // find actual idx in visible images
       const visibleImgs = Array.from(el.querySelectorAll('.gallery-img')).filter(im => im.style.display !== 'none');
       const visIdx = visibleImgs.indexOf(img);
       activeLightboxImages = visibleImgs.map(im => im.src);
@@ -878,8 +915,6 @@ function buildGallery(containerId, prefix) {
     });
     el.appendChild(img);
   });
-
-  /* drag-to-scroll */
   let isDown=false, startX=0, scrollLeft=0;
   el.addEventListener('mousedown', e => {
     isDown=true; startX=e.pageX-el.offsetLeft; scrollLeft=el.scrollLeft;
@@ -896,14 +931,11 @@ function buildGallery(containerId, prefix) {
     if (Math.abs(walk) > 5) el.dataset.dragging = '1';
     el.scrollLeft = scrollLeft - walk;
   });
-
-  /* scroll wheel → horizontal scroll */
   el.addEventListener('wheel', e => {
     e.preventDefault();
     el.scrollLeft += e.deltaY !== 0 ? e.deltaY : e.deltaX;
   }, {passive:false});
 }
-
 buildGallery('gallery-create','Create_gallery');
 buildGallery('gallery-vanilla','Vanilla_gallery');
 
