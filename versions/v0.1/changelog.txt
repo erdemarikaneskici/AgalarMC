@@ -1,0 +1,2 @@
+# v0.1 Changelog
+- First version out, many more to go! Although this pack is technically in beta, it is very polished. Since the mods have no major conflicts and the pack is generally well optimised, it should offer a smooth gameplay.
