@@ -776,11 +776,14 @@ const NAV_MAP = {
   home:'nav-home', create:'nav-create', vanilla:'nav-vanilla',
   help:'nav-help', howto:'nav-help', compare_vanilla:'nav-vanilla'
 };
-// Canonical URL slug → screen id (for /create, /vanilla, /help, /home)
 const SLUG_MAP = { home:'home', create:'create', vanilla:'vanilla', help:'help' };
+// Iframe/srcdoc ortamında history API çalışmaz, güvenli şekilde atla
+const CAN_USE_HISTORY = (function() {
+  try { return window.self === window.top && location.protocol !== 'about:'; }
+  catch(e) { return false; }
+})();
 
 function getSlugFromId(id) {
-  // sub-screens map back to their parent slug
   if (id === 'howto' || id === 'help') return 'help';
   if (id === 'compare_vanilla') return 'vanilla';
   return id in SLUG_MAP ? id : 'home';
@@ -802,51 +805,56 @@ function nav(id, pushState=true) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const navEl = document.getElementById(NAV_MAP[id]);
   if (navEl) navEl.classList.add('active');
-
-  // Update page title
   document.title = PAGE_TITLES[id] || 'AgalarMC';
-
-  // Update URL: /home stays as /, everything else becomes /slug
-  if (pushState) {
-    const slug = getSlugFromId(id);
-    const newPath = slug === 'home' ? '/' : '/' + slug;
-    if (location.pathname !== newPath) {
-      history.pushState({ tab: id }, '', newPath);
-    }
+  if (pushState && CAN_USE_HISTORY) {
+    try {
+      const slug = getSlugFromId(id);
+      const newPath = slug === 'home' ? '/' : '/' + slug;
+      if (location.pathname !== newPath) history.pushState({ tab: id }, '', newPath);
+    } catch(e) {}
   }
 }
 
-// Handle browser back/forward
-window.addEventListener('popstate', e => {
-  const id = e.state?.tab || getIdFromPath(location.pathname);
-  nav(id, false);
-});
+// Browser geri/ileri
+if (CAN_USE_HISTORY) {
+  window.addEventListener('popstate', e => {
+    const id = (e.state && e.state.tab) || getIdFromPath(location.pathname);
+    nav(id, false);
+  });
+}
 
 function getIdFromPath(path) {
   const slug = path.replace(/^\//, '') || 'home';
   return SLUG_MAP[slug] || 'home';
 }
 
-// On first load, read URL, show correct tab, init theme UI
-window.addEventListener('DOMContentLoaded', () => {
+function initApp() {
   updateThemeUI(_savedTheme);
-  // GitHub Pages SPA: 404.html redirected here with spa_tab in sessionStorage
-  const stored = sessionStorage.getItem('spa_tab');
-  if (stored) {
-    sessionStorage.removeItem('spa_tab');
-    const id = SLUG_MAP[stored] || 'home';
-    const newPath = id === 'home' ? '/' : '/' + id;
-    history.replaceState({ tab: id }, '', newPath);
-    nav(id, false);
-  } else {
-    const id = getIdFromPath(location.pathname);
-    history.replaceState({ tab: id }, '', location.pathname);
-    nav(id, false);
+  let id = 'home';
+  if (CAN_USE_HISTORY) {
+    try {
+      const stored = sessionStorage.getItem('spa_tab');
+      if (stored) {
+        sessionStorage.removeItem('spa_tab');
+        id = SLUG_MAP[stored] || 'home';
+        const newPath = id === 'home' ? '/' : '/' + id;
+        history.replaceState({ tab: id }, '', newPath);
+      } else {
+        id = getIdFromPath(location.pathname);
+        history.replaceState({ tab: id }, '', location.pathname);
+      }
+    } catch(e) { id = 'home'; }
   }
-});
+  nav(id, false);
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 
 function goBack() {
-  if (history.length > 1) history.back();
+  if (CAN_USE_HISTORY && history.length > 1) history.back();
 }
 
 document.addEventListener('keydown', e => {
