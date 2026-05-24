@@ -167,6 +167,9 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 [data-theme="light"] .server-card-banner::after{background:linear-gradient(to bottom,transparent 40%,#ffffff 100%)}
 [data-theme="light"] .page-header-banner-bg{filter:brightness(.55) saturate(.8)}
 [data-theme="light"] .recommended-badge{box-shadow:0 2px 8px rgba(23,184,90,.3)}
+[data-theme="light"] .platform-tag{color:#444!important}
+[data-theme="light"] .platform-tag svg *{stroke:#444!important}
+[data-theme="light"] .card-body{color:var(--text-muted)}
 /* Modpack card yeni tasarım - light mode badge fix */
 [data-theme="light"] .card.recommended[style*="rgba(255,140,0"]{border-color:rgba(224,120,0,.4)}
 .info-box-title{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
@@ -247,7 +250,8 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .page-header-banner-content .page-title{color:#ffffff}
 .page-header-banner-content .page-desc{color:rgba(230,237,243,.85)}
 .page-header-banner-content .tag{border-color:rgba(255,255,255,.2)}
-.page-header-banner-content .platform-tag{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.08)}
+.page-header-banner-content .platform-tag{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,.9)!important}
+.page-header-banner-content .platform-tag svg *{stroke:rgba(255,255,255,.9)!important}
 
 /* ── IP+Status row ── */
 .ip-status-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;align-items:stretch}
@@ -276,7 +280,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .theme-toggle-mobile{display:none;align-items:center;justify-content:center;width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--toggle-bg);cursor:pointer;flex-shrink:0;color:var(--text-muted);transition:background .2s,border-color .2s,color .2s}
 .theme-toggle-mobile:hover{border-color:var(--border-hover);color:var(--text)}
 .theme-toggle-mobile svg{width:15px;height:15px}
-/* Logo'daki toggle: sadece mobil viewportta görünür */
+/* Logo'daki toggle: sadece mobilde görünür */
 .sidebar-logo .theme-toggle-mobile{display:none}
 @media(max-width:700px){.sidebar-logo .theme-toggle-mobile{display:flex}}
 
@@ -338,11 +342,6 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
       Discord
     </a>
-    <!-- Mobile-only theme toggle icon button -->
-    <button type="button" class="theme-toggle-mobile" id="theme-toggle-mobile-btn" onclick="toggleTheme()" title="Tema değiştir">
-      <svg id="theme-icon-sun-mobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      <svg id="theme-icon-moon-mobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-    </button>
   </nav>
 
   <!-- Theme toggle -->
@@ -428,7 +427,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
         <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
         <div class="page-header-info">
           <div class="page-title">Create</div>
-          <div class="page-desc">Çeşitli inşa, dekorasyon ve estetik otomasyon araçları sunan bir mod. Mekanik bileşenler birlikte çalışsın, oyun UI'lar içinde değil dünyada oynansın.</div>
+          <div class="page-desc">Create; inşa, dekorasyon ve estetik otomasyon için çeşitli araçlar sunan bir mod. Dişliler, kasnaklar ve dahasını içeren bu araçlarla çeşitli düzenekler kurabilirsin — bir nevi redstone DLC'si; sınırı belirleyen tek şey hayal gücün.</div>
           <div class="page-tags">
             <span class="tag orange" id="create-status-tag">● Kontrol ediliyor...</span>
             <span class="platform-tag" style="color:#e07020">
@@ -490,7 +489,6 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 
       <!-- Header -->
       <div style="background:linear-gradient(135deg,rgba(255,140,0,0.16) 0%,rgba(255,140,0,0.06) 100%);border-bottom:1px solid rgba(255,140,0,.18);padding:18px 20px 16px;position:relative">
-        <div style="position:absolute;top:14px;right:14px;background:var(--orange);color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(255,140,0,.4)">Tek Seçenek</div>
         <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
           <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/brass_casing.png" alt="Create" style="width:44px;height:44px;image-rendering:pixelated;flex-shrink:0">
           <div>
@@ -498,28 +496,22 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
             <div style="font-size:11px;color:var(--text-muted);margin-top:2px;font-weight:600">NeoForge 1.21.1 · Sunucuya girmek için gerekli</div>
           </div>
         </div>
-        <!-- Badges - row 1: create & addons -->
+        <!-- Badges - row 1: create -->
         <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px">
           <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Create</span>
           <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Aeronautics</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Steam 'n' Rails</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Central Kitchen</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Bits 'n' Bobs</span>
-        </div>
-        <!-- Badges - row 2: other -->
-        <div style="display:flex;flex-wrap:wrap;gap:5px">
-          <span style="display:inline-flex;align-items:center;background:rgba(27,217,106,.12);border:1px solid rgba(27,217,106,.25);color:var(--green);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">FPS+</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(27,217,106,.12);border:1px solid rgba(27,217,106,.25);color:var(--green);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Sodium · FPS+</span>
           <span style="display:inline-flex;align-items:center;background:rgba(68,147,248,.12);border:1px solid rgba(68,147,248,.25);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Shader</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.25);color:var(--yellow);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Ses Sohbeti</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(128,128,128,.08);border:1px solid var(--border);color:var(--text-muted);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Punchy</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(128,128,128,.08);border:1px solid var(--border);color:var(--text-muted);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">QoL</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.25);color:var(--yellow);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Sesli Sohbet</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(68,147,248,.08);border:1px solid rgba(68,147,248,.2);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">QoL</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(68,147,248,.08);border:1px solid rgba(68,147,248,.2);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Backport Modları</span>
         </div>
       </div>
 
       <!-- Body -->
       <div style="padding:16px 20px 18px;display:flex;flex-direction:column;gap:10px">
         <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
-          Create ve tüm addon'larını (Aeronautics, Steam 'n' Rails, Central Kitchen, Enchantment Industry, Bits 'n' Bobs) içeren tek paket. Iris Shaders ile Create uyumlu shader desteği, Xaero's World Map, Sophisticated Backpacks, GraveStone ve Farmer's Delight gibi QoL modları dahil. <strong style="color:var(--text)">Punchy</strong> ile birinci şahıs animasyonlar ve <strong style="color:var(--text)">Cosmetic Armor</strong> gibi kozmetik modlar da pakette yer alıyor. Sunucuya bağlanmak için bu paket zorunlu.
+          Create ve Aeronautics başta olmak üzere birçok Create addon'u, backport modları (Spear, Copper Age ve daha fazlası), Sophisticated Backpacks ve Xaero's World Map gibi QoL modları, EMI/Jade gibi UI iyileştirmeleri, Punchy ile görsel iyileştirmeler ve Sodium, Lithium, ImmediatelyFast gibi performans modları içeriyor. <strong style="color:var(--text)">Sunucuya bağlanmak için gerekli.</strong>
         </div>
         <a class="btn btn-orange" href="https://modrinth.com/modpack/agalarmc-create" target="_blank" style="width:100%;justify-content:center;padding:11px 14px">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -628,10 +620,10 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
   </div>
 
   <div class="section-title">Mod Paketleri</div>
-  <div class="card-grid card-grid-2" style="margin-bottom:8px">
+  <div class="card-grid card-grid-2" style="margin-bottom:8px;align-items:stretch">
 
     <!-- Elmas - Tavsiye Edilen -->
-    <div class="card recommended" style="gap:0;padding:0;overflow:hidden;cursor:default">
+    <div class="card recommended" style="gap:0;padding:0;overflow:hidden;cursor:default;display:flex;flex-direction:column">
       <div style="background:linear-gradient(135deg,rgba(68,147,248,0.18) 0%,rgba(27,217,106,0.10) 100%);border-bottom:1px solid rgba(68,147,248,0.18);padding:16px 18px 14px;position:relative">
         <div style="position:absolute;top:12px;right:12px;background:var(--green);color:#000;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(27,217,106,.35)">Tavsiye Edilen</div>
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
@@ -645,11 +637,11 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
           <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(27,217,106,.12);border:1px solid rgba(27,217,106,.25);color:var(--green);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">FPS+</span>
           <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(68,147,248,.12);border:1px solid rgba(68,147,248,.25);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Shader</span>
           <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(68,147,248,.12);border:1px solid rgba(68,147,248,.25);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">LOD</span>
-          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.25);color:var(--yellow);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Ses Sohbeti</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.25);color:var(--yellow);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Sesli Sohbet</span>
           <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(128,128,128,.08);border:1px solid var(--border);color:var(--text-muted);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">QoL</span>
         </div>
       </div>
-      <div style="padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px">
+      <div style="padding:14px 18px 16px;display:flex;flex-direction:column;flex:1;justify-content:space-between;gap:10px">
         <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
           <strong style="color:var(--text)">Görsel:</strong> Iris Shaders (shader desteği), Voxy (LOD — sonsuz render mesafesi), HoldMyItems (1. şahıs animasyonlar), Fresh Animations ile canlı entity animasyonları.<br>
           <strong style="color:var(--text)">Performans:</strong> Sodium, Lithium, FerriteCore, ImmediatelyFast, ModernFix ve daha fazlası.<br>
@@ -663,7 +655,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
     </div>
 
     <!-- Demir -->
-    <div class="card" style="gap:0;padding:0;overflow:hidden;cursor:default">
+    <div class="card" style="gap:0;padding:0;overflow:hidden;cursor:default;display:flex;flex-direction:column">
       <div style="background:rgba(128,128,128,.04);border-bottom:1px solid var(--border);padding:16px 18px 14px">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
           <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir" style="width:40px;height:40px;image-rendering:pixelated;flex-shrink:0">
@@ -679,8 +671,8 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
           <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(248,81,73,.10);border:1px solid rgba(248,81,73,.25);color:var(--red);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">LOD Yok</span>
         </div>
       </div>
-      <div style="padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px">
-        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Çok düşük sistemler için sadece temel performans ve hata düzeltme modları. Minimum görsel değişiklik.</div>
+      <div style="padding:14px 18px 16px;display:flex;flex-direction:column;flex:1;justify-content:space-between;gap:10px">
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Çok düşük sistemler için sadece temel performans ve hata düzeltme modları. Ekstra görsel, UI veya oynanış özelliği <strong style="color:var(--text)">bulunmuyor</strong> — saf vanilla deneyimi, daha iyi FPS ile.</div>
         <a class="btn btn-secondary" href="https://modrinth.com/modpack/agalarmc-vanilla-potato" target="_blank" style="font-size:12px;padding:9px 14px;width:100%;justify-content:center">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Modrinth'ten İndir
@@ -770,16 +762,17 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
     <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Modpaketi İçe Aktar:</strong><br>• <strong>Modrinth App:</strong> Sol menüdeki <strong>+</strong> → <strong>"From file"</strong> → .zip dosyasını seç.<br>• <strong>Prism Launcher:</strong> <strong>"Profil ekle"</strong> → <strong>"Zip'ten içeri aktar"</strong> → .zip dosyasını seç.</div></div>
     <div class="step"><div class="step-num">5</div><div class="step-body"><strong>RAM Ayarla:</strong> En az <strong>4096 MB</strong>, ideal olarak <strong>8192 MB</strong> ver. Her iki launcher'da ayarlar → Java → Hafıza bölümünden ayarlayabilirsin.</div></div>
     <div class="step"><div class="step-num">6</div><div class="step-body"><strong>Oyunu Başlat:</strong> Modpakete çift tıkla ya da <strong>Play</strong> butonuna bas. İlk açılış 1–5 dakika sürebilir.</div></div>
-    <div class="step"><div class="step-num">7</div><div class="step-body"><strong>Sunucuya Bağlan:</strong> Minecraft açıldıktan sonra <strong>Multiplayer → Sunucu Ekle</strong>:<br>• Vanilla+ için: <code>oyna.agalarmc.com</code><br>• Create için: <code>create.agalarmc.com</code></div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body"><strong>Sunucuya Bağlan:</strong> Sunucu modpakette halihazırda ekli gelir, doğrudan listede görünmeli. Görünmüyorsa <strong>Multiplayer → Sunucu Ekle</strong> ile manuel ekleyebilirsin:<br>• Vanilla+ için: <code>oyna.agalarmc.com</code><br>• Create için: <code>create.agalarmc.com</code></div></div>
     <div class="step"><div class="step-num">8</div><div class="step-body"><strong>Kayıt Ol (cracked hesap):</strong> İlk girişte <code>/register &lt;şifre&gt; &lt;şifre&gt;</code>, sonraki girişlerde <code>/login &lt;şifre&gt;</code>. Orijinal hesap sahipleri bu adımı atlayabilir.</div></div>
   </div>
   <div class="info-box yellow-border" style="margin-bottom:12px">
     <div class="info-box-title yellow">⚠️ Önemli Notlar</div>
     <div class="info-box-body">
       <ul>
-        <li><strong>Java 21</strong> yüklü olmalı — launcher genellikle otomatik indirir.</li>
-        <li>Oyun açılmıyor gibi görünse de <strong>sadece bekle</strong>; arka planda yükleniyor olabilir.</li>
-        <li>Sorun yaşarsan oyunu ve launcheri tamamen kapatıp <strong>yeniden aç</strong>.</li>
+        <li><strong>Java 21</strong> yüklü olmalı — launcher genellikle otomatik indirir, yine de modpaket sorun çıkarıyorsa teyit etmekte fayda var.</li>
+        <li>Oyun açılmıyor gibi görünse de <strong>sadece bekle</strong>; büyük ihtimalle arka planda yükleniyordur.</li>
+        <li>Oyun <strong>ilk açılışta</strong> diğerlerine kıyasla çok daha uzun sürebilir — bu gayet normal.</li>
+        <li>Sorun yaşarsan oyunu ve launcheri tamamen kapatıp <strong>yeniden aç</strong>. Hiçbir şey çözmüyorsa bilgisayarı komple yeniden başlatmayı dene — sistem veya başka uygulamalar çöp dosya biriktirmiş olabilir.</li>
         <li>Hâlâ sorun varsa <strong>Discord sunucusundan</strong> yardım al.</li>
       </ul>
     </div>
