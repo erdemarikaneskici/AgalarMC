@@ -246,22 +246,27 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 @media(max-width:700px){.ip-status-row{grid-template-columns:1fr}}
 
 /* ── Create modpack card ── */
-.create-modpack-card{display:flex;flex-direction:row;align-items:center;gap:20px}
+.create-modpack-card{display:flex;flex-direction:row;align-items:center;gap:20px;padding:24px 24px!important}
 .create-modpack-inner{display:flex;align-items:center;gap:16px;flex:1;min-width:0}
 .create-modpack-text{flex:1;min-width:0}
-.create-modpack-card .btn-orange{flex-shrink:0;white-space:nowrap}
+.create-modpack-card .card-title{font-size:17px}
+.create-modpack-card .card-body{font-size:13px;margin-top:4px}
+.create-modpack-card .btn-orange{flex-shrink:0;white-space:nowrap;padding:12px 22px;font-size:14px}
 @media(max-width:700px){
-  .create-modpack-card{flex-direction:column;align-items:stretch}
+  .create-modpack-card{flex-direction:column;align-items:stretch;padding:18px!important}
   .create-modpack-card .btn-orange{width:100%;justify-content:center}
 }
 
 /* ── Fabric logo SVG ── */
 .fabric-logo-svg{width:15px;height:15px;flex-shrink:0;display:block}
 
-/* ── Mobile theme toggle (icon-only button in nav) ── */
-.theme-toggle-mobile{display:none;align-items:center;justify-content:center;width:36px;height:36px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--toggle-bg);cursor:pointer;flex-shrink:0;color:var(--text-muted);transition:background .2s,border-color .2s,color .2s;margin-left:auto}
+/* ── Mobile theme toggle ── */
+.theme-toggle-mobile{display:none;align-items:center;justify-content:center;width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--toggle-bg);cursor:pointer;flex-shrink:0;color:var(--text-muted);transition:background .2s,border-color .2s,color .2s}
 .theme-toggle-mobile:hover{border-color:var(--border-hover);color:var(--text)}
-.theme-toggle-mobile svg{width:16px;height:16px}
+.theme-toggle-mobile svg{width:15px;height:15px}
+/* Logo'daki toggle: sadece mobil viewportta görünür */
+.sidebar-logo .theme-toggle-mobile{display:none}
+@media(max-width:700px){.sidebar-logo .theme-toggle-mobile{display:flex}}
 
 /* ── Responsive ── */
 @media(max-width:900px){.sidebar{width:200px}}
@@ -287,6 +292,10 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
   <div class="sidebar-logo">
     <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png" alt="AgalarMC">
     <span class="sidebar-logo-text">AgalarMC</span>
+    <button type="button" class="theme-toggle-mobile" id="theme-toggle-mobile-btn2" onclick="toggleTheme()" title="Tema değiştir" style="margin-left:auto">
+      <svg id="theme-icon-sun-mobile2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="theme-icon-moon-mobile2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    </button>
   </div>
 
   <nav class="sidebar-nav">
@@ -579,27 +588,61 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 
   <div class="section-title">Mod Paketleri</div>
   <div class="card-grid card-grid-2" style="margin-bottom:8px">
-    <div class="card recommended">
-      <span class="recommended-badge">Tavsiye Edilen</span>
-      <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas">
-      <div class="card-title">💎 Elmas</div>
-      <div class="card-body">Distant Horizons, Iris Shaders ve Sodium dahil. Her sisteme adapte edilebilir; zayıf makinede de güçlü makinede de harika çalışır.</div>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:4px">✓ Performans modları · ✓ Distant Horizons · ✓ Iris Shader · ✓ Gelişmiş QoL &amp; ses</div>
-      <a class="btn btn-primary" href="https://modrinth.com/modpack/agalarmc-vanilla" target="_blank" style="font-size:12px;padding:8px 14px;margin-top:4px">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Modrinth'ten İndir
-      </a>
+
+    <!-- Elmas - Tavsiye Edilen -->
+    <div class="card recommended" style="gap:0;padding:0;overflow:hidden;cursor:default">
+      <div style="background:linear-gradient(135deg,rgba(68,147,248,0.18) 0%,rgba(27,217,106,0.10) 100%);border-bottom:1px solid rgba(68,147,248,0.18);padding:16px 18px 14px;position:relative">
+        <div style="position:absolute;top:12px;right:12px;background:var(--green);color:#000;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(27,217,106,.35)">Tavsiye Edilen</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/diamond.png" alt="Elmas" style="width:40px;height:40px;image-rendering:pixelated;flex-shrink:0">
+          <div>
+            <div style="font-size:16px;font-weight:800;letter-spacing:-.2px">Elmas</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:1px;font-weight:600">Tam donanımlı paket</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(27,217,106,.12);border:1px solid rgba(27,217,106,.25);color:var(--green);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">FPS+</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(68,147,248,.12);border:1px solid rgba(68,147,248,.25);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Shader</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(68,147,248,.12);border:1px solid rgba(68,147,248,.25);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">LOD</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.25);color:var(--yellow);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Ses Sohbeti</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(128,128,128,.08);border:1px solid var(--border);color:var(--text-muted);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">QoL</span>
+        </div>
+      </div>
+      <div style="padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Iris Shaders, Voxy (sonsuz render mesafesi) ve ses sohbeti dahil. Güçlü ve zayıf sistemlerde adaptif çalışır.</div>
+        <a class="btn btn-primary" href="https://modrinth.com/modpack/agalarmc-vanilla" target="_blank" style="font-size:12px;padding:9px 14px;width:100%;justify-content:center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Modrinth'ten İndir
+        </a>
+      </div>
     </div>
-    <div class="card">
-      <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir">
-      <div class="card-title">⚙ Demir</div>
-      <div class="card-body">Çok düşük sistemler için, sadece temel performans ve hata düzeltici modlar. Minimum görsel değişiklik.</div>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:4px">✓ Performans modları · ✓ Temel QoL · ✗ Shader yok · ✗ Distant Horizons yok</div>
-      <a class="btn btn-secondary" href="https://modrinth.com/modpack/agalarmc-vanilla-potato" target="_blank" style="font-size:12px;padding:8px 14px;margin-top:4px">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Modrinth'ten İndir
-      </a>
+
+    <!-- Demir -->
+    <div class="card" style="gap:0;padding:0;overflow:hidden;cursor:default">
+      <div style="background:rgba(128,128,128,.04);border-bottom:1px solid var(--border);padding:16px 18px 14px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/iron.png" alt="Demir" style="width:40px;height:40px;image-rendering:pixelated;flex-shrink:0">
+          <div>
+            <div style="font-size:16px;font-weight:800;letter-spacing:-.2px">Demir</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:1px;font-weight:600">Düşük sistem paketi</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(27,217,106,.12);border:1px solid rgba(27,217,106,.25);color:var(--green);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">FPS+</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(128,128,128,.08);border:1px solid var(--border);color:var(--text-muted);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Temel QoL</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(248,81,73,.10);border:1px solid rgba(248,81,73,.25);color:var(--red);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Shader Yok</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(248,81,73,.10);border:1px solid rgba(248,81,73,.25);color:var(--red);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">LOD Yok</span>
+        </div>
+      </div>
+      <div style="padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Çok düşük sistemler için sadece temel performans ve hata düzeltme modları. Minimum görsel değişiklik.</div>
+        <a class="btn btn-secondary" href="https://modrinth.com/modpack/agalarmc-vanilla-potato" target="_blank" style="font-size:12px;padding:9px 14px;width:100%;justify-content:center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Modrinth'ten İndir
+        </a>
+      </div>
     </div>
+
   </div>
 
   <div class="section-title" style="margin-top:16px">Galeri</div>
@@ -762,10 +805,14 @@ function updateThemeUI(theme) {
   const sunM   = document.getElementById('theme-icon-sun-mobile');
   const moonM  = document.getElementById('theme-icon-moon-mobile');
   if (label) label.textContent     = isLight ? 'Karanlık Mod' : 'Aydınlık Mod';
-  if (sun)   sun.style.display     = isLight ? 'block' : 'none';
-  if (moon)  moon.style.display    = isLight ? 'none'  : 'block';
-  if (sunM)  sunM.style.display    = isLight ? 'block' : 'none';
-  if (moonM) moonM.style.display   = isLight ? 'none'  : 'block';
+  const sunM2  = document.getElementById('theme-icon-sun-mobile2');
+  const moonM2 = document.getElementById('theme-icon-moon-mobile2');
+  if (sun)    sun.style.display    = isLight ? 'block' : 'none';
+  if (moon)   moon.style.display   = isLight ? 'none'  : 'block';
+  if (sunM)   sunM.style.display   = isLight ? 'block' : 'none';
+  if (moonM)  moonM.style.display  = isLight ? 'none'  : 'block';
+  if (sunM2)  sunM2.style.display  = isLight ? 'block' : 'none';
+  if (moonM2) moonM2.style.display = isLight ? 'none'  : 'block';
 }
 // Apply theme before paint (no flash)
 const _savedTheme = localStorage.getItem('agalarmc-theme') || 'dark';
