@@ -1,5 +1,4 @@
 # v0.3 Changelog
-
 **New Mods**
 
 - Added "Keybinds Purger" mod.
