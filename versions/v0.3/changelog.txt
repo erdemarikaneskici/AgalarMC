@@ -1,4 +1,6 @@
 # v0.3 Changelog
+## 🇬🇧 English
+
 **New Mods**
 
 - Added "Keybinds Purger" mod.
@@ -18,7 +20,7 @@
 - Added "Trimmable Tools" mod.
 - Added "Modpack Update Checker" mod.
 - Added "Create Schematic Helper" mod.
-- (Not counting Library mods)
+- (Not counting library mods.)
 
 **Removed Mods**
 
@@ -36,3 +38,47 @@
 **Updated**
 
 - Updated existing mods.
+
+
+-------
+
+
+## 🇹🇷 Türkçe
+ 
+**Yeni Modlar**
+
+- "Keybinds Purger" modu eklendi.
+- "Client Sort" modu eklendi.
+- "Durability Tooltip" modu eklendi.
+- "Mining Speed Tooltips" modu eklendi.
+- "Shulker Box Tooltip" modu eklendi.
+- "Obscure Tooltips" modu eklendi.
+- "Jade Addons" modu eklendi.
+- "CIT Hotfix" modu eklendi.
+- "Dark Window Bar" modu eklendi.
+- "FancyMenu" modu eklendi.
+- "Elytra Trims" modu eklendi.
+- "Locator Bar" modu eklendi.
+- "Copycats+" modu eklendi.
+- "Copycats+ aeronautics weight" modu eklendi.
+- "Trimmable Tools" modu eklendi.
+- "Modpack Update Checker" modu eklendi.
+- "Create Schematic Helper" modu eklendi.
+- (Kütüphane modları hariç.)
+
+**Kaldırılan Modlar**
+
+- "Legendary Tooltips" modu kaldırıldı. ("Obscure Tooltips" modu ile değiştirildi.)
+- "Prism" modu kaldırıldı. (Gereksiz kütüphane moduydu.)
+
+**Yeni Kaynak Paketleri**
+
+- "Default Dark Mode" kaynak paketi eklendi.
+- "Default Dark Create" kaynak paketi eklendi.
+- "Icons" kaynak paketi eklendi.
+- "Even Better Enchants" kaynak paketi eklendi.
+- "Luki's Trial Chambers" kaynak paketi eklendi.
+
+**Güncellenenler**
+
+- Mevcut modlar güncellendi.
