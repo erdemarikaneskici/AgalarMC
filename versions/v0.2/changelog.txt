@@ -1,10 +1,28 @@
 # v0.2 Changelog
-**New mods**
 
-- Added "Jade Sable Compat" mod. Until "Create: Aeronautics" adds an offical support, we will use this mod.
+## 🇬🇧 English
+
+**New Mods**
+
+- Added "Jade Sable Compat" mod. Until "Create: Aeronautics" adds an official support, this mod will be used.
 - Added "Create: Framed" mod.
 
 **Updated**
 
-- Updated Neoforge to version 21.1.230.
+- Updated NeoForge to version 21.1.230.
 - Updated existing mods.
+
+-----
+
+
+## 🇹🇷 Türkçe
+ 
+**Yeni Modlar**
+
+- "Jade Sable Compat" modu eklendi. "Create: Aeronautics" resmi destek ekleyene kadar bu mod kullanılacak.
+- "Create: Framed" modu eklendi.
+
+**Güncellennenler**
+
+- NeoForge 21.1.230 sürümüne güncellendi.
+- Mevcut modlar güncellendi.
