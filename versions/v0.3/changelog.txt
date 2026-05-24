@@ -1,6 +1,7 @@
 # v0.3 Changelog
 
 **New Mods**
+
 - Added "Keybinds Purger" mod.
 - Added "Client Sort" mod.
 - Added "Durability Tooltip" mod.
@@ -21,10 +22,12 @@
 - (Not counting Library mods)
 
 **Removed Mods**
+
 - Removed "Legendary Tooltips" mod. (Replaced by "Obscure Tooltips" mod.)
 - Removed "Prism" mod. (Unnecessary library mod.)
 
 **New Resource Packs**
+
 - Added "Default Dark Mode" resource pack.
 - Added "Default Dark Create" resource pack.
 - Added "Icons" resource pack.
@@ -32,4 +35,5 @@
 - Added "Luki's Trial Chambers" resource pack.
 
 **Updated**
+
 - Updated existing mods.
