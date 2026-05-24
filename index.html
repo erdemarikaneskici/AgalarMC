@@ -161,6 +161,14 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 [data-theme="light"] .info-box.orange-border{background:rgba(255,140,0,.05)}
 [data-theme="light"] .info-box.blue-border{background:rgba(37,115,214,.05)}
 [data-theme="light"] .info-box.yellow-border{background:rgba(196,154,28,.05)}
+[data-theme="light"] .info-box-body code{background:rgba(0,0,0,.07);color:#1a1a1a}
+[data-theme="light"] .step-body code{background:rgba(0,0,0,.07);color:#1a1a1a}
+[data-theme="light"] .player-item{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.09)}
+[data-theme="light"] .server-card-banner::after{background:linear-gradient(to bottom,transparent 40%,#ffffff 100%)}
+[data-theme="light"] .page-header-banner-bg{filter:brightness(.55) saturate(.8)}
+[data-theme="light"] .recommended-badge{box-shadow:0 2px 8px rgba(23,184,90,.3)}
+/* Modpack card yeni tasarım - light mode badge fix */
+[data-theme="light"] .card.recommended[style*="rgba(255,140,0"]{border-color:rgba(224,120,0,.4)}
 .info-box-title{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .info-box-title.orange{color:var(--orange)}
 .info-box-title.blue{color:var(--blue)}
@@ -235,7 +243,11 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .page-header-banner{position:relative;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px}
 .page-header-banner-bg{position:absolute;inset:0;background:center/cover no-repeat;filter:brightness(.35);z-index:0}
 [data-theme="light"] .page-header-banner-bg{filter:brightness(.5)}
-.page-header-banner-content{position:relative;z-index:1;padding:24px}
+.page-header-banner-content{position:relative;z-index:1;padding:24px;color:#e6edf3}
+.page-header-banner-content .page-title{color:#ffffff}
+.page-header-banner-content .page-desc{color:rgba(230,237,243,.85)}
+.page-header-banner-content .tag{border-color:rgba(255,255,255,.2)}
+.page-header-banner-content .platform-tag{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.08)}
 
 /* ── IP+Status row ── */
 .ip-status-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;align-items:stretch}
@@ -474,18 +486,47 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 
   <div class="section-title">Mod Paketi</div>
   <div style="margin-bottom:24px">
-    <div class="card create-modpack-card" style="cursor:default;padding:20px">
-      <div class="create-modpack-inner">
-        <img class="card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/brass_casing.png" alt="Create Modpack">
-        <div class="create-modpack-text">
-          <div class="card-title">Create Modpack</div>
-          <div class="card-body" style="margin-top:6px">Create modu ve tüm bağımlılıkları ile birlikte performans iyileştirici modlar dahil. Sunucuya bağlanmak için bu paketi kullan.</div>
+    <div class="card recommended" style="gap:0;padding:0;overflow:hidden;cursor:default;border-color:rgba(255,140,0,.35);box-shadow:0 0 0 1px rgba(255,140,0,.08),0 4px 20px rgba(255,140,0,.08)">
+
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,rgba(255,140,0,0.16) 0%,rgba(255,140,0,0.06) 100%);border-bottom:1px solid rgba(255,140,0,.18);padding:18px 20px 16px;position:relative">
+        <div style="position:absolute;top:14px;right:14px;background:var(--orange);color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(255,140,0,.4)">Tek Seçenek</div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+          <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/brass_casing.png" alt="Create" style="width:44px;height:44px;image-rendering:pixelated;flex-shrink:0">
+          <div>
+            <div style="font-size:17px;font-weight:900;letter-spacing:-.3px">Create Modpack</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;font-weight:600">NeoForge 1.21.1 · Sunucuya girmek için gerekli</div>
+          </div>
+        </div>
+        <!-- Badges - row 1: create & addons -->
+        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px">
+          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Create</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Aeronautics</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Steam 'n' Rails</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Central Kitchen</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Bits 'n' Bobs</span>
+        </div>
+        <!-- Badges - row 2: other -->
+        <div style="display:flex;flex-wrap:wrap;gap:5px">
+          <span style="display:inline-flex;align-items:center;background:rgba(27,217,106,.12);border:1px solid rgba(27,217,106,.25);color:var(--green);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">FPS+</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(68,147,248,.12);border:1px solid rgba(68,147,248,.25);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Shader</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.25);color:var(--yellow);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Ses Sohbeti</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(128,128,128,.08);border:1px solid var(--border);color:var(--text-muted);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Punchy</span>
+          <span style="display:inline-flex;align-items:center;background:rgba(128,128,128,.08);border:1px solid var(--border);color:var(--text-muted);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">QoL</span>
         </div>
       </div>
-      <a class="btn btn-orange" href="https://modrinth.com/modpack/agalarmc-create" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Modrinth'ten İndir
-      </a>
+
+      <!-- Body -->
+      <div style="padding:16px 20px 18px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
+          Create ve tüm addon'larını (Aeronautics, Steam 'n' Rails, Central Kitchen, Enchantment Industry, Bits 'n' Bobs) içeren tek paket. Iris Shaders ile Create uyumlu shader desteği, Xaero's World Map, Sophisticated Backpacks, GraveStone ve Farmer's Delight gibi QoL modları dahil. <strong style="color:var(--text)">Punchy</strong> ile birinci şahıs animasyonlar ve <strong style="color:var(--text)">Cosmetic Armor</strong> gibi kozmetik modlar da pakette yer alıyor. Sunucuya bağlanmak için bu paket zorunlu.
+        </div>
+        <a class="btn btn-orange" href="https://modrinth.com/modpack/agalarmc-create" target="_blank" style="width:100%;justify-content:center;padding:11px 14px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Modrinth'ten İndir
+        </a>
+      </div>
+
     </div>
   </div>
 
@@ -609,7 +650,11 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
         </div>
       </div>
       <div style="padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px">
-        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Iris Shaders, Voxy (sonsuz render mesafesi) ve ses sohbeti dahil. Güçlü ve zayıf sistemlerde adaptif çalışır.</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
+          <strong style="color:var(--text)">Görsel:</strong> Iris Shaders (shader desteği), Voxy (LOD — sonsuz render mesafesi), HoldMyItems (1. şahıs animasyonlar), Fresh Animations ile canlı entity animasyonları.<br>
+          <strong style="color:var(--text)">Performans:</strong> Sodium, Lithium, FerriteCore, ImmediatelyFast, ModernFix ve daha fazlası.<br>
+          <strong style="color:var(--text)">QoL:</strong> SimpleVoiceChat, Resourcify (oyun içi shader/resource pack indirici), ScreenshotGallery, CubesWithoutBorders ve daha fazlası.
+        </div>
         <a class="btn btn-primary" href="https://modrinth.com/modpack/agalarmc-vanilla" target="_blank" style="font-size:12px;padding:9px 14px;width:100%;justify-content:center">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Modrinth'ten İndir
