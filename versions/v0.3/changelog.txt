@@ -1,4 +1,5 @@
 # v0.3 Changelog
+
 **New Mods**
 - Added "Keybinds Purger" mod.
 - Added "Client Sort" mod.
@@ -11,18 +12,17 @@
 - Added "Dark Window Bar" mod.
 - Added "FancyMenu" mod.
 - Added "Elytra Trims" mod.
-- Added "Fragmentum" mod.
 - Added "Locator Bar" mod.
 - Added "Copycats+" mod.
-- Added "AeroCopycats" mod.
+- Added "Copycats+ aeronautics weight" mod.
 - Added "Trimmable Tools" mod.
-- Added "Deimos" mod.
 - Added "Modpack Update Checker" mod.
 - Added "Create Schematic Helper" mod.
+- (Not counting Library mods)
 
 **Removed Mods**
-- Removed "Legendary Tooltips" mod.
-- Removed "Prism" mod.
+- Removed "Legendary Tooltips" mod. (Replaced by "Obscure Tooltips" mod.)
+- Removed "Prism" mod. (Unnecessary library mod.)
 
 **New Resource Packs**
 - Added "Default Dark Mode" resource pack.
