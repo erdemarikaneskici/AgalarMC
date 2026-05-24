@@ -23,9 +23,3 @@ Found a bug or have a suggestion for one of the modpacks? Open an issue:
 - **Vanilla+:** [github.com/erdemarikaneskici/AgalarMC/issues](https://github.com/erdemarikaneskici/AgalarMC/issues)
 
 Please include your modpack version, a description of the issue, and any relevant crash logs.
-
----
-
-## Website
-
-The site is a single-file app (`index.html`) with no build step or dependencies. Just open it in a browser.
