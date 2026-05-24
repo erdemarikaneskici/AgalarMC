@@ -30,6 +30,16 @@
         }
       },
       "updateType": "minor"
+    },
+    {
+      "id": "v0.4",
+      "releasedAt": 1748106300000,
+      "promotions": {
+        "downloads": {
+          "modrinth": "https://modrinth.com/modpack/agalarmc-create/version/0.4"
+        }
+      },
+      "updateType": "minor"
     }
   ]
 }
