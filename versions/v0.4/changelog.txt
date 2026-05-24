@@ -6,12 +6,12 @@
 - Added "Spear Backport" mod. (Alongside "Copper Age Backport" mod, this mod acts as a placeholder until "Vanilla Backport" mod adds theese features natively.)
 
 **New Resource Packs**
-  
+
 - Added "Drigo 3D Lanterns x Punchy" resource pack.
 - Added "HyperPunchy" resource pack. (Some vanilla "Punchy!" animations are too wobbly for my taste, "HyperPunchy" fits better.)
 - Added "Modded Swords x Punchy" resource pack. (For the wrench on "Create" mod.)
 
 **Updated**
-  
+
 - Updated "MakeUp Ultra Fast" shader.
 - Updated existing mods.
