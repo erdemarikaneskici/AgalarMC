@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AgalarMC</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png">
+<script>
+  // GitHub Pages SPA trick: 404 → sessionStorage → index.html
+  const slug = location.pathname.replace(/\/$/, '').split('/').pop() || '';
+  if (slug) sessionStorage.setItem('spa_tab', slug);
+  location.replace('/');
+</script>
+</head>
+</html>
