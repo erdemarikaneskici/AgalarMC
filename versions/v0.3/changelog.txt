@@ -1,0 +1,36 @@
+# v0.3 Changelog
+
+**New Mods**
+- Added "Keybinds Purger" mod.
+- Added "Client Sort" mod.
+- Added "Durability Tooltip" mod.
+- Added "Mining Speed Tooltips" mod.
+- Added "Shulker Box Tooltip" mod.
+- Added "Obscure Tooltips" mod.
+- Added "Jade Addons" mod.
+- Added "CIT Hotfix" mod.
+- Added "Dark Window Bar" mod.
+- Added "FancyMenu" mod.
+- Added "Elytra Trims" mod.
+- Added "Fragmentum" mod.
+- Added "Locator Bar" mod.
+- Added "Copycats+" mod.
+- Added "AeroCopycats" mod.
+- Added "Trimmable Tools" mod.
+- Added "Deimos" mod.
+- Added "Modpack Update Checker" mod.
+- Added "Create Schematic Helper" mod.
+
+**Removed Mods**
+- Removed "Legendary Tooltips" mod.
+- Removed "Prism" mod.
+
+**New Resource Packs**
+- Added "Default Dark Mode" resource pack.
+- Added "Default Dark Create" resource pack.
+- Added "Icons" resource pack.
+- Added "Even Better Enchants" resource pack.
+- Added "Luki's Trial Chambers" resource pack.
+
+**Updated**
+- Updated existing mods.
