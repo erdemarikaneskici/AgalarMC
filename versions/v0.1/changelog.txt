@@ -1,2 +1,12 @@
 # v0.1 Changelog
+ 
+## 🇬🇧 English
+ 
 - First version out, many more to go! Although this pack is technically in beta, it is very polished. Since the mods have no major conflicts and the pack is generally well optimised, it should offer a smooth gameplay.
+
+------
+
+
+## 🇹🇷 Türkçe
+ 
+- İlk versiyon yayında, daha fazlası yolda! Paket teknik olarak beta aşamasında olsa da gayet iyi bir halde. Modlar arasında ciddi bir çakışma yok ve genel olarak iyi optimize edilmiş, yani sorunsuz bir oyun deneyimi yaşamalısın.
