@@ -1,17 +1,43 @@
 # v0.4 Changelog
+
+## 🇬🇧 English
+
 **New Mods**
 
-- Added "Punchy" mod. (It does not support some items, so for the time being those items will use the vanilla animations.[Extendo-grip, Plunger Launcher, Linked Controller etc. Other than that it is one hundred percent compatible.)
+- Added "Punchy" mod. (It does not support some items, so for the time being those items will use the vanilla animations. Extendo-grip, Plunger Launcher, Linked Controller etc. Other than that it is one hundred percent compatible.)
 - Added "Copper Age Backport" mod.
-- Added "Spear Backport" mod. (Alongside "Copper Age Backport" mod, this mod acts as a placeholder until "Vanilla Backport" mod adds theese features natively.)
+- Added "Spear Backport" mod. (Alongside "Copper Age Backport" mod, this mod acts as a placeholder until "Vanilla Backport" mod adds these features natively.)
 
 **New Resource Packs**
 
 - Added "Drigo 3D Lanterns x Punchy" resource pack.
 - Added "HyperPunchy" resource pack. (Some vanilla "Punchy!" animations are too wobbly for my taste, "HyperPunchy" fits better.)
-- Added "Modded Swords x Punchy" resource pack. (For the wrench on "Create" mod.)
+- Added "Modded Swords x Punchy" resource pack. (For the wrench in the "Create" mod.)
 
 **Updated**
 
 - Updated "MakeUp Ultra Fast" shader.
 - Updated existing mods.
+
+
+---------
+
+
+## 🇹🇷 Türkçe
+
+**Yeni Modlar**
+
+- "Punchy" modu eklendi. (Bazı eşyalar desteklemiyor, bu yüzden şimdilik o eşyalar vanilla animasyonlarını kullanacak. Extendo-grip, Plunger Launcher, Linked Controller vb. Bunların dışında yüzde yüz uyumlu.)
+- "Copper Age Backport" modu eklendi.
+- "Spear Backport" modu eklendi. ("Copper Age Backport" moduyla birlikte, "Vanilla Backport" modu bu özellikleri dahili olarak ekleyene kadar geçici bir çözüm olarak kullanılıyor.)
+
+**Yeni Kaynak Paketleri**
+
+- "Drigo 3D Lanterns x Punchy" resource pack eklendi.
+- "HyperPunchy" resource pack eklendi. (Bazı vanilla "Punchy!" animasyonları benim zevkime göre fazla sallanıyor, "HyperPunchy" daha iyi uyuyor.)
+- "Modded Swords x Punchy" resource pack eklendi. ("Create" modundaki İngiliz anahtarı için.)
+
+**Güncellenenler**
+
+- "MakeUp Ultra Fast" shader güncellendi.
+- Mevcut modlar güncellendi.
