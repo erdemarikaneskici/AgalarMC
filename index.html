@@ -157,10 +157,10 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .info-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:background .25s,border-color .25s}
 .info-box.orange-border{border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.04)}
 .info-box.blue-border{border-color:rgba(68,147,248,.3);background:rgba(68,147,248,.04)}
-.info-box.yellow-border{border-color:rgba(227,179,65,.3);background:rgba(227,179,65,.04)}
+.info-box.yellow-border{border-color:rgba(227,179,65,.5);background:rgba(227,179,65,.18)}
 [data-theme="light"] .info-box.orange-border{background:rgba(255,140,0,.05)}
 [data-theme="light"] .info-box.blue-border{background:rgba(37,115,214,.05)}
-[data-theme="light"] .info-box.yellow-border{background:rgba(196,154,28,.05)}
+[data-theme="light"] .info-box.yellow-border{background:rgba(196,154,28,.14)}
 [data-theme="light"] .info-box-body code{background:rgba(0,0,0,.07);color:#1a1a1a}
 [data-theme="light"] .step-body code{background:rgba(0,0,0,.07);color:#1a1a1a}
 [data-theme="light"] .player-item{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.09)}
@@ -430,9 +430,9 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
           <div class="page-desc">Create; inşa, dekorasyon ve estetik otomasyon için çeşitli araçlar sunan bir mod. Dişliler, kasnaklar ve dahasını içeren bu araçlarla çeşitli düzenekler kurabilirsin — bir nevi redstone DLC'si; sınırı belirleyen tek şey hayal gücün.</div>
           <div class="page-tags">
             <span class="tag orange" id="create-status-tag">● Kontrol ediliyor...</span>
-            <span class="platform-tag" style="color:#e07020">
+            <span class="platform-tag" style="color:#ff8c00!important;background:rgba(255,140,0,.18)!important;border-color:rgba(255,140,0,.45)!important">
               <svg viewBox="0 0 24 24" fill="none" style="width:15px;height:15px;overflow:visible;flex-shrink:0">
-                <g stroke="#e07020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <g stroke="#ff8c00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="12" y1="19.2" x2="12" y2="21.2"/>
                   <path d="M8.4 1.3c.5 1.5.7 3 .1 4.6-.2.5-.9 1.5-1.6 1.5"/>
                   <path d="M15.6 1.3c-.5 1.5-.7 3-.1 4.6.2.6.9 1.5 1.6 1.5"/>
@@ -493,25 +493,26 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
           <img src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/brass_casing.png" alt="Create" style="width:44px;height:44px;image-rendering:pixelated;flex-shrink:0">
           <div>
             <div style="font-size:17px;font-weight:900;letter-spacing:-.3px">Create Modpack</div>
-            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;font-weight:600">NeoForge 1.21.1 · Sunucuya girmek için gerekli</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;font-weight:600">NeoForge 1.21.1</div>
           </div>
         </div>
-        <!-- Badges - row 1: create -->
+        <!-- Badges -->
         <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px">
-          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Create</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(255,140,0,.15);border:1px solid rgba(255,140,0,.3);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Aeronautics</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(27,217,106,.12);border:1px solid rgba(27,217,106,.25);color:var(--green);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Sodium · FPS+</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(68,147,248,.12);border:1px solid rgba(68,147,248,.25);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Shader</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.25);color:var(--yellow);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Sesli Sohbet</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(68,147,248,.08);border:1px solid rgba(68,147,248,.2);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">QoL</span>
-          <span style="display:inline-flex;align-items:center;background:rgba(68,147,248,.08);border:1px solid rgba(68,147,248,.2);color:var(--blue);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">Backport Modları</span>
+          <span style="display:inline-flex;align-items:center;gap:3px;background:rgba(255,140,0,.16);border:1px solid rgba(255,140,0,.35);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">🏭 Create</span>
+          <span style="display:inline-flex;align-items:center;gap:3px;background:rgba(27,217,106,.12);border:1px solid rgba(27,217,106,.28);color:var(--green);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">⚡ FPS+</span>
+          <span style="display:inline-flex;align-items:center;gap:3px;background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.28);color:var(--yellow);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">🌍 QoL</span>
+          <span style="display:inline-flex;align-items:center;gap:3px;background:rgba(227,179,65,.10);border:1px solid rgba(227,179,65,.22);color:var(--yellow);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px">🔊 Sesli Sohbet</span>
         </div>
       </div>
 
       <!-- Body -->
       <div style="padding:16px 20px 18px;display:flex;flex-direction:column;gap:10px">
-        <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
-          Create ve Aeronautics başta olmak üzere birçok Create addon'u, backport modları (Spear, Copper Age ve daha fazlası), Sophisticated Backpacks ve Xaero's World Map gibi QoL modları, EMI/Jade gibi UI iyileştirmeleri, Punchy ile görsel iyileştirmeler ve Sodium, Lithium, ImmediatelyFast gibi performans modları içeriyor. <strong style="color:var(--text)">Sunucuya bağlanmak için gerekli.</strong>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.8;display:flex;flex-direction:column;gap:4px">
+          <div><span style="color:var(--orange);font-weight:700">🏭 Create Eklentileri —</span> Aeronautics, Steam 'n' Rails, Central Kitchen, Enchantment Industry, Bits 'n' Bobs ve daha fazlası.</div>
+          <div><span style="color:var(--green);font-weight:700">⚡ Performans —</span> Sodium, Lithium, ImmediatelyFast ve Create uyumlu Iris Shaders.</div>
+          <div><span style="color:var(--blue);font-weight:700">🖥️ UI &amp; UX —</span> EMI, Jade, BetterF3, AppleSkin ve çeşitli tooltip/envanter modları.</div>
+          <div><span style="color:var(--yellow);font-weight:700">🌍 QoL —</span> Simple Voice Chat, Xaero's World Map, Sophisticated Backpacks, GraveStone, Farmer's Delight.</div>
+          <div><span style="color:var(--text-muted);font-weight:700">✨ Görsel &amp; Ekstra —</span> Punchy (görsel efektler), Music Player, Resourcify (oyun içi indirici), Screenshot Viewer.</div>
         </div>
         <a class="btn btn-orange" href="https://modrinth.com/modpack/agalarmc-create" target="_blank" style="width:100%;justify-content:center;padding:11px 14px">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -578,7 +579,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
           <div class="page-tags">
             <span class="tag green" id="vanilla-status-tag">● Kontrol ediliyor...</span>
             <!-- Fabric pill -->
-            <span class="platform-tag" style="color:#DBB689">
+            <span class="platform-tag" style="color:#DBB689!important;background:rgba(219,182,137,.18)!important;border-color:rgba(219,182,137,.45)!important">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;display:block">
                 <!-- Big rounded square (body), like original Fabric logo -->
                 <rect x="1.2" y="2.2" width="9.6" height="9.6" rx="2.4" stroke="#DBB689" stroke-width="1.5" fill="none"/>
