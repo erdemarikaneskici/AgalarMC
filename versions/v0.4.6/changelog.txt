@@ -1,0 +1,25 @@
+# v0.4.6 Changelog
+
+## **Added**
+- **Steam 'n' Rails** (There was an issue with it crashing the game, which is fixed now.)
+- **Cursors Extended** (Custom Vanilla-Style cursor, with the **_Create Brass Cursors_** resource pack.)
+- **Status Effect Bars** (You can now see how much the effect will last via the status bar on effects, you can see the exact time left on the inventory.)
+- **Create: Copper Restored** (Better copper item textures; combining the older color scheme brightness etc. with the newer copper item textures, which i think looks better then both of them.) 
+- **Create Style Sophisticated Backpacks** (Makes the backpacks look more in **_Create_** style to fit with the modpack theme.)
+- **Create Brass Cursors** (**_Create_** style cursors)
+- **Fusion Connected Copper Grate** (Makes grate textures connect using **_Fusion_**.)
+- **Fusion Connected Glass** (Makes glass textures connect using **_Fusion_**.)
+- **Mandala's GUI - Dark Mode** (A bit more stylized UI resource pack, which i think resembles the **_Create_** style with the brass coloured touches on top off industrial-ish gray.)
+- **Mandala's GUI - Dark Mode - Utopia Extension** (Adds compatiblity for all the mods [say that again?] using **_Mandala's GUI - Dark Mode_** textures.)
+
+## **Removed**
+- **Create: Threaded Trains** (It's removed for the game breaking bug when used along **_Create: Power Loader_**, it will stay removed untill this issue is solved. Also, using the **_C2ME_** mod results in much better tps anyway.)
+- **No Resurce Pack Warnings** (I figured there was a setting for it in packed packs so it's no longer needed lol.)
+- **In-Game Account Switcher** (I was heading for a diffrent type of pack before, but I don't think this mod has any purpose anymore. If you manually add it it won't break the pack, it's just my prefferance.)
+- **Super Duper Vanilla Shader** (It's currently not compatible with **_Colorwheel_**.)
+- **Create: Old Copper Stuffs** (Replaced with **Create: Copper Restored** resource pack, as this new pack uses the new create textures with the older, brighter and more saturated copper color.
+
+## **Other**
+- Updated existing mods.
+- Overall config tweaks.
+- Emissive ores feature is planned in next versions.
