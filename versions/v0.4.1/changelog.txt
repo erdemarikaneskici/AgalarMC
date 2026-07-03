@@ -1,0 +1,13 @@
+# v0.4.1 Changelog
+
+**New Mods**
+
+- Added "Corpse" mod.
+
+**Removed Mods**
+
+- Removed "Gravestone" mod. (Replaced by "Corpse" mod.)
+
+**Updated**
+
+- Updated existing mods.
