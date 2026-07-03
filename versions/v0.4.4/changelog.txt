@@ -1,0 +1,29 @@
+# v0.4.4 Changelog
+
+## **Added**
+- **"BetterPingDisplay"** (Displays the exact ping of other players on the Tab screen)
+- **"ChatImage"** (Lets images/GIFs render in chat)
+- **"Explosive Enhancement"** (Changes the explosion effect to a better yet vanilla fitting one)
+- **"NeoLanguageReload"** (Better language search and selection, and extra features like multilingual item search)
+- **"SearchStats"** (Lets you search spesific stats in the statistics screen)
+- **"Cubes Without Borders"** (_**Disabled by default**_)
+
+## **Removed**
+- **"DarkWindowBar"** (_**Disabled by default.**_ It causes the game to not being able to boot up in fullscreen)
+- **"Crash Assistant"** (_**Disabled by default,**_ enable if you are facing issues after tweaking the pack. It is not a necessary mod if you just use the provided pack as is.)
+
+## **Updated**
+- **"Collective"** 8.29 → 8.32
+- **"Fusion"** 1.3.2a → 1.3.3
+- **"In-Game Account Switcher"** 9.0.6 → 9.0.7
+- **"Punchy"** 2.5.7 → 2.5.8
+- **"Sodium"** 0.8.12-beta.1 → 0.8.12-beta.2
+- **"Sodium Extra"** 0.6.0 → 0.8.7 
+- **"Reese's Sodium Options"** 1.8.3 → 2.2.0 
+- **"Sophisticated Backpacks"** 3.25.64.1919 → 3.25.64.1933
+- **"Sophisticated Core"** 1.4.59.2032 → 1.4.60.2057
+- **"Amendments"** 2.0.15 → 2.1.2 
+
+
+## **Other**
+- Overall GUI and config fixing and improvements.
