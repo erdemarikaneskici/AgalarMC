@@ -1,0 +1,16 @@
+# v0.4.5 Changelog
+
+## **Added**
+- **Euphoria Patches** (Additional features for _**Complementary Shaders**_)
+- **Colorwheel** (Replacing the _**Iris & Oculus Flywheel Compat**_ mod)
+- **Create Sable Dynamic Lights** (Adds real time light from Sable sub-levels, so for example a lantern at your car can actually light up the non physics blocks around it)
+- **Fancy World Animations** (Changes blocks like doors and trapdoors to have an actual animation)
+- **Sodium Extra** (Replacing _**Sodium Extras**_)
+
+## **Removed**
+- **Iris & Oculus Flywheel Compat** (Replaced with _**Colorwheel**_)
+- **SodiumExtras** (_**Sodium Extra**_, another mod, has the necessary funcions and is compatible with _**Reese's Sodium Options**_)
+
+## **Other**
+- Updated existing mods.
+- Config fixes and UI improvements.
