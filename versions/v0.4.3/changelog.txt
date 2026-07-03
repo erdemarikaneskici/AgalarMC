@@ -1,0 +1,10 @@
+# v0.4.3 Changelog
+
+  
+**Updated**
+- Updated "Sodium" to 0.8.12-beta.1.
+- Updated "Iris" to 1.8.14-beta.1.
+- Updated existing mods.
+  
+**Disabled**
+- Disabled "Reese's Sodium Options", "Sodium Extra", "Sodium Leaf Culling" and "Sodium Options API". (Sodium was updated to a beta build (0.8.12-beta.1) and these addons don't support it yet. They will be re-enabled once updated versions are available.)
