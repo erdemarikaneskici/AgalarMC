@@ -57,6 +57,20 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 .nav-item .nav-dot.checking{background:var(--yellow);animation:blink 1.5s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
+/* -- Bakım Modu (Maintenance), MAINTENANCE_MODE ile kod üzerinden açılıp kapanır -- */
+.nav-item.is-maint{opacity:.35;pointer-events:none;filter:grayscale(1)}
+.nav-item.is-maint .nav-dot{display:none}
+.server-card.is-maint{position:relative;pointer-events:none;cursor:default}
+.server-card.is-maint .server-card-banner,.server-card.is-maint .server-card-body{filter:grayscale(1);opacity:.35}
+.maint-card-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;z-index:2;text-align:center;padding:0 12px}
+.maint-card-overlay .maint-emoji{font-size:34px;line-height:1}
+.maint-card-overlay .maint-text{font-size:12px;font-weight:800;letter-spacing:.4px;color:var(--text);background:var(--bg-card);padding:4px 12px;border-radius:14px;border:1px solid var(--border)}
+.screen.is-maint{overflow:hidden!important}
+.maint-content{filter:grayscale(1);opacity:.35;pointer-events:none;user-select:none;min-height:100%}
+.maint-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:5;text-align:center;padding:20px}
+.maint-overlay .maint-emoji{font-size:76px;line-height:1}
+.maint-overlay .maint-text{font-size:19px;font-weight:800;letter-spacing:.4px;color:var(--text);background:var(--bg-card);padding:10px 24px;border-radius:20px;border:1px solid var(--border);box-shadow:var(--shadow-card)}
+
 /* ── Theme Toggle ── */
 .theme-toggle-wrap{padding:12px 16px;border-top:1px solid var(--border);transition:border-color .25s}
 .theme-toggle{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-sm);cursor:pointer;border:1px solid var(--border);background:var(--toggle-bg);width:100%;transition:background .2s,border-color .2s,color .2s;color:var(--text-muted);font-size:13px;font-weight:600}
@@ -366,7 +380,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
     <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/favicon.png" alt="AgalarMC">
     <div class="page-header-info">
       <div class="page-title">AgalarMC</div>
-      <div class="page-desc">Arkadaşlarınla oynamak için en iyi Minecraft deneyimi. İki farklı sunucu, sana uygun bir mod paketi.</div>
+      <div class="page-desc">İki sunucumuz var: biri Create modlu, otomasyon ağırlıklı. Diğeri gelişmiş vanilla. İkisi de burada, hangisi sana göreyse ona gir.</div>
       <div class="page-tags">
         <span class="tag green" id="home-status-tag">● Kontrol ediliyor...</span>
         <span class="tag">NeoForge &amp; Fabric</span>
@@ -383,7 +397,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       <div class="server-card-body">
         <img class="server-card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
         <div class="server-card-title">Create</div>
-        <div class="server-card-desc">Sanayileşme ve makinelerle dolu bu sunucuda otomasyonun sınırlarını zorla!</div>
+        <div class="server-card-desc">Dişliler, kasnaklar, trenler... Create modunun bütün çılgınlıklarının olduğu, otomasyon ağırlıklı sunucumuz.</div>
         <div class="btn-row"><span class="btn btn-orange" style="font-size:13px;padding:8px 14px">Sunucuya Git →</span></div>
       </div>
     </div>
@@ -392,7 +406,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       <div class="server-card-body">
         <img class="server-card-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
         <div class="server-card-title">Vanilla+</div>
-        <div class="server-card-desc">Görsel ve performans açısından geliştirilmiş, vanilla hissiyatını koruyan sunucu.</div>
+        <div class="server-card-desc">Vanilla hissini bozmadan görselliği ve performansı bir tık yukarı taşıdığımız sunucu.</div>
         <div class="btn-row"><span class="btn btn-primary" style="font-size:13px;padding:8px 14px">Sunucuya Git →</span></div>
       </div>
     </div>
@@ -428,7 +442,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
         <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/createlogo.png" alt="Create">
         <div class="page-header-info">
           <div class="page-title">Create</div>
-          <div class="page-desc">Create; inşa, dekorasyon ve estetik otomasyon için çeşitli araçlar sunan bir mod. Dişliler, kasnaklar ve dahasını içeren bu araçlarla çeşitli düzenekler kurabilirsin — bir nevi redstone DLC'si; sınırı belirleyen tek şey hayal gücün.</div>
+          <div class="page-desc">Create; inşa, dekorasyon ve estetik otomasyon için bir sürü araç sunan bir mod. Dişliler, kasnaklar ve benzerleriyle aklına gelen düzeneği kurabiliyorsun, bir nevi redstone'un gelişmiş hali.</div>
           <div class="page-tags">
             <span class="tag orange" id="create-status-tag">● Kontrol ediliyor...</span>
             <span class="platform-tag" style="color:#ff8c00!important;background:rgba(255,140,0,.18)!important;border-color:rgba(255,140,0,.45)!important">
@@ -509,11 +523,11 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       <!-- Body -->
       <div style="padding:16px 20px 18px;display:flex;flex-direction:column;gap:10px">
         <div style="font-size:12px;color:var(--text-muted);line-height:1.8;display:flex;flex-direction:column;gap:4px">
-          <div><span style="color:var(--orange);font-weight:700">🏭 Create Eklentileri —</span> Aeronautics, Steam 'n' Rails, Central Kitchen, Enchantment Industry, Bits 'n' Bobs ve daha fazlası.</div>
-          <div><span style="color:var(--green);font-weight:700">⚡ Performans —</span> Sodium, Lithium, ImmediatelyFast ve Create uyumlu Iris Shaders.</div>
-          <div><span style="color:var(--blue);font-weight:700">🖥️ UI &amp; UX —</span> EMI, Jade, BetterF3, AppleSkin ve çeşitli tooltip/envanter modları.</div>
-          <div><span style="color:var(--yellow);font-weight:700">🌍 QoL —</span> Simple Voice Chat, Xaero's World Map, Sophisticated Backpacks, GraveStone, Farmer's Delight.</div>
-          <div><span style="color:var(--text-muted);font-weight:700">✨ Görsel &amp; Ekstra —</span> Punchy (görsel efektler), Music Player, Resourcify (oyun içi indirici), Screenshot Viewer.</div>
+          <div><span style="color:var(--orange);font-weight:700">🏭 Create Eklentileri:</span> Aeronautics, Steam 'n' Rails, Central Kitchen, Enchantment Industry, Bits 'n' Bobs ve daha fazlası.</div>
+          <div><span style="color:var(--green);font-weight:700">⚡ Performans:</span> Sodium, Lithium, ImmediatelyFast ve Create uyumlu Iris Shaders.</div>
+          <div><span style="color:var(--blue);font-weight:700">🖥️ UI &amp; UX:</span> EMI, Jade, BetterF3, AppleSkin ve çeşitli tooltip/envanter modları.</div>
+          <div><span style="color:var(--yellow);font-weight:700">🌍 QoL:</span> Simple Voice Chat, Xaero's World Map, Sophisticated Backpacks, GraveStone, Farmer's Delight.</div>
+          <div><span style="color:var(--text-muted);font-weight:700">✨ Görsel &amp; Ekstra:</span> Punchy (görsel efektler), Music Player, Resourcify (oyun içi indirici), Screenshot Viewer.</div>
         </div>
         <a class="btn btn-orange" href="https://modrinth.com/modpack/agalarmc-create" target="_blank" style="width:100%;justify-content:center;padding:11px 14px">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -576,7 +590,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
         <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
         <div class="page-header-info">
           <div class="page-title">Vanilla+</div>
-          <div class="page-desc">Görsel ve performans açısından geliştirilmiş, vanilla hissiyatını koruyan sunucumuz.</div>
+          <div class="page-desc">Vanilla hissini kaybetmeden görselliği ve performansı yükselttiğimiz sunucumuz.</div>
           <div class="page-tags">
             <span class="tag green" id="vanilla-status-tag">● Kontrol ediliyor...</span>
             <!-- Fabric pill -->
@@ -645,7 +659,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
       </div>
       <div style="padding:14px 18px 16px;display:flex;flex-direction:column;flex:1;justify-content:space-between;gap:10px">
         <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
-          <strong style="color:var(--text)">Görsel:</strong> Iris Shaders (shader desteği), Voxy (LOD — sonsuz render mesafesi), HoldMyItems (1. şahıs animasyonlar), Fresh Animations ile canlı entity animasyonları.<br>
+          <strong style="color:var(--text)">Görsel:</strong> Iris Shaders (shader desteği), Voxy (LOD, sonsuz render mesafesi), HoldMyItems (1. şahıs animasyonlar), Fresh Animations ile canlı entity animasyonları.<br>
           <strong style="color:var(--text)">Performans:</strong> Sodium, Lithium, FerriteCore, ImmediatelyFast, ModernFix ve daha fazlası.<br>
           <strong style="color:var(--text)">QoL:</strong> SimpleVoiceChat, Resourcify (oyun içi shader/resource pack indirici), ScreenshotGallery, CubesWithoutBorders ve daha fazlası.
         </div>
@@ -674,7 +688,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
         </div>
       </div>
       <div style="padding:14px 18px 16px;display:flex;flex-direction:column;flex:1;justify-content:space-between;gap:10px">
-        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Çok düşük sistemler için sadece temel performans ve hata düzeltme modları. Ekstra görsel, UI veya oynanış özelliği <strong style="color:var(--text)">bulunmuyor</strong> — saf vanilla deneyimi, daha iyi FPS ile.</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Çok düşük sistemler için sadece temel performans ve hata düzeltme modları. Ekstra görsel, UI veya oynanış özelliği <strong style="color:var(--text)">bulunmuyor</strong>, sadece FPS'i iyileştirilmiş saf vanilla deneyimi.</div>
         <a class="btn btn-secondary" href="https://modrinth.com/modpack/agalarmc-vanilla-potato" target="_blank" style="font-size:12px;padding:9px 14px;width:100%;justify-content:center">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Modrinth'ten İndir
@@ -765,16 +779,18 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
     <div class="step"><div class="step-num">5</div><div class="step-body"><strong>RAM Ayarla:</strong> En az <strong>4096 MB</strong>, ideal olarak <strong>8192 MB</strong> ver. Her iki launcher'da ayarlar → Java → Hafıza bölümünden ayarlayabilirsin.</div></div>
     <div class="step"><div class="step-num">6</div><div class="step-body"><strong>Oyunu Başlat:</strong> Modpakete çift tıkla ya da <strong>Play</strong> butonuna bas. İlk açılış 1–5 dakika sürebilir.</div></div>
     <div class="step"><div class="step-num">7</div><div class="step-body"><strong>Sunucuya Bağlan:</strong> Sunucu modpakette halihazırda ekli gelir, doğrudan listede görünmeli. Görünmüyorsa <strong>Multiplayer → Sunucu Ekle</strong> ile manuel ekleyebilirsin:<br>• Vanilla+ için: <code>oyna.agalarmc.com</code><br>• Create için: <code>create.agalarmc.com</code></div></div>
-    <div class="step"><div class="step-num">8</div><div class="step-body"><strong>Kayıt Ol (cracked hesap):</strong> İlk girişte <code>/register &lt;şifre&gt; &lt;şifre&gt;</code>, sonraki girişlerde <code>/login &lt;şifre&gt;</code>. Orijinal hesap sahipleri bu adımı atlayabilir.</div></div>
+    <div class="step"><div class="step-num">8</div><div class="step-body"><strong>Giriş Yap:</strong><br>• Sunucuya ilk katıldığında <code>/register &lt;şifre&gt;</code> yazarak bir şifre belirle.<br>• Sonraki her katılışında <code>/login &lt;şifre&gt;</code> yazman gerekiyor.</div></div>
+    <div class="step"><div class="step-num">9</div><div class="step-body"><strong>Premium Hesap Kolaylığı:</strong> Hesabın premium (satın alınmış) ise, register olduktan sonra bir kere <code>/online &lt;şifre&gt;</code> yaz. Bundan sonraki girişlerinde <code>/login</code> yazmana gerek kalmaz, orijinal hesabınla direkt oyuna girersin.</div></div>
   </div>
   <div class="info-box yellow-border" style="margin-bottom:12px">
     <div class="info-box-title yellow">⚠️ Önemli Notlar</div>
     <div class="info-box-body">
       <ul>
-        <li><strong>Java 21</strong> yüklü olmalı — launcher genellikle otomatik indirir, yine de modpaket sorun çıkarıyorsa teyit etmekte fayda var.</li>
-        <li>Oyun açılmıyor gibi görünse de <strong>sadece bekle</strong>; büyük ihtimalle arka planda yükleniyordur.</li>
-        <li>Oyun <strong>ilk açılışta</strong> diğerlerine kıyasla çok daha uzun sürebilir — bu gayet normal.</li>
-        <li>Sorun yaşarsan oyunu ve launcheri tamamen kapatıp <strong>yeniden aç</strong>. Hiçbir şey çözmüyorsa bilgisayarı komple yeniden başlatmayı dene — sistem veya başka uygulamalar çöp dosya biriktirmiş olabilir.</li>
+        <li><strong style="color:var(--red)">/online komutunu sadece premium (satın alınmış) hesabın varsa kullan.</strong> Premium olmayan bir hesapla <code>/online</code> yazarsan oyun kilitlenir (softlock), bu yüzden emin değilsen kullanma.</li>
+        <li><strong>Java 21</strong> yüklü olmalı, launcher genellikle otomatik indirir, yine de modpaket sorun çıkarıyorsa teyit etmekte fayda var.</li>
+        <li>Oyun açılmıyor gibi görünse de <strong>sadece bekle</strong>, büyük ihtimalle arka planda yükleniyordur.</li>
+        <li>Oyun <strong>ilk açılışta</strong> diğerlerine kıyasla çok daha uzun sürebilir, bu gayet normal.</li>
+        <li>Sorun yaşarsan oyunu ve launcheri tamamen kapatıp <strong>yeniden aç</strong>. Hiçbir şey çözmüyorsa bilgisayarı komple yeniden başlatmayı dene, sistem veya başka uygulamalar çöp dosya biriktirmiş olabilir.</li>
         <li>Hâlâ sorun varsa <strong>Discord sunucusundan</strong> yardım al.</li>
       </ul>
     </div>
@@ -789,7 +805,7 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
   <div class="page-header">
     <img class="page-header-icon" src="https://raw.githubusercontent.com/erdemarikaneskici/ModdedMCServerWebsite/main/images/vanillalogo.png" alt="Vanilla+">
     <div class="page-header-info">
-      <div class="page-title">Vanilla+ — Paket Karşılaştırması</div>
+      <div class="page-title">Vanilla+ Paket Karşılaştırması</div>
       <div class="page-desc">Sistemine ve ihtiyaçlarına göre en uygun mod paketini seç.</div>
     </div>
   </div>
@@ -829,6 +845,60 @@ html,body{height:100%;background:var(--bg-dark);font-family:'Nunito',sans-serif;
 </div>
 
 <script>
+/* ══════════════════════════════════════════════════════════════
+   🔧 BAKIM MODU, SADECE SENİN İÇİN
+   Bir sunucuyu geçici olarak "Hizmet Dışı" göstermek istersen
+   aşağıdaki true/false değerlerini değiştir ve dosyayı kaydet.
+   Bu ayar sadece kodun içinden değiştirilir, sitede hiçbir
+   yerde tıklanabilir bir düğme olarak durmaz.
+
+   true  → o sunucu; kartı, sidebar butonu ve tüm sayfası dahil
+           griye boyanır, tıklanamaz hale gelir ve "Hizmet Dışı"
+           yazısıyla üzeri kapatılır. API'ye ping atılmaz.
+   false → normal davranış.
+   ══════════════════════════════════════════════════════════════ */
+const MAINTENANCE_MODE = {
+  create: false,
+  vanilla: false
+};
+
+function applyMaintenanceMode() {
+  const MAINT_EMOJI = '🛤️';
+  const MAINT_TEXT = 'Hizmet Dışı';
+  Object.keys(MAINTENANCE_MODE).forEach(key => {
+    if (!MAINTENANCE_MODE[key]) return;
+
+    // Sidebar'daki nav butonu
+    const navEl = document.getElementById('nav-' + key);
+    if (navEl) navEl.classList.add('is-maint');
+
+    // Ana sayfadaki sunucu kartı
+    const cardEl = document.querySelector('.server-card.' + key);
+    if (cardEl && !cardEl.classList.contains('is-maint')) {
+      cardEl.classList.add('is-maint');
+      cardEl.removeAttribute('onclick');
+      const cardOverlay = document.createElement('div');
+      cardOverlay.className = 'maint-card-overlay';
+      cardOverlay.innerHTML = `<div class="maint-emoji">${MAINT_EMOJI}</div><div class="maint-text">${MAINT_TEXT}</div>`;
+      cardEl.appendChild(cardOverlay);
+    }
+
+    // Sunucunun kendi sayfası (Create / Vanilla+ ekranı)
+    const screenEl = document.getElementById(key);
+    if (screenEl && !screenEl.classList.contains('is-maint')) {
+      screenEl.classList.add('is-maint');
+      const wrap = document.createElement('div');
+      wrap.className = 'maint-content';
+      while (screenEl.firstChild) wrap.appendChild(screenEl.firstChild);
+      screenEl.appendChild(wrap);
+      const overlay = document.createElement('div');
+      overlay.className = 'maint-overlay';
+      overlay.innerHTML = `<div class="maint-emoji">${MAINT_EMOJI}</div><div class="maint-text">${MAINT_TEXT}</div>`;
+      screenEl.appendChild(overlay);
+    }
+  });
+}
+
 /* ── Theme ── */
 function toggleTheme() {
   const html = document.documentElement;
@@ -877,9 +947,9 @@ function getSlugFromId(id) {
 }
 
 const PAGE_TITLES = {
-  home: 'AgalarMC', create: 'Create — AgalarMC',
-  vanilla: 'Vanilla+ — AgalarMC', help: 'Nasıl Katılırım? — AgalarMC',
-  howto: 'Nasıl Katılırım? — AgalarMC', compare_vanilla: 'Vanilla+ — AgalarMC'
+  home: 'AgalarMC', create: 'Create - AgalarMC',
+  vanilla: 'Vanilla+ - AgalarMC', help: 'Nasıl Katılırım? - AgalarMC',
+  howto: 'Nasıl Katılırım? - AgalarMC', compare_vanilla: 'Vanilla+ - AgalarMC'
 };
 
 function nav(id, pushState=true) {
@@ -916,6 +986,7 @@ function getIdFromPath(path) {
 }
 
 function initApp() {
+  applyMaintenanceMode();
   updateThemeUI(_savedTheme);
   let id = 'home';
   if (CAN_USE_HISTORY) {
@@ -977,7 +1048,7 @@ async function check(id, addr, manual=false) {
   if (manual) txt.textContent = 'Kontrol ediliyor...';
   const t0 = Date.now();
   let d = null, ok = false;
-  try { const r = await fetch(`https://api.mcsrvstat.us/2/${addr}`); d = await r.json(); ok = true; }
+  try { const r = await fetch(`https://api.mcsrvstat.us/3/${addr}`); d = await r.json(); ok = true; }
   catch(e) { ok = false; }
   const waited = Date.now() - t0;
   if (waited < 3000) await new Promise(res => setTimeout(res, 3000 - waited));
@@ -993,7 +1064,7 @@ async function check(id, addr, manual=false) {
     const cnt = d.players?.online||0, mx = d.players?.max||0;
     dot.className = 'status-dot on';
     if (navDot) navDot.className = 'nav-dot on';
-    txt.textContent = `Sunucu Açık — ${cnt}/${mx} oyuncu`;
+    txt.textContent = `Sunucu Açık (${cnt}/${mx} oyuncu)`;
     if (tagEl) { tagEl.textContent = `● Açık (${cnt}/${mx})`; tagEl.className = 'tag '+(id==='v'?'green':'orange'); }
     updateChevronVisibility(id, cnt > 0);
   } else {
@@ -1009,10 +1080,14 @@ async function check(id, addr, manual=false) {
 function updateHomeStatus() {
   const tag = document.getElementById('home-status-tag');
   if (!tag) return;
-  const vOn = sd.v && sd.v.online, mOn = sd.m && sd.m.online;
-  const cnt = (vOn?1:0)+(mOn?1:0);
-  if (sd.v===null && sd.m===null) { tag.textContent='● Kontrol ediliyor...'; tag.className='tag'; }
-  else { tag.textContent=`● ${cnt}/2 Sunucu Açık`; tag.className=cnt>0?'tag green':'tag'; }
+  const activeIds = [];
+  if (!MAINTENANCE_MODE.vanilla) activeIds.push('v');
+  if (!MAINTENANCE_MODE.create) activeIds.push('m');
+  if (!activeIds.length) { tag.textContent = '● Hizmet Dışı'; tag.className = 'tag'; return; }
+  if (activeIds.every(id => sd[id] === null)) { tag.textContent='● Kontrol ediliyor...'; tag.className='tag'; return; }
+  const cnt = activeIds.filter(id => sd[id] && sd[id].online).length;
+  tag.textContent = `● ${cnt}/${activeIds.length} Sunucu Açık`;
+  tag.className = cnt>0 ? 'tag green' : 'tag';
 }
 
 function toggleStatus(id) {
@@ -1110,10 +1185,20 @@ function updateLightbox() {
   document.getElementById('lightbox-counter').textContent = `${lightboxIdx+1} / ${activeLightboxImages.length}`;
 }
 
-/* ── Init ── */
-check('v','oyna.agalarmc.com');
-check('m','create.agalarmc.com');
-setInterval(() => { check('v','oyna.agalarmc.com'); check('m','create.agalarmc.com'); }, 30000);
+/* ── Init ──
+   Not: api.mcsrvstat.us kendi tarafında sonuçları ~5 dakika
+   cache'liyor, bu onların sunucusundaki bir sınır ve bizim
+   pinglememizle aşılamıyor. Yine de bizim tarafımızdan daha sık
+   sorup en güncel veriyi (cache dolar dolmaz) yakalamak için
+   aralığı sıkılaştırdık; API'yi gereksiz yormamak için de
+   15 saniyenin altına inmedik. */
+const STATUS_POLL_INTERVAL = 15000;
+function pollAllStatuses() {
+  if (!MAINTENANCE_MODE.vanilla) check('v','oyna.agalarmc.com');
+  if (!MAINTENANCE_MODE.create) check('m','create.agalarmc.com');
+}
+pollAllStatuses();
+setInterval(pollAllStatuses, STATUS_POLL_INTERVAL);
 </script>
 </body>
 </html>
