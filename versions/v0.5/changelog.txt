@@ -1,0 +1,12 @@
+# v0.5 Changelog
+
+## **Removed**
+- **Steam 'n' Rails** (Removed due to another server-side bug which I was unable to fix.)
+- **Sodium Options API** (Incompatible with the new **_Sodium / Reese's Sodium Options_** versions. **_Sodium Dynamic Lights_** depend on it to configure it via the video settings; but because **_Sodium Options API_** is incompatible, you can't access it that way and it's useless for now.)
+
+## **Other**
+- Updated existing mods.
+- Also, I'm working on a server-side pack so you can open a server yourself and play it with your friends! Which is also why I removed **_Steam 'n' Rails_**.
+
+
+## _As to why this is 0.5 and not 0.4.7 or something like that; I wanted to add all the mods (gem alert) and updates in a single version, but then all the work needed grew so much I split it into a few updates. In the previous versions I focused more on the mod side, and now I tweaked all the configs and small things. Some of those small things are still missing, but they are the reason the pack is in beta._
