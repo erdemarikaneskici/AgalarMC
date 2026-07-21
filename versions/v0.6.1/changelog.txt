@@ -1,1 +1,15 @@
+# v0.6.1 Changelog
 
+## Added:
+- **Chat Heads** (Player head icons in chat messages.)
+- **Chat Tools** (Various chat tools like timestamps or notifications[off by default] etc.)
+- **Chat Shot** (Lets you copy or take a screenshot of chat messages.)
+- **Shoulder Surfing Reloaded** (Great third person mod with 360 camera movement and freelook.) 
+- **Dungeons and Taverns: End Castle Standalone** (Adds a new and rare structure called End Castle using **only vanilla** blocks and mobs to the outer End Islands, in which there are End-themed trial chambers with great loot. Adds a small touch but spices things up a little bit for the end game phase.) 
+- **NoFunDNT** (Removes non-vanilla enchants from *Dungeons and Taverns: End Castle Standalone*) 
+
+## Removed:
+- **Chatplus** (There were compatiblity issues with other chat mods. But all necessary features and more were added back with *ChatHeads/ChatTools/ChatShot*.)
+
+## Other:
+- Updated existing mods.
