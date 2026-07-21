@@ -1,1 +1,16 @@
+# v0.6 Changelog
 
+IMPORTANT: *If you have an existing world from the previous versions, check your backpacks before updating as the* **Sophisticated Backpacks** *backpacks are no longer in the modpack from v0.6 and onwards.*
+
+## **Added:**
+- **Modular Backpacks** (It's finally out!!! I've been waiting for this mod because any other backpack mod was either extremely overpowered or meaningless for my vision of the modpack. Now that it's out, the modpack can finally have a cool and balanced backpack, and this mod will be replacing **_Sophisticated Backpacks_**.)
+- **AuthMe** (Gets rid of the annoying "Invalid session (Try restarting your game and the launcher)" error by giving you the ability to revalidate your session without restarting your game.)
+- **Ping Wheel** (It's a small mod that lets you ping with a middle click, really usefull when playing multiplayer.)
+- **Voice Messages** (An addon for **_Simple Voice Chat_** that lets you record and send voice messages into the chat.)
+
+## **Removed:**
+- **Sophisticated Backpacks** (Replaced with modular backpacks to balance out the backpacks' utilities.)
+- **Create Style Sophisticated Backpacks** (**_Sophisticated Backpacks_** is removed.)
+
+## **Other:**
+- Updated existing mods.
