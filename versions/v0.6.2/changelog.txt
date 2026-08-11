@@ -1,10 +1,10 @@
 # v0.6.2 Changelog
 
-## Added:
+## **Added:**
 - **Moog's Glow Up** (It adds additional functionality to the glow ink sacs like glowing armor trims or glowing banners etc.)
 - **Glowing Emissive Ores Definitive Edition** (You can now have glowing ores **without** any shaders or performance loss!)
 
-## Other:
+## **Other:**
 - Updated existing mods.
 - Some shenanigans on the background.
    -  **Copper Age Backport** mod had a [duplicate registration bug](https://github.com/Smallinger/Copper-Age-Backport/issues/101) which crashed the game on Neoforge 21.1.237 onwards. Allthough the fix was merged with the repository, a fixed version hasn't been released on modrinth, so the modpack will be shipping with [the fixed fork jar]([https://github.com/Smallinger/Copper-Age-Backport/issues/101](https://github.com/madpunkmax-jpg/Copper-Age-Backport/releases/tag/v0.1.5-copper-armor-fix)) for the duration. So the pop-up you might see is because of this, no worries. If you don't trust me or the fork creator and you just want to make sure, you can check the file yourself using the link. _As far as i could see there was no copyright violation in using it in my modpack as both the original project and the fork was under CC0-1.0 Licence._
