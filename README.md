@@ -1,6 +1,6 @@
 # AgalarMC
 
-Source code and assets for the AgalarMC Minecraft community website.
+Source code and assets for the AgalarMC Minecraft website.
 
 🌐 **[agalarmc.com](https://agalarmc.com)** &nbsp;|&nbsp; 💬 **[Discord](https://discord.gg/wkUvFRTHr9)** &nbsp;|&nbsp; 📦 **[Modrinth](https://modrinth.com/user/Rdamn)**
 
