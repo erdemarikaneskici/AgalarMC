@@ -1,0 +1,20 @@
+# v0.7 Changelog
+
+## **Added:**
+- **C2ME** (Uses CPU core parallelization to load chunks much smoother with less stutter.)
+- **FerriteCore** (Trims memory usage so the pack runs smoothly even on low RAM.)
+- **ModernFix** (All-in-one optimization mod to improve performance, lower RAM usage, and fix bugs.)
+- **AllTheLeaks** (Patches memory leaks to prevent bloat build-up.)
+- **CoffeeGUI Resource Pack**
+  - **CoffeeGUI** (Fits Create's steampunk-ish brass vibe much better than **_Mandala's GUI_**.)
+  - **CoffeeGUI Extras** (Restores the vanilla hunger bar texture.)
+  - **Modded CoffeeGUI** (Adds mod support.)
+- **Punchy Refined Resource Pack** (A **_Punchy_** pack featuring much better looped and smooth animations.)
+- *(Not counting library mods.)*
+
+## **Removed:**
+- **HyperPunchy Resource Pack** (Disabled for now; future versions will use **_Punchy Refined_**.)
+
+## **Other:**
+- Updated 33 existing mods/files.
+- UI and config tweaks.
