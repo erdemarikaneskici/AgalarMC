@@ -6,7 +6,7 @@ Source code and assets for the AgalarMC Minecraft website.
 
 ---
 
-## Servers
+## Servers **(ARCHIVED)**
 
 | Server | IP | Modpack |
 |---|---|---|
