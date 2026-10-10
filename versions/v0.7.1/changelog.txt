@@ -5,11 +5,12 @@
 - _(Not counting library mods.)_
 
 ## **Removed:**
-- **Mandala's GUI** (The resourcepack was just a leftover since the switch to **_Dark Coffe GUI_** resourcepack.)
+- **Mandala's GUI** (The resourcepack was just a leftover since the switch to **_Dark Coffee GUI_** resourcepack.)
   - **Mandala's GUI - Dark Mode** 
   - **Mandala's GUI - Dark Mode - Utopia extension** 
 
 ## **Other:**
 - The fix for the duplicate registry bug that crashes the game on **_Copper Age Backport_** was finally merged and updated on the Modrinth modpage so I switched the GitHub version for the official fixed mod.
-- Updated 52 existing mods/files.
 - Updated the Neoforge version to 21.1.256.
+- Updated 52 existing mods/files.
+- UI and config tweaks.
