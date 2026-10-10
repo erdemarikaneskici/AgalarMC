@@ -160,6 +160,16 @@
         }
       },
       "updateType": "patch"
+    },
+    {
+      "id": "v0.7.2",
+      "releasedAt": 1791648960000,
+      "promotions": {
+        "downloads": {
+          "modrinth": "https://modrinth.com/modpack/agalarmc-create/version/0.7.2"
+        }
+      },
+      "updateType": "patch"
     }
   ]
 }
