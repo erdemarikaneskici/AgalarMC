@@ -1,6 +1,6 @@
 # AgalarMC
 
-Source code and assets for the AgalarMC Minecraft website.
+Source code and assets for the AgalarMC Minecraft website. It is obviously AI-coded and is meant to be used by only a handfull of people I know so I don't suggest using the code for yourself for security reasons. I never ever use AI in my modpacks but to make it more accesible for some people I know, I "coded" this site.
 
 🌐 **[agalarmc.com](https://agalarmc.com)** &nbsp;|&nbsp; 💬 **[Discord](https://discord.gg/wkUvFRTHr9)** &nbsp;|&nbsp; 📦 **[Modrinth](https://modrinth.com/user/Rdamn)**
 
